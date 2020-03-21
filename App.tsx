@@ -5,10 +5,11 @@ import { View, Text } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { AsyncStorage } from 'react-native';
 import OnboardingView from "./views/Onboarding";
+import Styleguide from "./Styleguide";
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Styleguide.primaryBackgroundColor }}>
       <Text>Some info will be here</Text>
     </View>
   );
@@ -16,7 +17,7 @@ function HomeScreen() {
 
 function SettingsScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Styleguide.primaryBackgroundColor }}>
       <Text style={{ textAlign: 'center' }}>Заказов пока нет. Пройдите сертификацию и все будет.</Text>
     </View>
   );
@@ -75,8 +76,8 @@ export default function App() {
                   },
                 })}
                 tabBarOptions={{
-                  activeTintColor: 'tomato',
-                  inactiveTintColor: 'gray',
+                  activeTintColor: Styleguide.primaryColor,
+                  inactiveTintColor: Styleguide.tintColor,
                 }}
               >
                 <Tab.Screen name={TABS.PROFILE} component={HomeScreen} />
