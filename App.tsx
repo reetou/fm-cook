@@ -1,88 +1,124 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StatusBar } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
-import { AsyncStorage } from 'react-native';
-import OnboardingView from "./views/Onboarding";
-import Styleguide from "./Styleguide";
-import { TABS } from "./utils";
+import { Alert, AsyncStorage, View } from 'react-native';
+import Onboarding from "./screens/Onboarding";
+import { SCREENS } from "./utils";
+import { createStackNavigator } from "@react-navigation/stack";
+import MainApp from "./MainApp";
+import SignIn from "./screens/SignIn";
+import UserContext from "./store/UserContext";
+import * as UserApi from './api/User';
+import { ApplicationProvider } from '@ui-kitten/components';
+import { mapping, light as theme } from '@eva-design/eva';
+import { AppLoading } from "expo";
+import { User } from './types/User';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Styleguide.primaryBackgroundColor }}>
-      <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
-      <Text>Some info will be here</Text>
-    </View>
-  );
-}
+const Stack = createStackNavigator();
 
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Styleguide.primaryBackgroundColor }}>
-      <Text style={{ textAlign: 'center' }}>Заказов пока нет. Пройдите сертификацию и все будет.</Text>
-    </View>
-  );
-}
-const Tab = createBottomTabNavigator();
-
-export default function App() {
-  const [showOnboarding, setShowOnboarding] = useState<boolean>(false)
+const Splash = ({ navigation }) => {
+  const { authenticated, showOnboarding, checking } = useContext(UserContext)
+  const getInitialRouteName = () => {
+    if (authenticated) {
+      return SCREENS.MAIN_APP
+    }
+    if (showOnboarding) {
+      return SCREENS.ONBOARDING
+    }
+    return SCREENS.SIGN_IN
+  }
   useEffect(() => {
+    if (checking) {
+      return
+    }
+    navigation.replace(getInitialRouteName())
+  }, [checking])
+  return (
+    <View style={{ flex: 1, backgroundColor: 'red' }}>
+
+    </View>
+  )
+}
+export default function App() {
+  const [user, setUser] = useState<User | null>(null)
+  const [authenticated, setAuthenticated] = useState<boolean>(false)
+  const [token, setToken] = useState<string | null>(null)
+  const [showOnboarding, setShowOnboarding] = useState<boolean>(false)
+  const [checking, setChecking] = useState<boolean>(true)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
+  const [hasStaleData, setHasStaleData] = useState<boolean>(false)
+  const OnboardingScreen = () => (
+    <Onboarding
+      onDone={async () => {
+        await AsyncStorage.setItem('passed_onboarding', 'true')
+        setShowOnboarding(false)
+      }}
+    />
+  )
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { user, token } = await UserApi.getSelf()
+        setUser(user)
+        setAuthenticated(true)
+        setToken(token)
+      } catch (e) {
+        if (e.response && e.response.status !== 401) {
+          console.error('Error at check auth', e)
+        } else {
+          Alert.alert('Авторизация не прошла', `Токен: ${token ? 'Есть' : 'Нет'}`)
+        }
+        // noop
+      }
+    }
     const checkInitialSettings = async () => {
       try {
         const passedOnboarding: null | string = await AsyncStorage.getItem('passed_onboarding')
         if (!passedOnboarding || passedOnboarding !== 'true') {
           setShowOnboarding(true)
+        } else {
+          await checkAuth()
         }
       } catch (e) {
         console.error('Error happened', e)
       }
+      setChecking(false)
     }
     checkInitialSettings()
   }, [])
+  if (checking) {
+    return <AppLoading />
+  }
   return (
-    <React.Fragment>
-      {
-        showOnboarding
-          ? (
-            <OnboardingView
-              onDone={async () => {
-                await AsyncStorage.setItem('passed_onboarding', 'true')
-                setShowOnboarding(false)
-              }}
-            />
-          )
-          : (
-            <NavigationContainer>
-              <Tab.Navigator
-                screenOptions={({ route }) => ({
-                  tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-
-                    if (route.name === TABS.PROFILE) {
-                      iconName = focused
-                        ? 'ios-information-circle'
-                        : 'ios-information-circle-outline';
-                    } else if (route.name === TABS.ORDERS) {
-                      iconName = focused ? 'ios-list-box' : 'ios-list';
-                    }
-
-                    // You can return any component that you like here!
-                    return <Ionicons name={iconName} size={size} color={color} />;
-                  },
-                })}
-                tabBarOptions={{
-                  activeTintColor: Styleguide.primaryColor,
-                  inactiveTintColor: Styleguide.tintColor,
-                }}
-              >
-                <Tab.Screen name={TABS.PROFILE} component={HomeScreen} />
-                <Tab.Screen name={TABS.ORDERS} component={SettingsScreen} />
-              </Tab.Navigator>
-            </NavigationContainer>
-          )
-      }
-    </React.Fragment>
+    <ApplicationProvider  mapping={mapping} theme={theme}>
+      <UserContext.Provider
+        value={{
+          user,
+          token,
+          authenticated,
+          refreshing,
+          setUser,
+          setToken,
+          setAuthenticated,
+          setRefreshing,
+          setHasStaleData,
+          showOnboarding,
+          checking,
+          hasStaleData,
+        }}
+      >
+        <NavigationContainer>
+          <Stack.Navigator
+            backBehavior="history"
+            headerMode="none"
+            initialRouteName="splash"
+          >
+            <Stack.Screen name="splash" component={Splash} />
+            <Stack.Screen name={SCREENS.ONBOARDING} component={OnboardingScreen} />
+            <Stack.Screen name={SCREENS.SIGN_IN} component={SignIn} />
+            <Stack.Screen name={SCREENS.MAIN_APP} component={MainApp} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserContext.Provider>
+    </ApplicationProvider>
   );
 }

@@ -33,7 +33,7 @@ export interface OnboardingViewProps {
   onDone: () => void;
 }
 
-export default function OnboardingView(props: OnboardingViewProps) {
+export default function Onboarding(props: OnboardingViewProps) {
   return (
     <AppIntroSlider
       bottomButton
