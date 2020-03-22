@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fastmeal cook",
     "slug": "fm-cook",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
@@ -24,7 +24,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     }
   }
 }
