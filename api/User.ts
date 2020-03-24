@@ -8,7 +8,7 @@ export const getSelf = async () => {
     headers: {
       Authorization: token
     },
-    url: '/auth/cooker'
+    url: '/cooker'
   })
   return {
     ...res.data,
