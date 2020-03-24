@@ -1,11 +1,20 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Alert, Picker, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Alert,
+  ScrollView,
+  Text,
+  TouchableOpacity, TouchableWithoutFeedback,
+  View
+} from "react-native";
 import { Avatar, Input, Toggle } from "@ui-kitten/components";
 import Styleguide from "../Styleguide";
 import Meal from "../api/Meal";
-import { PRODUCTS_SCREENS, stringOrEmpty } from "../utils";
+import { stringOrEmpty } from "../utils";
 import UserContext from "../store/UserContext";
 import RNPickerSelect from 'react-native-picker-select';
+import * as ImagePicker from 'expo-image-picker';
+
+const DEFAULT_ICON = require('../assets/icon.png')
 
 
 export default function AddMealView({ route: { params }, navigation }) {
@@ -16,6 +25,7 @@ export default function AddMealView({ route: { params }, navigation }) {
   const [calories, setCalories] = useState<string>(stringOrEmpty(params.calories))
   const [available, setAvailable] = useState<boolean>(Boolean(params.available))
   const [portions, setPortions] = useState<number>(params.portions || 0)
+  const [avatar, setAvatar] = useState<any>(null)
 
   const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
@@ -36,10 +46,10 @@ export default function AddMealView({ route: { params }, navigation }) {
         portions: Number(portions),
       }
       if (params.id) {
-        const data = await Meal.updateMeal(params.id, mealData)
+        const data = await Meal.updateMeal(params.id, mealData, avatar.uri)
         meal = data.meal
       } else {
-        const data = await Meal.addMeal(mealData)
+        const data = await Meal.addMeal(mealData, avatar.uri)
         meal = data.meal
       }
       setName(stringOrEmpty(meal.name))
@@ -52,6 +62,25 @@ export default function AddMealView({ route: { params }, navigation }) {
       console.error('Cannot submit', e)
     }
     setLoading(false)
+  }
+  const pickAvatar = async () => {
+    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert('Ошибка', 'Не получено разрешение на доступ к галерее')
+      return;
+    }
+
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      quality: 0.20,
+      allowsEditing: true
+    });
+    console.log(pickerResult);
+    if (pickerResult.cancelled) {
+      setAvatar(null)
+    } else {
+      setAvatar(pickerResult)
+    }
   }
   const ref = useRef()
   return (
@@ -66,14 +95,23 @@ export default function AddMealView({ route: { params }, navigation }) {
           alignItems: 'center',
         }}
       >
-        <Avatar
-          style={{
-            width: 160,
-            height: 160
-          }}
-          size="giant"
-          source={require('../assets/icon.png')}
-        />
+        <TouchableWithoutFeedback
+          onPress={pickAvatar}
+        >
+          <Avatar
+            style={{
+              width: 160,
+              height: 160
+            }}
+            size="giant"
+            source={
+              avatar || (
+                params.image_url ? { uri: params.image_url } : null
+              )
+            }
+            defaultSource={DEFAULT_ICON}
+          />
+        </TouchableWithoutFeedback>
       </View>
       <Input
         label="Название"
