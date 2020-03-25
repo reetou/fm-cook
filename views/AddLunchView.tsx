@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Text, TouchableOpacity, TouchableWithoutFeedback, Vibration, View } from "react-native";
 import { Avatar, Input, List, ListItem } from "@ui-kitten/components";
 import Styleguide from "../Styleguide";
 import { productItemDescription, PRODUCTS_SCREENS, stringOrEmpty } from "../utils";
 import UserContext from "../store/UserContext";
-import { Meal } from '../types/Meal';
 import Lunch from "../api/Lunch";
 import AddLunchContext from "../store/AddLunchContext";
+import * as ImagePicker from 'expo-image-picker';
+
+const DEFAULT_ICON = require('../assets/icon.png')
 
 
 export default function AddLunchView({ route: { params }, navigation }) {
@@ -21,6 +23,8 @@ export default function AddLunchView({ route: { params }, navigation }) {
   } = useContext(AddLunchContext)
 
   const [loading, setLoading] = useState<boolean>(false)
+  const [avatar, setAvatar] = useState<any>(null)
+
   useEffect(() => {
     navigation.setOptions({
       title: params.header_title || 'Новый ланч'
@@ -36,24 +40,43 @@ export default function AddLunchView({ route: { params }, navigation }) {
       const lunchData = {
         name: name || 'Без названия',
         price: Number(price),
-        meals: meals,
+        meals: meals.map(m => m.id),
       }
       if (params.id) {
-        const data = await Lunch.updateLunch(params.id, lunchData)
+        const data = await Lunch.updateLunch(params.id, lunchData, avatar ? avatar.uri : null)
         lunch = data.lunch
       } else {
-        const data = await Lunch.addLunch(lunchData)
+        const data = await Lunch.addLunch(lunchData, avatar ? avatar.uri : null)
         lunch = data.lunch
       }
       setName(stringOrEmpty(lunch.name))
       setPrice(stringOrEmpty(lunch.price))
       setMeals(lunch.meals)
       setHasStaleData(true)
+      Vibration.vibrate(300)
       navigation.popToTop()
     } catch (e) {
       console.error('Cannot submit', e)
     }
     setLoading(false)
+  }
+  const pickAvatar = async () => {
+    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      Alert.alert('Ошибка', 'Не получено разрешение на доступ к галерее')
+      return;
+    }
+
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      quality: 0.20,
+      allowsEditing: true
+    });
+    if (pickerResult.cancelled) {
+      setAvatar(null)
+    } else {
+      setAvatar(pickerResult)
+    }
   }
   return (
     <FlatList
@@ -67,14 +90,23 @@ export default function AddLunchView({ route: { params }, navigation }) {
               alignItems: 'center',
             }}
           >
-            <Avatar
-              style={{
-                width: 160,
-                height: 160
-              }}
-              size="giant"
-              source={require('../assets/icon.png')}
-            />
+            <TouchableWithoutFeedback
+              onPress={pickAvatar}
+            >
+              <Avatar
+                style={{
+                  width: 160,
+                  height: 160
+                }}
+                size="giant"
+                source={
+                  avatar || (
+                    params.image_url ? { uri: params.image_url } : null
+                  )
+                }
+                defaultSource={DEFAULT_ICON}
+              />
+            </TouchableWithoutFeedback>
           </View>
           <Input
             label="Название"

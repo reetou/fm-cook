@@ -8,47 +8,54 @@ interface MealResponse {
 
 const addMeal = async (data: Meal, avatar?: string): Promise<MealResponse> => {
   const token = await getToken()
-  const formData = new FormData()
-  if (avatar) {
-    const uriParts = avatar.split('.');
-    const fileType = uriParts[uriParts.length - 1];
-    formData.append('avatar', {
-      // @ts-ignore
-      uri: avatar,
-      name: `photo.${fileType}`,
-      type: `image/${fileType}`,
-    })
-  }
-  Object.keys(data).forEach(k => {
-    formData.append(k, data[k])
-  })
   const res = await axios({
     method: 'POST',
     headers: {
       Authorization: token,
-      'Content-Type': 'multipart/form-data'
     },
     url: '/cooker/meals',
-    data: formData
+    data
   })
+  if (avatar) {
+    try {
+      return uploadAvatar(res.data.id, avatar)
+    } catch (e) {
+      console.error('Cannot upload avatar')
+    }
+  }
   return res.data
 }
 
 const updateMeal = async (id, data: Meal, avatar?: string): Promise<MealResponse> => {
   const token = await getToken()
-  const formData = new FormData()
   if (avatar) {
-    const uriParts = avatar.split('.');
-    const fileType = uriParts[uriParts.length - 1];
-    formData.append('avatar', {
-      // @ts-ignore
-      uri: avatar,
-      name: `photo.${fileType}`,
-      type: `image/${fileType}`,
-    })
+    try {
+      await uploadAvatar(id, avatar)
+    } catch (e) {
+      console.error('Cannot upload avatar')
+    }
   }
-  Object.keys(data).forEach(k => {
-    formData.append(k, data[k])
+  const res = await axios({
+    method: 'PUT',
+    headers: {
+      Authorization: token,
+    },
+    url: `/cooker/meals/${id}`,
+    data
+  })
+  return res.data
+}
+
+const uploadAvatar = async (id: string, avatar: string): Promise<MealResponse> => {
+  const token = await getToken()
+  const formData = new FormData()
+  const uriParts = avatar.split('.');
+  const fileType = uriParts[uriParts.length - 1];
+  formData.append('avatar', {
+    // @ts-ignore
+    uri: avatar,
+    name: `photo.${fileType}`,
+    type: `image/${fileType}`,
   })
   const res = await axios({
     method: 'PUT',
@@ -56,7 +63,7 @@ const updateMeal = async (id, data: Meal, avatar?: string): Promise<MealResponse
       Authorization: token,
       'Content-Type': 'multipart/form-data'
     },
-    url: `/cooker/meals/${id}`,
+    url: `/cooker/meals/${id}/avatar`,
     data: formData
   })
   return res.data

@@ -3,7 +3,7 @@ import {
   Alert,
   ScrollView,
   Text,
-  TouchableOpacity, TouchableWithoutFeedback,
+  TouchableOpacity, TouchableWithoutFeedback, Vibration,
   View
 } from "react-native";
 import { Avatar, Input, Toggle } from "@ui-kitten/components";
@@ -46,10 +46,10 @@ export default function AddMealView({ route: { params }, navigation }) {
         portions: Number(portions),
       }
       if (params.id) {
-        const data = await Meal.updateMeal(params.id, mealData, avatar.uri)
+        const data = await Meal.updateMeal(params.id, mealData, avatar ? avatar.uri : null)
         meal = data.meal
       } else {
-        const data = await Meal.addMeal(mealData, avatar.uri)
+        const data = await Meal.addMeal(mealData, avatar ? avatar.uri : null)
         meal = data.meal
       }
       setName(stringOrEmpty(meal.name))
@@ -57,6 +57,7 @@ export default function AddMealView({ route: { params }, navigation }) {
       setWeight(stringOrEmpty(meal.weight))
       setPrice(stringOrEmpty(meal.price))
       setHasStaleData(true)
+      Vibration.vibrate(300)
       navigation.popToTop()
     } catch (e) {
       console.error('Cannot submit', e)
@@ -75,7 +76,6 @@ export default function AddMealView({ route: { params }, navigation }) {
       quality: 0.20,
       allowsEditing: true
     });
-    console.log(pickerResult);
     if (pickerResult.cancelled) {
       setAvatar(null)
     } else {

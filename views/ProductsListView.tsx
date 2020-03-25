@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl, ScrollView } from "react-native";
-import { List, ListItem, Text } from "@ui-kitten/components";
+import { List, ListItem, Text, Avatar } from "@ui-kitten/components";
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 import { productItemDescription, PRODUCTS_SCREENS } from "../utils";
@@ -56,7 +56,13 @@ export default function ProductsListView({ navigation }) {
             }
           }}
           key={item.id}
-          title={`${item.meals ? 'Ланч: ' : ''}${item.name}`}
+          title={item.name}
+          icon={() => (
+            <Avatar
+              size="large"
+              source={item.image_url ? { uri: item.image_url } : null}
+            />
+          )}
           description={productItemDescription(item)}
         />
       )}
