@@ -1,18 +1,39 @@
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Avatar, ListItem } from "@ui-kitten/components";
-import { getNextOrderStatus, getOrderStatusColor, getOrderStatusTitle, ORDERS_SCREENS } from "../utils";
+import {
+  CHAT_DISABLED_ORDER_STATUSES,
+  getNextOrderStatus,
+  getOrderStatusColor,
+  getOrderStatusTitle, INACTIVE_ORDER_STATUSES,
+  ORDERS_SCREENS
+} from "../utils";
 import Styleguide from "../Styleguide";
 import OrderStatusButton from "../components/OrderStatusButton";
+import Orders from "../api/Orders";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
 export default function OrderDetailsView({ navigation, route: { params } }) {
   const [order, setOrder] = useState<any>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   useEffect(() => {
     setOrder(params)
   }, [])
+  const onUpdateOrder = async (status: string) => {
+    if (!order) return
+    setLoading(true)
+    try {
+      const data = await Orders.updateOrder(order.order_id, status)
+      setOrder(data.order)
+    } catch (e) {
+      console.error('Cannot update order', e)
+    }
+    setLoading(false)
+  }
   if (!order) return null
+  const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status)
+  const orderInactive = INACTIVE_ORDER_STATUSES.includes(order.status)
   return (
     <FlatList
       data={order.meals.concat(order.lunches)}
@@ -21,8 +42,9 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
         <View>
           <View style={{ marginVertical: 20 }}>
             <TouchableOpacity
+              disabled={chatDisabled}
               style={{
-                backgroundColor: Styleguide.secondaryColor,
+                backgroundColor: chatDisabled ? Styleguide.tintColor : Styleguide.secondaryColor,
                 paddingVertical: 12,
                 marginHorizontal: 20,
                 borderRadius: 20,
@@ -66,22 +88,36 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
             marginBottom: 30
           }}
         >
-          <Text
-            style={{
-              marginTop: 20,
-              fontSize: 12,
-              color: 'gray',
-              textAlign: 'center'
-            }}
-          >
-            Нажмите на кнопку для изменения статуса заказа
-          </Text>
-          <OrderStatusButton
-            status={'rejected'}
-          />
-          <OrderStatusButton
-            status={getNextOrderStatus(order.status)}
-          />
+          {
+            orderInactive
+              ? null
+              : (
+                <React.Fragment>
+                  <Text
+                    style={{
+                      marginTop: 20,
+                      fontSize: 12,
+                      color: 'gray',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Нажмите на кнопку для изменения статуса заказа
+                  </Text>
+                  <OrderStatusButton
+                    onPress={() => onUpdateOrder('rejected')}
+                    order_id={order.order_id}
+                    status={'rejected'}
+                    disabled={loading}
+                  />
+                  <OrderStatusButton
+                    onPress={() => onUpdateOrder(getNextOrderStatus(order.status))}
+                    order_id={order.order_id}
+                    status={getNextOrderStatus(order.status)}
+                    disabled={loading}
+                  />
+                </React.Fragment>
+              )
+          }
         </View>
       )}
       renderItem={({item, index}) => (

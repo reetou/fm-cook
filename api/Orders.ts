@@ -14,6 +14,11 @@ interface SendMessageResponse {
   message: any;
 }
 
+interface UpdateOrderResponse {
+  status: string;
+  order: any;
+}
+
 const getAll = async (): Promise<{orders: any[]}> => {
   const token = await getToken()
   const res = await axios({
@@ -53,8 +58,21 @@ const sendMessage = async (order_id: string, text: string): Promise<SendMessageR
   return res.data
 }
 
+const updateOrder = async (order_id: string, status: string): Promise<UpdateOrderResponse> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'POST',
+    headers: {
+      Authorization: token,
+    },
+    url: `/cooker/orders/${order_id}/${status}`
+  })
+  return res.data
+}
+
 export default {
   getAll,
   getChatInfo,
   sendMessage,
+  updateOrder
 }

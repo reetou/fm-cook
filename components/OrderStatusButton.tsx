@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, TouchableOpacity } from "react-native";
 import { getOrderStatusColor, getOrderStatusTitle } from "../utils";
 import Styleguide from "../Styleguide";
 
-export default function OrderStatusButton(props: any) {
+interface OrderStatusButtonProps {
+  disabled?: boolean;
+  status: string;
+  order_id: string;
+  onPress: () => void;
+}
+
+export default function OrderStatusButton(props: OrderStatusButtonProps) {
   return (
     <TouchableOpacity
+      disabled={props.disabled}
       style={{
         marginTop: 30,
         paddingVertical: 12,

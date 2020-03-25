@@ -122,6 +122,10 @@ export const formatGiftedUser = (user) => ({
   address: null
 })
 
+export const CHAT_DISABLED_ORDER_STATUSES = ['rejected', 'canceled', 'completed', 'created']
+
+export const INACTIVE_ORDER_STATUSES = ['rejected', 'canceled', 'completed']
+
 export const formatGiftedMessage = (message: any, cooker: any, client: any) => {
   return {
     ...message,
