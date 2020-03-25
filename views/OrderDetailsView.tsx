@@ -17,6 +17,7 @@ const DEFAULT_ICON = require('../assets/icon.png')
 export default function OrderDetailsView({ navigation, route: { params } }) {
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
   useEffect(() => {
     setOrder(params)
   }, [])
@@ -31,11 +32,26 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
     }
     setLoading(false)
   }
+  const getDetails = async () => {
+    if (!order) return
+    setLoading(true)
+    setRefreshing(true)
+    try {
+      const data = await Orders.getOrderDetails(order.order_id)
+      setOrder(data.order)
+    } catch (e) {
+      console.error('Cannot GET order details', e)
+    }
+    setLoading(false)
+    setRefreshing(false)
+  }
   if (!order) return null
   const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status)
   const orderInactive = INACTIVE_ORDER_STATUSES.includes(order.status)
   return (
     <FlatList
+      refreshing={refreshing}
+      onRefresh={getDetails}
       data={order.meals.concat(order.lunches)}
       keyExtractor={(item: any) => item.id}
       ListHeaderComponent={() => (
