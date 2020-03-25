@@ -14,6 +14,12 @@ export const SCREENS = {
   ONBOARDING: 'onboarding',
 }
 
+export const ORDERS_SCREENS = {
+  LIST: 'orders_list',
+  DETAILS: 'order_details',
+  CHAT: 'order_chat'
+}
+
 export const PRODUCTS_SCREENS = {
   LIST: 'products_list',
   ADD_MEAL: 'add_meal',
@@ -56,4 +62,71 @@ export const productItemDescription = (item: Meal & Lunch, options: ProductItemD
     }
   }
   return description
+}
+
+export const getOrderStatusTitle = (status: string) => {
+  switch (status) {
+    case 'cooking':
+      return 'Готовится'
+    case 'completed':
+      return 'Выполнен'
+    case 'rejected':
+      return 'Отклонен'
+    case 'canceled':
+      return 'Отменен'
+    case 'accepted':
+      return 'В работе'
+    case 'created':
+      return 'Создан'
+    default:
+      return String(status)
+  }
+}
+
+export const getNextOrderStatus = (status: string) => {
+  switch (status) {
+    case 'created':
+      return 'accepted'
+    case 'accepted':
+      return 'cooking'
+    case 'cooking':
+      return 'completed'
+  }
+}
+
+export const getOrderStatusColor = (status: string) => {
+  switch (status) {
+    case 'cooking':
+      return 'orange'
+    case 'rejected':
+      return 'red'
+    case 'canceled':
+      return 'red'
+    case 'completed':
+      return 'violet'
+    case 'accepted':
+      return 'green'
+    case 'created':
+      return 'purple'
+    default:
+      return 'black'
+  }
+}
+
+export const formatGiftedUser = (user) => ({
+  ...user,
+  _id: user.id,
+  avatar: user.avatar_url,
+  meals: [],
+  lunches: [],
+  address: null
+})
+
+export const formatGiftedMessage = (message: any, cooker: any, client: any) => {
+  return {
+    ...message,
+    _id: message.id,
+    createdAt: message.sent_at,
+    user: message.from === cooker.id ? formatGiftedUser(cooker) : formatGiftedUser(client),
+  }
 }

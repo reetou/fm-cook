@@ -1,0 +1,117 @@
+import { FlatList, View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Avatar, ListItem } from "@ui-kitten/components";
+import { getNextOrderStatus, getOrderStatusColor, getOrderStatusTitle, ORDERS_SCREENS } from "../utils";
+import Styleguide from "../Styleguide";
+import OrderStatusButton from "../components/OrderStatusButton";
+
+const DEFAULT_ICON = require('../assets/icon.png')
+
+export default function OrderDetailsView({ navigation, route: { params } }) {
+  const [order, setOrder] = useState<any>(null)
+  useEffect(() => {
+    setOrder(params)
+  }, [])
+  if (!order) return null
+  return (
+    <FlatList
+      data={order.meals.concat(order.lunches)}
+      keyExtractor={(item: any) => item.id}
+      ListHeaderComponent={() => (
+        <View>
+          <View style={{ marginVertical: 20 }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Styleguide.secondaryColor,
+                paddingVertical: 12,
+                marginHorizontal: 20,
+                borderRadius: 20,
+              }}
+              onPress={() => {
+                navigation.push(ORDERS_SCREENS.CHAT, {
+                  order_id: order.order_id
+                })
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: Styleguide.primaryBackgroundColor,
+                }}
+              >
+                Чат
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ListItem
+            title={`${order.order_price} руб.`}
+            description={'Общая сумма заказа'}
+          />
+          <ListItem
+            title={order.type || 'Самовывоз'}
+            description={'Тип заказа'}
+          />
+          <ListItem
+            title={getOrderStatusTitle(order.status)}
+            titleStyle={{
+              color: getOrderStatusColor(order.status)
+            }}
+            description={'Статус заказа'}
+          />
+        </View>
+      )}
+      ListFooterComponent={(
+        <View
+          style={{
+            marginBottom: 30
+          }}
+        >
+          <Text
+            style={{
+              marginTop: 20,
+              fontSize: 12,
+              color: 'gray',
+              textAlign: 'center'
+            }}
+          >
+            Нажмите на кнопку для изменения статуса заказа
+          </Text>
+          <OrderStatusButton
+            status={'rejected'}
+          />
+          <OrderStatusButton
+            status={getNextOrderStatus(order.status)}
+          />
+        </View>
+      )}
+      renderItem={({item, index}) => (
+        <View
+          style={{
+            marginTop: 10
+          }}
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <Avatar
+              size="giant"
+              style={{
+                width: 90,
+                height: 90,
+                marginRight: 10
+              }}
+              source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
+            />
+            <Text
+              style={{
+                marginTop: 10,
+                fontWeight: 'bold',
+                fontSize: 16
+              }}
+            >
+              {item.name || 'name'}
+            </Text>
+          </View>
+        </View>
+      )}
+    />
+  )
+}

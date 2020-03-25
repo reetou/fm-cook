@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Styleguide from "./Styleguide";
 import { TABS } from "./utils";
-import { View, Text, StatusBar } from "react-native";
+import { View, Text } from "react-native";
 import Profile from "./screens/Profile";
 import Products from "./screens/Products";
+import Orders from "./screens/Orders";
 
 const Tab = createBottomTabNavigator();
 
@@ -58,7 +59,7 @@ export default function MainApp() {
       />
       <Tab.Screen
         name={TABS.ORDERS}
-        component={SettingsScreen}
+        component={Orders}
         options={{
           title: 'Заказы'
         }}
