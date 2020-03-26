@@ -10,7 +10,7 @@ const sendPhone = async (phone: string): Promise<{token: string} | any> => {
   return res.data
 }
 
-const sendCode = async (sms_code: number): Promise<{token: string, user: any} | any> => {
+const sendCode = async (sms_code: number): Promise<{token: string, user: any, socket_token: string} | any> => {
   const token = await getToken()
   const res = await axios({
     method: 'POST',

@@ -134,7 +134,6 @@ export const INACTIVE_ORDER_STATUSES = ['rejected', 'canceled', 'completed']
 
 export const formatGiftedMessage = (message: any, cooker: any, client: any) => {
   return {
-    ...message,
     text: message.text,
     _id: message.id,
     createdAt: message.sent_at,
@@ -144,7 +143,6 @@ export const formatGiftedMessage = (message: any, cooker: any, client: any) => {
 
 export const formatSupportMessage = (message: any, user: any) => {
   return {
-    ...message,
     text: message.text,
     _id: message.id,
     createdAt: message.sent_at,

@@ -1,6 +1,6 @@
-import { RefreshControl, ScrollView, StatusBar, View } from "react-native";
+import { AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
 import Styleguide from "../Styleguide";
-import { PROFILE_SCREENS, TABS } from "../utils";
+import { PROFILE_SCREENS, SCREENS, TABS } from "../utils";
 import React, { useContext, useState } from "react";
 import { Avatar, ListItem } from '@ui-kitten/components';
 import UserContext from "../store/UserContext";
@@ -9,7 +9,7 @@ import User from "../api/User";
 const DEFAULT_ICON = require('../assets/icon.png')
 
 export default function ProfileView({ navigation }) {
-  const { user, setUser } = useContext(UserContext)
+  const { user, setUser, setAuthenticated } = useContext(UserContext)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const refresh = async () => {
     setRefreshing(true)
@@ -60,6 +60,21 @@ export default function ProfileView({ navigation }) {
             navigation.push(PROFILE_SCREENS.SUPPORT_CHAT)
           }}
           title="Задать вопрос поддержке"
+        />
+        <ListItem
+          style={{
+            marginTop: 20
+          }}
+          titleStyle={{
+            color: Styleguide.primaryColor
+          }}
+          onPress={() => {
+            AsyncStorage.removeItem('token')
+            AsyncStorage.removeItem('socketToken')
+            setAuthenticated(false)
+            navigation.navigate(SCREENS.SIGN_IN)
+          }}
+          title="Выйти"
         />
       </View>
     </ScrollView>

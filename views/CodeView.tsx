@@ -20,6 +20,7 @@ export default function CodeView({ navigation }) {
     try {
       const data = await Auth.sendCode(Number(code))
       await AsyncStorage.setItem('token', data.token)
+      await AsyncStorage.setItem('socketToken', data.socket_token)
       await AsyncStorage.setItem('cached_user', JSON.stringify(data.user))
       setToken(data.token)
       setAuthenticated(true)

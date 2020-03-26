@@ -12,6 +12,7 @@ import { ApplicationProvider } from '@ui-kitten/components';
 import { mapping, light as theme } from '@eva-design/eva';
 import { AppLoading } from "expo";
 import { User } from './types/User';
+import { getSocketToken } from "./api/storage";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ export default function App() {
   const [checking, setChecking] = useState<boolean>(true)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [hasStaleData, setHasStaleData] = useState<boolean>(false)
+  const [socketToken, setSocketToken] = useState<string | null>(null)
   const OnboardingScreen = () => (
     <Onboarding
       onDone={async () => {
@@ -58,14 +60,17 @@ export default function App() {
     const checkAuth = async () => {
       try {
         const { user, token } = await UserApi.getSelf()
+        const storedSocketToken = await getSocketToken()
         setUser(user)
         setAuthenticated(true)
         setToken(token)
+        console.log('Setting socket token', storedSocketToken)
+        setSocketToken(storedSocketToken)
       } catch (e) {
         if (e.response && e.response.status !== 401) {
           console.error('Error at check auth', e)
         } else {
-          Alert.alert('Авторизация не прошла', `Токен: ${token ? 'Есть' : 'Нет'}`)
+          console.log('Cannot authenticate', e)
         }
         // noop
       }
@@ -96,11 +101,13 @@ export default function App() {
           token,
           authenticated,
           refreshing,
+          socketToken,
           setUser,
           setToken,
           setAuthenticated,
           setRefreshing,
           setHasStaleData,
+          setSocketToken,
           showOnboarding,
           checking,
           hasStaleData,
