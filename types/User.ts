@@ -12,6 +12,7 @@ export interface User {
   lunches: Lunch[];
   pickup: boolean;
   delivery: boolean;
+  avatar_url?: string;
   on_duty: boolean;
   description: string | null;
 }

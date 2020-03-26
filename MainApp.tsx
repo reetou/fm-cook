@@ -10,14 +10,6 @@ import Orders from "./screens/Orders";
 
 const Tab = createBottomTabNavigator();
 
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: Styleguide.primaryBackgroundColor }}>
-      <Text style={{ textAlign: 'center' }}>Заказов пока нет. Пройдите сертификацию и все будет.</Text>
-    </View>
-  );
-}
-
 export default function MainApp() {
   return (
     <Tab.Navigator

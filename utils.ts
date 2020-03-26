@@ -20,6 +20,12 @@ export const ORDERS_SCREENS = {
   CHAT: 'order_chat'
 }
 
+export const PROFILE_SCREENS = {
+  MAIN: 'profile_main',
+  SUPPORT_CHAT: 'profile_support_chat',
+  EDIT_PROFILE: 'profile_edit'
+}
+
 export const PRODUCTS_SCREENS = {
   LIST: 'products_list',
   ADD_MEAL: 'add_meal',
@@ -129,8 +135,26 @@ export const INACTIVE_ORDER_STATUSES = ['rejected', 'canceled', 'completed']
 export const formatGiftedMessage = (message: any, cooker: any, client: any) => {
   return {
     ...message,
+    text: message.text,
     _id: message.id,
     createdAt: message.sent_at,
     user: message.from === cooker.id ? formatGiftedUser(cooker) : formatGiftedUser(client),
+  }
+}
+
+export const formatSupportMessage = (message: any, user: any) => {
+  return {
+    ...message,
+    text: message.text,
+    _id: message.id,
+    createdAt: message.sent_at,
+    user: message.from_support ? {
+      _id: 1,
+      name: 'Поддержка',
+      avatar: null
+    } : {
+      ...user,
+      _id: 2
+    },
   }
 }
