@@ -11,6 +11,7 @@ import {
 import Styleguide from "../Styleguide";
 import OrderStatusButton from "../components/OrderStatusButton";
 import Orders from "../api/Orders";
+import useChannel from "../hooks/useChannel";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -18,6 +19,8 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [refreshing, setRefreshing] = useState<boolean>(false)
+  const [newMessages, setNewMessages] = useState<number>(0)
+  const [orderChannel] = useChannel(`order:${order ? order.order_id : '_'}`)
   useEffect(() => {
     setOrder(params)
   }, [])
@@ -45,6 +48,15 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
     setLoading(false)
     setRefreshing(false)
   }
+  useEffect(() => {
+    if (!orderChannel) {
+      return
+    }
+    // @ts-ignore
+    orderChannel.on('message', (message: any) => {
+      setNewMessages(prevMessages => prevMessages + 1)
+    })
+  }, [orderChannel])
   if (!order) return null
   const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status)
   const orderInactive = INACTIVE_ORDER_STATUSES.includes(order.status)
@@ -77,7 +89,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
                   color: Styleguide.primaryBackgroundColor,
                 }}
               >
-                Чат
+                {`Чат ${newMessages ? `(${newMessages})` : ''}`}
               </Text>
             </TouchableOpacity>
           </View>
