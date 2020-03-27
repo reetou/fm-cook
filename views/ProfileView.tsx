@@ -2,7 +2,7 @@ import { AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react
 import Styleguide from "../Styleguide";
 import { PROFILE_SCREENS, SCREENS, TABS } from "../utils";
 import React, { useContext, useState } from "react";
-import { Avatar, ListItem } from '@ui-kitten/components';
+import { Avatar, ListItem, Toggle } from '@ui-kitten/components';
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 
@@ -18,6 +18,16 @@ export default function ProfileView({ navigation }) {
       setUser(data.user)
     } catch (e) {
       console.error('Cannot get self', e)
+    }
+    setRefreshing(false)
+  }
+  const updateOnDuty = async (value: boolean) => {
+    setRefreshing(true)
+    try {
+      const data = await User.updateDutyStatus(value)
+      setUser(data.user)
+    } catch (e) {
+      console.error('Cannot update on duty status', e)
     }
     setRefreshing(false)
   }
@@ -49,19 +59,41 @@ export default function ProfileView({ navigation }) {
           marginTop: 30
         }}
       >
+
+        <View
+          style={{
+            marginVertical: 30,
+            marginLeft: 20,
+            alignItems: 'flex-start'
+          }}
+        >
+          <Toggle
+            disabled={refreshing}
+            checked={user.on_duty}
+            onChange={value => {
+              updateOnDuty(value)
+            }}
+            text={user.on_duty ? 'Я на линии' : 'Я не принимаю заказы'}
+            status="success"
+          />
+        </View>
+
         <ListItem
+          disabled={refreshing}
           onPress={() => {
             navigation.navigate(PROFILE_SCREENS.EDIT_PROFILE)
           }}
           title="Редактировать профиль"
         />
         <ListItem
+          disabled={refreshing}
           onPress={() => {
             navigation.navigate(PROFILE_SCREENS.SUPPORT_CHAT)
           }}
           title="Задать вопрос поддержке"
         />
         <ListItem
+          disabled={refreshing}
           style={{
             marginTop: 20
           }}

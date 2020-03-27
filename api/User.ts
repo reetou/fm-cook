@@ -53,8 +53,24 @@ const updateSelf = async (data: any) => {
   return res.data
 }
 
+const updateDutyStatus = async (on_duty: boolean): Promise<{ user: any }> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'POST',
+    headers: {
+      Authorization: token,
+    },
+    url: `/cooker/on_duty`,
+    data: {
+      on_duty,
+    }
+  })
+  return res.data
+}
+
 export default {
   getSelf,
   uploadAvatar,
-  updateSelf
+  updateSelf,
+  updateDutyStatus,
 }
