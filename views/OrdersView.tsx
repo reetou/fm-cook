@@ -1,5 +1,5 @@
 import { FlatList, RefreshControl, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Orders from "../api/Orders";
 import { Constants } from "expo/build/globals.web";
 import { getOrderStatusColor, getOrderStatusTitle, ORDERS_SCREENS } from "../utils";
@@ -14,6 +14,19 @@ export default function OrdersView({ navigation }) {
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const { user } = useContext(UserContext)
   const [cookerChannel] = useChannel(`cooker:${user.id}`)
+  const onNewOrder = useCallback(order => {
+    setOrders(prevOrders => [...prevOrders, order])
+  }, [orders])
+  const onUpdateOrder = useCallback(order => {
+    setOrders(prevOrders => {
+      return prevOrders.map(o => {
+        if (o.order_id === order.order_id) {
+          return order
+        }
+        return o
+      })
+    })
+  }, [orders])
   useEffect(() => {
     if (!cookerChannel) {
       return
@@ -21,20 +34,11 @@ export default function OrdersView({ navigation }) {
     cookerChannel.on('new_order', ({ order }: any): void => {
       const ids = orders.map(o => o.order_id)
       if (!ids.includes(order.order_id) && !refreshing) {
-        setOrders(prevOrders => {
-          return [...prevOrders, order]
-        })
+        onNewOrder(order)
       }
     })
     cookerChannel.on('order_update', ({ order }: any): void => {
-      setOrders(prevOrders => {
-        return prevOrders.map(o => {
-          if (o.order_id === order.order_id) {
-            return order
-          }
-          return o
-        })
-      })
+      onUpdateOrder(order)
     })
   }, [cookerChannel])
   const refresh = async () => {
