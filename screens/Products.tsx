@@ -33,7 +33,7 @@ export default function Products({ navigation }) {
             headerRight: ({ tintColor }) => (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.push(PRODUCTS_SCREENS.ADD_PRODUCT)
+                  navigation.navigate(PRODUCTS_SCREENS.ADD_PRODUCT)
                 }}
                 style={{
                   backgroundColor: tintColor,

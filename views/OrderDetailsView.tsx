@@ -66,7 +66,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
                 borderRadius: 20,
               }}
               onPress={() => {
-                navigation.push(ORDERS_SCREENS.CHAT, {
+                navigation.navigate(ORDERS_SCREENS.CHAT, {
                   order_id: order.order_id
                 })
               }}

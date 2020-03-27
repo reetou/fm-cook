@@ -14,7 +14,7 @@ export default function PhoneView({ navigation }) {
     try {
       const data = await Auth.sendPhone(phone)
       await AsyncStorage.setItem('token', data.token)
-      navigation.push('codeSignIn')
+      navigation.navigate('codeSignIn')
     } catch (e) {
       setPhone('')
       Alert.alert(

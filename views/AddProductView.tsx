@@ -35,7 +35,7 @@ export default function AddProductView({ navigation }) {
           }}
           title={item.title}
           onPress={() => {
-            navigation.push(item.screen, item.params || {})
+            navigation.navigate(item.screen, item.params || {})
           }}
         />
       )}

@@ -51,13 +51,13 @@ export default function ProfileView({ navigation }) {
       >
         <ListItem
           onPress={() => {
-            navigation.push(PROFILE_SCREENS.EDIT_PROFILE)
+            navigation.navigate(PROFILE_SCREENS.EDIT_PROFILE)
           }}
           title="Редактировать профиль"
         />
         <ListItem
           onPress={() => {
-            navigation.push(PROFILE_SCREENS.SUPPORT_CHAT)
+            navigation.navigate(PROFILE_SCREENS.SUPPORT_CHAT)
           }}
           title="Задать вопрос поддержке"
         />

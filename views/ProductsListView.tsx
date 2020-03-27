@@ -44,12 +44,12 @@ export default function ProductsListView({ navigation }) {
         <ListItem
           onPress={() => {
             if (item.meals) {
-              navigation.push(PRODUCTS_SCREENS.ADD_LUNCH, {
+              navigation.navigate(PRODUCTS_SCREENS.ADD_LUNCH, {
                 ...item,
                 header_title: 'Редактировать'
               })
             } else {
-              navigation.push(PRODUCTS_SCREENS.ADD_MEAL, {
+              navigation.navigate(PRODUCTS_SCREENS.ADD_MEAL, {
                 ...item,
                 header_title: 'Редактировать'
               })

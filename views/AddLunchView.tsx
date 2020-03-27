@@ -139,7 +139,7 @@ export default function AddLunchView({ route: { params }, navigation }) {
               borderRadius: 20,
             }}
             onPress={() => {
-              navigation.push(PRODUCTS_SCREENS.SELECT_MEALS, {
+              navigation.navigate(PRODUCTS_SCREENS.SELECT_MEALS, {
                 selectedMeals: meals
               })
             }}
