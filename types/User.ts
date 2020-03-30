@@ -8,6 +8,7 @@ export interface User {
   phone: string;
   verified: boolean;
   certified: boolean;
+  suspended: boolean;
   meals: Meal[];
   lunches: Lunch[];
   pickup: boolean;
@@ -15,4 +16,6 @@ export interface User {
   avatar_url?: string;
   on_duty: boolean;
   description: string | null;
+  subscription_status: string | null;
+  trial_end: number | null;
 }

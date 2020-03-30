@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { API_HOST } from "./index";
 
 // @ts-ignore
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? 'https://cs-go.monster/api' : 'http://4e628256.ngrok.io/api'
+axios.defaults.baseURL = `${API_HOST}/api`
 
 export default axios

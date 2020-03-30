@@ -4,6 +4,7 @@ import { PROFILE_SCREENS } from "../utils";
 import ProfileView from "../views/ProfileView";
 import SupportChatView from "../views/SupportChatView";
 import EditProfileView from "../views/EditProfileView";
+import CheckoutView from "../views/CheckoutView";
 const Stack = createStackNavigator();
 
 export default function Profile() {
@@ -28,6 +29,13 @@ export default function Profile() {
         component={EditProfileView}
         options={{
           title: 'Редактировать'
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.CHECKOUT}
+        component={CheckoutView}
+        options={{
+          title: 'Чекаут'
         }}
       />
     </Stack.Navigator>

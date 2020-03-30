@@ -8,9 +8,10 @@ import Profile from "./screens/Profile";
 import Products from "./screens/Products";
 import Orders from "./screens/Orders";
 import { PhoenixSocketProvider } from "./store/SocketContext";
+import { API_HOST } from "./api";
 
 // @ts-ignore
-const wsUrl = process.env.NODE_ENV === 'production' ? 'https://cs-go.monster/socket' : 'https://4e628256.ngrok.io/socket'
+const wsUrl = `${API_HOST}/socket`
 
 const Tab = createBottomTabNavigator();
 

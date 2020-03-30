@@ -23,7 +23,8 @@ export const ORDERS_SCREENS = {
 export const PROFILE_SCREENS = {
   MAIN: 'profile_main',
   SUPPORT_CHAT: 'profile_support_chat',
-  EDIT_PROFILE: 'profile_edit'
+  EDIT_PROFILE: 'profile_edit',
+  CHECKOUT: 'checkout'
 }
 
 export const PRODUCTS_SCREENS = {
@@ -154,5 +155,24 @@ export const formatSupportMessage = (message: any, user: any) => {
       ...user,
       _id: 2
     },
+  }
+}
+
+export const AVAILABLE_SUBSCRIPTION_STATUSES = ['active', 'trialing']
+
+export function subscribeButtonTitle(status) {
+  if (status) {
+    return 'Оформить подписку'
+  }
+  return 'Оформить пробный период'
+}
+
+export function subscriptionStatusTitle(status) {
+  switch (status) {
+    case null: return 'Доступен пробный период'
+    case 'active': return 'Активна'
+    case 'trialing': return 'Активен пробный период'
+    case 'unpaid': return 'Не оплачена'
+    default: return 'Не оформлена'
   }
 }

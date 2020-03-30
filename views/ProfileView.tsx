@@ -1,8 +1,15 @@
 import { AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
 import Styleguide from "../Styleguide";
-import { PROFILE_SCREENS, SCREENS, TABS } from "../utils";
+import {
+  AVAILABLE_SUBSCRIPTION_STATUSES,
+  PROFILE_SCREENS,
+  SCREENS,
+  subscribeButtonTitle,
+  subscriptionStatusTitle,
+  TABS
+} from "../utils";
 import React, { useContext, useState } from "react";
-import { Avatar, ListItem, Toggle } from '@ui-kitten/components';
+import { Avatar, ListItem, Toggle, CheckBox, Card, CardHeader } from '@ui-kitten/components';
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 
@@ -31,6 +38,7 @@ export default function ProfileView({ navigation }) {
     }
     setRefreshing(false)
   }
+  const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
 
   return (
     <ScrollView
@@ -54,12 +62,55 @@ export default function ProfileView({ navigation }) {
           defaultSource={DEFAULT_ICON}
         />
       </View>
-      <View
-        style={{
-          marginTop: 30
-        }}
-      >
-
+      <View style={{ alignItems: 'center', marginTop: 10 }}>
+        <Card
+          status="danger"
+          header={() => (
+            <CardHeader
+              title="Начало работы"
+            />
+          )}
+        >
+          <CheckBox
+            text="Добавьте блюда"
+            checked={user.meals.length > 0}
+          />
+          <CheckBox
+            text="Укажите имя и информацию о себе"
+            checked={Boolean(user.name && user.description)}
+          />
+          <CheckBox
+            text="Пройдите сертификацию"
+            checked={user.certified}
+          />
+          <CheckBox
+            text="Укажите режимы работы: самовывоз и/или доставка"
+            checked={user.pickup || user.delivery}
+          />
+          <CheckBox
+            text="Установите количество доступных порций для блюд"
+            checked={
+              Boolean(
+                user.meals
+                  .filter(m => m.available)
+                  .map(m => m.portions)
+                  .reduce((prev, cur) => {
+                    return prev + cur
+                  }, 0)
+              )
+            }
+          />
+          <CheckBox
+            text="Оформите подписку"
+            checked={AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
+          />
+          <CheckBox
+            text={`Начните принимать заказы`}
+            checked={user.on_duty}
+          />
+        </Card>
+      </View>
+      <View>
         <View
           style={{
             marginVertical: 30,
@@ -68,7 +119,7 @@ export default function ProfileView({ navigation }) {
           }}
         >
           <Toggle
-            disabled={refreshing}
+            disabled={refreshing || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
             checked={user.on_duty}
             onChange={value => {
               updateOnDuty(value)
@@ -78,6 +129,16 @@ export default function ProfileView({ navigation }) {
           />
         </View>
 
+        <ListItem
+          style={{
+            backgroundColor: Styleguide .primaryColor,
+          }}
+          titleStyle={{
+            color: Styleguide.primaryBackgroundColor
+          }}
+          disabled
+          title={`Статус подписки: ${subscriptionStatusTitle(user.subscription_status)}`}
+        />
         <ListItem
           disabled={refreshing}
           onPress={() => {
@@ -92,6 +153,19 @@ export default function ProfileView({ navigation }) {
           }}
           title="Задать вопрос поддержке"
         />
+        {
+          canSubscribe
+            ? (
+              <ListItem
+                disabled={refreshing}
+                onPress={() => {
+                  navigation.navigate(PROFILE_SCREENS.CHECKOUT)
+                }}
+                title={subscribeButtonTitle(user.subscription_status)}
+              />
+            )
+            : null
+        }
         <ListItem
           disabled={refreshing}
           style={{

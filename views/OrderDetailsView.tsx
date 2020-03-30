@@ -1,7 +1,8 @@
 import { FlatList, View, Text, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar, ListItem } from "@ui-kitten/components";
 import {
+  AVAILABLE_SUBSCRIPTION_STATUSES,
   CHAT_DISABLED_ORDER_STATUSES,
   getNextOrderStatus,
   getOrderStatusColor,
@@ -12,6 +13,7 @@ import Styleguide from "../Styleguide";
 import OrderStatusButton from "../components/OrderStatusButton";
 import Orders from "../api/Orders";
 import useChannel from "../hooks/useChannel";
+import UserContext from "../store/UserContext";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -20,6 +22,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
   const [loading, setLoading] = useState<boolean>(false)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [newMessages, setNewMessages] = useState<number>(0)
+  const { user } = useContext(UserContext)
   const [orderChannel] = useChannel(`order:${order ? order.order_id : '_'}`)
   useEffect(() => {
     setOrder(params)
@@ -58,7 +61,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
     })
   }, [orderChannel])
   if (!order) return null
-  const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status)
+  const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status) || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const orderInactive = INACTIVE_ORDER_STATUSES.includes(order.status)
   return (
     <FlatList
@@ -135,13 +138,13 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
                     onPress={() => onUpdateOrder('rejected')}
                     order_id={order.order_id}
                     status={'rejected'}
-                    disabled={loading}
+                    disabled={loading || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
                   />
                   <OrderStatusButton
                     onPress={() => onUpdateOrder(getNextOrderStatus(order.status))}
                     order_id={order.order_id}
                     status={getNextOrderStatus(order.status)}
-                    disabled={loading}
+                    disabled={loading || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
                   />
                 </React.Fragment>
               )
