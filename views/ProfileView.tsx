@@ -163,6 +163,13 @@ export default function ProfileView({ navigation }) {
           }}
           title="Задать вопрос поддержке"
         />
+        <ListItem
+          disabled={refreshing}
+          onPress={() => {
+            navigation.navigate(PROFILE_SCREENS.BUY_CONTAINERS)
+          }}
+          title="Купить контейнеры"
+        />
         {
           canSubscribe
             ? (

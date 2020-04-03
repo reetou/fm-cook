@@ -28,7 +28,8 @@ export const PROFILE_SCREENS = {
   SUPPORT_CHAT: 'profile_support_chat',
   EDIT_PROFILE: 'profile_edit',
   CHECKOUT: 'checkout',
-  ADD_ADDRESS: 'add_address'
+  ADD_ADDRESS: 'add_address',
+  BUY_CONTAINERS: 'buy_containers'
 }
 
 export const PRODUCTS_SCREENS = {

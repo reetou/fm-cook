@@ -6,6 +6,7 @@ import SupportChatView from "../views/SupportChatView";
 import EditProfileView from "../views/EditProfileView";
 import CheckoutView from "../views/CheckoutView";
 import AddAddressView from "../views/AddAddressView";
+import BuyContainersView from "../views/BuyContainersView";
 const Stack = createStackNavigator();
 
 export default function Profile() {
@@ -44,6 +45,13 @@ export default function Profile() {
         component={AddAddressView}
         options={{
           title: 'Адрес'
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.BUY_CONTAINERS}
+        component={BuyContainersView}
+        options={{
+          title: 'Контейнеры'
         }}
       />
     </Stack.Navigator>
