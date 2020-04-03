@@ -6,6 +6,7 @@ import Auth from "../api/Auth";
 import { SCREENS } from "../utils";
 import { CommonActions } from '@react-navigation/native';
 import UserContext from "../store/UserContext";
+import registerForPushNotificationsAsync from "../registerForPushNotificationsAsync";
 
 export default function CodeView({ navigation }) {
   const [code, setCode] = useState<string>('')
@@ -22,6 +23,7 @@ export default function CodeView({ navigation }) {
       await AsyncStorage.setItem('token', data.token)
       await AsyncStorage.setItem('socketToken', data.socket_token)
       await AsyncStorage.setItem('cached_user', JSON.stringify(data.user))
+      registerForPushNotificationsAsync()
       setToken(data.token)
       setAuthenticated(true)
       setUser(data.user)
