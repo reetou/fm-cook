@@ -170,6 +170,13 @@ export default function ProfileView({ navigation }) {
           }}
           title="Купить контейнеры"
         />
+        <ListItem
+          disabled={refreshing}
+          onPress={() => {
+            navigation.navigate(PROFILE_SCREENS.LAST_ORDERS)
+          }}
+          title="История заказов"
+        />
         {
           canSubscribe
             ? (

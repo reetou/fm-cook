@@ -29,7 +29,8 @@ export const PROFILE_SCREENS = {
   EDIT_PROFILE: 'profile_edit',
   CHECKOUT: 'checkout',
   ADD_ADDRESS: 'add_address',
-  BUY_CONTAINERS: 'buy_containers'
+  BUY_CONTAINERS: 'buy_containers',
+  LAST_ORDERS: 'last_orders'
 }
 
 export const PRODUCTS_SCREENS = {

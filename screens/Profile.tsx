@@ -1,12 +1,14 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
-import { PROFILE_SCREENS } from "../utils";
+import { ORDERS_SCREENS, PROFILE_SCREENS } from "../utils";
 import ProfileView from "../views/ProfileView";
 import SupportChatView from "../views/SupportChatView";
 import EditProfileView from "../views/EditProfileView";
 import CheckoutView from "../views/CheckoutView";
 import AddAddressView from "../views/AddAddressView";
 import BuyContainersView from "../views/BuyContainersView";
+import LastOrdersView from "../views/LastOrdersView";
+import OrderDetailsView from "../views/OrderDetailsView";
 const Stack = createStackNavigator();
 
 export default function Profile() {
@@ -52,6 +54,20 @@ export default function Profile() {
         component={BuyContainersView}
         options={{
           title: 'Контейнеры'
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.LAST_ORDERS}
+        component={LastOrdersView}
+        options={{
+          title: 'История заказов'
+        }}
+      />
+      <Stack.Screen
+        name={ORDERS_SCREENS.DETAILS}
+        component={OrderDetailsView}
+        options={{
+          title: 'Детали'
         }}
       />
     </Stack.Navigator>
