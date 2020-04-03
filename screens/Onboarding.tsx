@@ -3,6 +3,8 @@ import { Image, View, Text, StyleSheet, AsyncStorage } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Ionicons } from '@expo/vector-icons';
+import { SCREENS } from "../utils";
+import { useNavigation } from '@react-navigation/core';
 
 const styles = StyleSheet.create({
   mainContent: {
@@ -31,13 +33,18 @@ const styles = StyleSheet.create({
 
 export interface OnboardingViewProps {
   onDone: () => void;
+  navigation: any;
 }
 
 export default function Onboarding(props: OnboardingViewProps) {
+  const navigation = useNavigation()
   return (
     <AppIntroSlider
       bottomButton
-      onDone={props.onDone}
+      onDone={async () => {
+        await props.onDone()
+        navigation.navigate(SCREENS.SIGN_IN)
+      }}
       renderItem={({item, dimensions}) => (
         <LinearGradient
           style={[
