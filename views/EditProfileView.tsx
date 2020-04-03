@@ -156,26 +156,26 @@ export default function EditProfileView({ navigation }) {
           alignItems: 'flex-start',
         }}
       >
-        <Toggle
-          disabled={loading}
-          style={{
-            marginTop: 10,
-          }}
-          checked={pickup}
-          onChange={setPickup}
-          text="Самовывоз для клиентов"
-          status="success"
-        />
-        <Toggle
-          disabled={loading}
-          style={{
-            marginTop: 10,
-          }}
-          checked={delivery}
-          onChange={setDelivery}
-          text="Я работаю с доставкой"
-          status="warning"
-        />
+        {/*<Toggle*/}
+        {/*  disabled={loading}*/}
+        {/*  style={{*/}
+        {/*    marginTop: 10,*/}
+        {/*  }}*/}
+        {/*  checked={pickup}*/}
+        {/*  onChange={setPickup}*/}
+        {/*  text="Самовывоз для клиентов"*/}
+        {/*  status="success"*/}
+        {/*/>*/}
+        {/*<Toggle*/}
+        {/*  disabled={loading}*/}
+        {/*  style={{*/}
+        {/*    marginTop: 10,*/}
+        {/*  }}*/}
+        {/*  checked={delivery}*/}
+        {/*  onChange={setDelivery}*/}
+        {/*  text="Я работаю с доставкой"*/}
+        {/*  status="warning"*/}
+        {/*/>*/}
       </View>
       <View style={{ marginBottom: 30 }}>
         <TouchableOpacity

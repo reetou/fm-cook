@@ -1,5 +1,8 @@
 import { Lunch } from "./types/Lunch";
 import { Meal } from "./types/Meal";
+import { formatToTimeZone } from "date-fns-timezone";
+import * as Localization from "expo-localization";
+import { User } from "./types/User";
 
 
 export const TABS = {
@@ -24,7 +27,8 @@ export const PROFILE_SCREENS = {
   MAIN: 'profile_main',
   SUPPORT_CHAT: 'profile_support_chat',
   EDIT_PROFILE: 'profile_edit',
-  CHECKOUT: 'checkout'
+  CHECKOUT: 'checkout',
+  ADD_ADDRESS: 'add_address'
 }
 
 export const PRODUCTS_SCREENS = {
@@ -158,6 +162,11 @@ export const formatSupportMessage = (message: any, user: any) => {
   }
 }
 
+const formatTimestamp = (ts: number) => {
+  if (!ts) return 'error'
+  return formatToTimeZone(ts * 1000, 'DD.MM.YYYY HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })
+}
+
 export const AVAILABLE_SUBSCRIPTION_STATUSES = ['active', 'trialing']
 
 export function subscribeButtonTitle(status) {
@@ -167,11 +176,11 @@ export function subscribeButtonTitle(status) {
   return 'Оформить пробный период'
 }
 
-export function subscriptionStatusTitle(status) {
-  switch (status) {
+export function subscriptionStatusTitle({subscription_status, active_until, trial_end}: User) {
+  switch (subscription_status) {
     case null: return 'Доступен пробный период'
-    case 'active': return 'Активна'
-    case 'trialing': return 'Активен пробный период'
+    case 'active': return `Активна до ${formatTimestamp(active_until)}`
+    case 'trialing': return `Пробный период до ${formatTimestamp(trial_end)}`
     case 'unpaid': return 'Не оплачена'
     default: return 'Не оформлена'
   }

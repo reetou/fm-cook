@@ -68,9 +68,23 @@ const updateDutyStatus = async (on_duty: boolean): Promise<{ user: any }> => {
   return res.data
 }
 
+const addAddress = async (data: any): Promise<{address: any}> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'POST',
+    headers: {
+      Authorization: token,
+    },
+    url: `/cooker/address/add`,
+    data
+  })
+  return res.data
+}
+
 export default {
   getSelf,
   uploadAvatar,
   updateSelf,
   updateDutyStatus,
+  addAddress,
 }

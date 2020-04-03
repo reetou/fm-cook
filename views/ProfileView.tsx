@@ -8,7 +8,7 @@ import {
   subscriptionStatusTitle,
   TABS
 } from "../utils";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Avatar, ListItem, Toggle, CheckBox, Card, CardHeader } from '@ui-kitten/components';
 import UserContext from "../store/UserContext";
 import User from "../api/User";
@@ -39,7 +39,6 @@ export default function ProfileView({ navigation }) {
     setRefreshing(false)
   }
   const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
-
   return (
     <ScrollView
       refreshControl={(
@@ -48,7 +47,7 @@ export default function ProfileView({ navigation }) {
           onRefresh={refresh}
         />
       )}
-      style={{ flex: 1, backgroundColor: Styleguide.primaryBackgroundColor, paddingTop: 10 }}
+      style={{ flex: 1, backgroundColor: Styleguide.primaryBackgroundColor }}
     >
       <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
       <View style={{ alignItems: 'center' }}>
@@ -80,13 +79,17 @@ export default function ProfileView({ navigation }) {
             checked={Boolean(user.name && user.description)}
           />
           <CheckBox
+            text="Добавьте адрес"
+            checked={Boolean(user.address)}
+          />
+          <CheckBox
             text="Пройдите сертификацию"
             checked={user.certified}
           />
-          <CheckBox
-            text="Укажите режимы работы: самовывоз и/или доставка"
-            checked={user.pickup || user.delivery}
-          />
+          {/*<CheckBox*/}
+          {/*  text="Укажите режимы работы: самовывоз и/или доставка"*/}
+          {/*  checked={user.pickup || user.delivery}*/}
+          {/*/>*/}
           <CheckBox
             text="Установите количество доступных порций для блюд"
             checked={
@@ -137,7 +140,7 @@ export default function ProfileView({ navigation }) {
             color: Styleguide.primaryBackgroundColor
           }}
           disabled
-          title={`Статус подписки: ${subscriptionStatusTitle(user.subscription_status)}`}
+          title={`Статус подписки: ${subscriptionStatusTitle(user)}`}
         />
         <ListItem
           disabled={refreshing}
@@ -145,6 +148,13 @@ export default function ProfileView({ navigation }) {
             navigation.navigate(PROFILE_SCREENS.EDIT_PROFILE)
           }}
           title="Редактировать профиль"
+        />
+        <ListItem
+          disabled={refreshing}
+          onPress={() => {
+            navigation.navigate(PROFILE_SCREENS.ADD_ADDRESS)
+          }}
+          title={user.address ? 'Изменить адрес' : 'Добавить адрес'}
         />
         <ListItem
           disabled={refreshing}
