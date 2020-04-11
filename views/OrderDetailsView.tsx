@@ -68,7 +68,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
       refreshing={refreshing}
       onRefresh={getDetails}
       data={order.meals.concat(order.lunches)}
-      keyExtractor={(item: any) => item.id}
+      keyExtractor={(item: any, index) => `${item.id}${index}`}
       ListHeaderComponent={() => (
         <View>
           <View style={{ marginVertical: 20 }}>

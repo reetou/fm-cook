@@ -11,6 +11,7 @@ export default function OrderProductsRow({ meals, lunches }: any) {
         marginTop: 10
       }}
       horizontal
+      keyExtractor={(item, index) => `${item.id}${index}`}
       data={meals.concat(lunches)}
       renderItem={({ item }: any) => (
         <View>
