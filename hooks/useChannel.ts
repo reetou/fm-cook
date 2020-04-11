@@ -19,7 +19,11 @@ const useChannel = (channelName: string, onReply?: (v: any, socket: any) => void
         }
       })
       .receive('error', c => {
-        console.error('Cannot connect: ', c)
+        if (c.reason !== 'unauthorized') {
+          console.error('Cannot connect: ', c)
+        } else {
+          console.error('Unauthorized')
+        }
       })
     return phoenixChannel
   }
