@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Avatar, ListItem, Toggle, CheckBox, Card, CardHeader } from '@ui-kitten/components';
 import UserContext from "../store/UserContext";
 import User from "../api/User";
+import Subscription from "../api/Subscription";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -35,6 +36,16 @@ export default function ProfileView({ navigation }) {
       setUser(data.user)
     } catch (e) {
       console.error('Cannot update on duty status', e)
+    }
+    setRefreshing(false)
+  }
+  const startTrial = async () => {
+    setRefreshing(true)
+    try {
+      await Subscription.startTrial()
+      await refresh()
+    } catch (e) {
+      console.error('Cannot start trial', e)
     }
     setRefreshing(false)
   }
@@ -183,7 +194,11 @@ export default function ProfileView({ navigation }) {
               <ListItem
                 disabled={refreshing}
                 onPress={() => {
-                  navigation.navigate(PROFILE_SCREENS.CHECKOUT)
+                  if (!user.subscription_status) {
+                    startTrial()
+                  } else {
+                    navigation.navigate(PROFILE_SCREENS.CHECKOUT)
+                  }
                 }}
                 title={subscribeButtonTitle(user.subscription_status)}
               />
