@@ -96,6 +96,24 @@ export const getOrderStatusTitle = (status: string) => {
   }
 }
 
+export const getOrderTypeTitle = (type: string) => {
+  switch (type) {
+    case 'delivery':
+      return 'Доставка'
+    case 'pickup':
+      return 'Самовывоз'
+    default:
+      return String(type)
+  }
+}
+
+export const getOrderCancelHistoryTitle = (cancel_history: number) => {
+  if (cancel_history > 5) {
+    return '⚠️ Часто отменяет заказы'
+  }
+  return ''
+}
+
 export const getNextOrderStatus = (status: string) => {
   switch (status) {
     case 'created':

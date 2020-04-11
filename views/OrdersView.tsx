@@ -2,7 +2,13 @@ import { FlatList, RefreshControl, Text, TouchableHighlight, TouchableOpacity, V
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Orders from "../api/Orders";
 import { Constants } from "expo/build/globals.web";
-import { getOrderStatusColor, getOrderStatusTitle, ORDERS_SCREENS } from "../utils";
+import {
+  getOrderCancelHistoryTitle,
+  getOrderStatusColor,
+  getOrderStatusTitle,
+  getOrderTypeTitle,
+  ORDERS_SCREENS
+} from "../utils";
 import * as Localization from "expo-localization";
 import { formatToTimeZone } from "date-fns-timezone";
 import OrderProductsRow from "../components/OrderProductsRow";
@@ -111,8 +117,16 @@ export default function OrdersView({ navigation }) {
                 justifyContent: 'space-between'
               }}
             >
-              <Text>{item.type || 'Самовывоз'}</Text>
+              <Text>{getOrderTypeTitle(item.type)}</Text>
               <Text>{formatToTimeZone(item.created_at, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}
+            >
+              <Text>{getOrderCancelHistoryTitle(item.cancel_history)}</Text>
             </View>
             <OrderProductsRow {...item} />
           </View>
