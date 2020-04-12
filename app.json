@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.borsch.cook",
+      "buildNumber": "1.0.0"
     },
     "notification": {
       "iosDisplayInForeground": true
