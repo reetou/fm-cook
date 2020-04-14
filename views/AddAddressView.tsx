@@ -63,7 +63,7 @@ export default function AddAddressView({ route: { params }, navigation }) {
         city: suggest.data.city,
         city_district: suggest.data.city_district,
         street: suggest.data.street_with_type,
-        house: suggest.data.house,
+        house: house || suggest.data.house,
         region: suggest.data.region,
         flat,
         floor,
