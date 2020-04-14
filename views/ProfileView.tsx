@@ -1,4 +1,4 @@
-import { AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
+import { Alert, AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
 import Styleguide from "../Styleguide";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES,
@@ -45,7 +45,10 @@ export default function ProfileView({ navigation }) {
       await Subscription.startTrial()
       await refresh()
     } catch (e) {
-      console.error('Cannot start trial', e)
+      Alert.alert('Ошибка', e.response ? e.response.data.errors.detail : e.message)
+      if (!e.response) {
+        console.error('Cannot start trial', e)
+      }
     }
     setRefreshing(false)
   }
