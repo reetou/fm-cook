@@ -4,6 +4,7 @@ import Subscription from "../api/Subscription";
 import { API_HOST } from "../api";
 import { PROFILE_SCREENS } from "../utils";
 import { Alert } from 'react-native';
+import * as Sentry from "sentry-expo";
 
 
 
@@ -16,6 +17,7 @@ export default function CheckoutView({ navigation }) {
       setSession(data)
       console.log('Received session')
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get session', e)
     }
   }

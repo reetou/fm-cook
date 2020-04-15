@@ -205,3 +205,11 @@ export function subscriptionStatusTitle({subscription_status, active_until, tria
     default: return 'Не оформлена'
   }
 }
+
+export function getErrorDetail(e: any) {
+  if (e.response && e.response.data && e.response.data.errors && e.response.data.errors.detail) {
+    return e.response.data.errors.detail
+  }
+  if (e.message) return e.message
+  return 'Неизвестная ошибка'
+}

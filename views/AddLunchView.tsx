@@ -7,6 +7,7 @@ import UserContext from "../store/UserContext";
 import Lunch from "../api/Lunch";
 import AddLunchContext from "../store/AddLunchContext";
 import * as ImagePicker from 'expo-image-picker';
+import * as Sentry from "sentry-expo";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -56,6 +57,7 @@ export default function AddLunchView({ route: { params }, navigation }) {
       Vibration.vibrate(300)
       navigation.popToTop()
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot submit', e)
     }
     setLoading(false)

@@ -30,6 +30,18 @@
     },
     "notification": {
       "iosDisplayInForeground": true
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "reetou",
+            "project": "fm-cook",
+            "authToken": "144a6e2a1c2942b8979d7786bcffa4430c42d97c97294c0aa53a7d6b1b86c5f0"
+          }
+        }
+      ]
     }
   }
 }

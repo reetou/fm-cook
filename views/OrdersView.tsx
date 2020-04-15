@@ -14,6 +14,7 @@ import { formatToTimeZone } from "date-fns-timezone";
 import OrderProductsRow from "../components/OrderProductsRow";
 import useChannel from "../hooks/useChannel";
 import UserContext from "../store/UserContext";
+import * as Sentry from "sentry-expo";
 
 export default function OrdersView({ navigation }) {
   const [orders, setOrders] = useState<any[]>([])
@@ -57,6 +58,7 @@ export default function OrdersView({ navigation }) {
       const { orders } = await Orders.getAll()
       setOrders(orders)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get orders', e)
     }
   }

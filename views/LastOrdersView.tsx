@@ -6,6 +6,7 @@ import { getOrderStatusColor, getOrderStatusTitle, ORDERS_SCREENS } from "../uti
 import * as Localization from "expo-localization";
 import { formatToTimeZone } from "date-fns-timezone";
 import OrderProductsRow from "../components/OrderProductsRow";
+import * as Sentry from "sentry-expo";
 
 export default function LastOrdersView({ navigation }) {
   const [orders, setOrders] = useState<any[]>([])
@@ -15,6 +16,7 @@ export default function LastOrdersView({ navigation }) {
       const data = await Orders.lastOrders()
       setOrders(data.orders)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get orders', e)
     }
   }

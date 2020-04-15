@@ -4,6 +4,7 @@ import { List, ListItem, Text, Avatar } from "@ui-kitten/components";
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 import { productItemDescription, PRODUCTS_SCREENS } from "../utils";
+import * as Sentry from "sentry-expo";
 
 export default function ProductsListView({ navigation }) {
   const {
@@ -20,6 +21,7 @@ export default function ProductsListView({ navigation }) {
       const data = await User.getSelf()
       setUser(data.user)
     } catch (e) {
+      Sentry.captureException(e)
       // noop
       console.error('Cannot refresh', e)
     }

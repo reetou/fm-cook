@@ -14,6 +14,7 @@ import OrderStatusButton from "../components/OrderStatusButton";
 import Orders from "../api/Orders";
 import useChannel from "../hooks/useChannel";
 import UserContext from "../store/UserContext";
+import * as Sentry from "sentry-expo";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -34,6 +35,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
       const data = await Orders.updateOrder(order.order_id, status)
       setOrder(data.order)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot update order', e)
     }
     setLoading(false)
@@ -46,6 +48,7 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
       const data = await Orders.getOrderDetails(order.order_id)
       setOrder(data.order)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot GET order details', e)
     }
     setLoading(false)

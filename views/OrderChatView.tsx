@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import Orders from "../api/Orders";
 import { formatGiftedMessage, formatGiftedUser } from "../utils";
+import * as Sentry from "sentry-expo";
 
 export default function OrderChatView({ route: { params } }) {
   const [messages, setMessages] = useState<any[]>([])
@@ -16,6 +17,7 @@ export default function OrderChatView({ route: { params } }) {
       setOrder(data.order)
       setMessages(data.messages.map((m: any) => formatGiftedMessage(m, data.order_members.cooker, data.order_members.client)))
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get chat info', e)
     }
   }

@@ -5,6 +5,7 @@ import {
 import RNPickerSelect from "react-native-picker-select";
 import Styleguide from "../Styleguide";
 import Shop from "../api/Shop";
+import * as Sentry from "sentry-expo";
 
 
 export default function BuyContainersView({ route: { params }, navigation }) {
@@ -19,6 +20,7 @@ export default function BuyContainersView({ route: { params }, navigation }) {
       setPrice(data.container_pack)
       setQuantity(data.container_pack_quantity)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get prices')
     }
     setLoading(false)

@@ -4,6 +4,7 @@ import { formatGiftedUser, formatSupportMessage } from "../utils";
 import Support from "../api/Support";
 import UserContext from "../store/UserContext";
 import useChannel from "../hooks/useChannel";
+import * as Sentry from "sentry-expo";
 
 export default function SupportChatView({ navigation }) {
   const [messages, setMessages] = useState<any[]>([])
@@ -38,6 +39,7 @@ export default function SupportChatView({ navigation }) {
         )
       )
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get chat info', e)
     }
   }

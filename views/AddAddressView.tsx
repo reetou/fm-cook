@@ -9,6 +9,8 @@ import Geo from "../api/Geo";
 import Styleguide from "../Styleguide";
 import User from "../api/User";
 import UserContext from "../store/UserContext";
+import * as Sentry from 'sentry-expo'
+import { getErrorDetail } from "../utils";
 
 
 export default function AddAddressView({ route: { params }, navigation }) {
@@ -44,6 +46,7 @@ export default function AddAddressView({ route: { params }, navigation }) {
       setLoading(false)
       return data
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get suggestions', e)
     }
     setLoading(false)
@@ -87,7 +90,8 @@ export default function AddAddressView({ route: { params }, navigation }) {
       Alert.alert('Успешно', 'Адрес обновлен')
     } catch (e) {
       console.error('Cannot add address', e)
-      Alert.alert('Ошибка', 'Не удалось обновить адрес, попробуйте позднее')
+      Sentry.captureException(e)
+      Alert.alert('Ошибка', getErrorDetail(e))
     }
     setLoading(false)
   }
@@ -128,7 +132,6 @@ export default function AddAddressView({ route: { params }, navigation }) {
           editable={!loading}
           maxLength={6}
           style={{ width: 70 }}
-          keyboardType="number-pad"
           value={house}
           onChangeText={setHouse}
         />

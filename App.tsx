@@ -13,6 +13,13 @@ import { mapping, light as theme } from '@eva-design/eva';
 import { AppLoading } from "expo";
 import { User } from './types/User';
 import { getSocketToken } from "./api/storage";
+import * as Sentry from 'sentry-expo'
+
+Sentry.init({
+  dsn: 'https://d6137643f47c4b0d89f69edf7ad65b96@o244178.ingest.sentry.io/5201546',
+  enableInExpoDevelopment: true,
+  debug: true,
+});
 
 const Stack = createStackNavigator();
 
@@ -67,6 +74,7 @@ export default function App() {
         console.log('Setting socket token', storedSocketToken)
         setSocketToken(storedSocketToken)
       } catch (e) {
+        Sentry.captureException(e)
         if (e.response && e.response.status !== 401) {
           console.error('Error at check auth', e)
         } else {
@@ -84,6 +92,7 @@ export default function App() {
           await checkAuth()
         }
       } catch (e) {
+        Sentry.captureException(e)
         console.error('Error happened', e)
       }
       setChecking(false)

@@ -14,6 +14,7 @@ import UserContext from "../store/UserContext";
 import { Avatar, Input, Toggle } from '@ui-kitten/components';
 import * as ImagePicker from "expo-image-picker";
 import User from "../api/User";
+import * as Sentry from "sentry-expo";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -39,6 +40,7 @@ export default function EditProfileView({ navigation }) {
       setUser(data.user)
       setUserFields(data.user)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get self', e)
     }
     setRefreshing(false)
@@ -71,6 +73,7 @@ export default function EditProfileView({ navigation }) {
       setUserFields(data.user)
       setAvatar(null)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot update avatar', e)
     }
     setLoading(false)
@@ -91,6 +94,7 @@ export default function EditProfileView({ navigation }) {
       Vibration.vibrate(300)
       navigation.popToTop()
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot submit profile', e)
     }
     setLoading(false)

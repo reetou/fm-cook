@@ -1,6 +1,7 @@
 import axios from './axios'
 import { getToken } from "./storage";
 import { Lunch } from "../types/Lunch";
+import * as Sentry from "sentry-expo";
 
 interface LunchResponse {
   lunch: Lunch
@@ -20,6 +21,7 @@ const addLunch = async (data: any, avatar?: string): Promise<LunchResponse> => {
     try {
       return uploadAvatar(res.data.id, avatar)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot upload avatar')
     }
   }
@@ -32,6 +34,7 @@ const updateLunch = async (id, data: any, avatar?: string): Promise<LunchRespons
     try {
       await uploadAvatar(id, avatar)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot upload avatar')
     }
   }

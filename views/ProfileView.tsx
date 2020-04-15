@@ -1,7 +1,7 @@
 import { Alert, AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
 import Styleguide from "../Styleguide";
 import {
-  AVAILABLE_SUBSCRIPTION_STATUSES,
+  AVAILABLE_SUBSCRIPTION_STATUSES, getErrorDetail,
   PROFILE_SCREENS,
   SCREENS,
   subscribeButtonTitle,
@@ -13,6 +13,7 @@ import { Avatar, ListItem, Toggle, CheckBox, Card, CardHeader } from '@ui-kitten
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 import Subscription from "../api/Subscription";
+import * as Sentry from "sentry-expo";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -25,6 +26,7 @@ export default function ProfileView({ navigation }) {
       const data = await User.getSelf()
       setUser(data.user)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot get self', e)
     }
     setRefreshing(false)
@@ -35,6 +37,7 @@ export default function ProfileView({ navigation }) {
       const data = await User.updateDutyStatus(value)
       setUser(data.user)
     } catch (e) {
+      Sentry.captureException(e)
       console.error('Cannot update on duty status', e)
     }
     setRefreshing(false)
@@ -45,7 +48,8 @@ export default function ProfileView({ navigation }) {
       await Subscription.startTrial()
       await refresh()
     } catch (e) {
-      Alert.alert('Ошибка', e.response ? e.response.data.errors.detail : e.message)
+      Sentry.captureException(e)
+      Alert.alert('Ошибка', getErrorDetail(e))
       if (!e.response) {
         console.error('Cannot start trial', e)
       }
