@@ -184,7 +184,7 @@ export default function ProfileView({ navigation }) {
         <ListItem
           disabled={refreshing}
           onPress={() => {
-            navigation.navigate(PROFILE_SCREENS.BUY_CONTAINERS)
+            navigation.navigate(PROFILE_SCREENS.TILDA_SHOP)
           }}
           title="Купить контейнеры"
         />
@@ -204,7 +204,7 @@ export default function ProfileView({ navigation }) {
                   if (!user.subscription_status) {
                     startTrial()
                   } else {
-                    navigation.navigate(PROFILE_SCREENS.CHECKOUT)
+                    navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
                   }
                 }}
                 title={subscribeButtonTitle(user.subscription_status)}
@@ -214,15 +214,22 @@ export default function ProfileView({ navigation }) {
         }
         <ListItem
           disabled={refreshing}
+          onPress={() => {
+            navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+          }}
+          title={"Занести денег"}
+        />
+        <ListItem
+          disabled={refreshing}
           style={{
             marginTop: 20
           }}
           titleStyle={{
             color: Styleguide.primaryColor
           }}
-          onPress={() => {
-            AsyncStorage.removeItem('token')
-            AsyncStorage.removeItem('socketToken')
+          onPress={async () => {
+            await AsyncStorage.removeItem('token')
+            await AsyncStorage.removeItem('socketToken')
             setAuthenticated(false)
             navigation.navigate(SCREENS.SIGN_IN)
           }}

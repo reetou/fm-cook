@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { WebView } from 'react-native-webview';
-import Subscription from "../api/Subscription";
+import Kassa from "../api/Kassa";
 import { API_HOST } from "../api";
-import { PROFILE_SCREENS } from "../utils";
+import { getErrorDetail, PROFILE_SCREENS } from "../utils";
 import { Alert } from 'react-native';
 import * as Sentry from "sentry-expo";
 
 
 
-export default function CheckoutView({ navigation }) {
+export default function YandexCheckoutView({ navigation }) {
   const [session, setSession] = useState<any>(null)
 
   const getSession = async () => {
     try {
-      const data = await Subscription.checkout()
+      const data = await Kassa.weeklyPlan()
+      console.log('Data at session', data)
       setSession(data)
       console.log('Received session')
     } catch (e) {
       Sentry.captureException(e)
       console.error('Cannot get session', e)
+      Alert.alert('Ошибка', getErrorDetail(e))
     }
   }
 
@@ -56,7 +58,7 @@ export default function CheckoutView({ navigation }) {
     <WebView
       originWhitelist={['*']}
       source={{
-        uri: `${API_HOST}/web_view/checkout?session_id=${session.id}&customer_id=${session.customer_id}`
+        uri: session.confirmation_url
       }}
       onLoadStart={onLoadStart}
     />

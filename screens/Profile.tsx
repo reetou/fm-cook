@@ -4,11 +4,12 @@ import { ORDERS_SCREENS, PROFILE_SCREENS } from "../utils";
 import ProfileView from "../views/ProfileView";
 import SupportChatView from "../views/SupportChatView";
 import EditProfileView from "../views/EditProfileView";
-import CheckoutView from "../views/CheckoutView";
 import AddAddressView from "../views/AddAddressView";
 import BuyContainersView from "../views/BuyContainersView";
 import LastOrdersView from "../views/LastOrdersView";
 import OrderDetailsView from "../views/OrderDetailsView";
+import YandexCheckoutView from "../views/YandexCheckoutView";
+import TildaShopView from "../views/TildaShopView";
 const Stack = createStackNavigator();
 
 export default function Profile() {
@@ -35,11 +36,25 @@ export default function Profile() {
           title: 'Редактировать'
         }}
       />
+      {/*<Stack.Screen*/}
+      {/*  name={PROFILE_SCREENS.STRIPE_CHECKOUT}*/}
+      {/*  component={StripeCheckoutView}*/}
+      {/*  options={{*/}
+      {/*    title: 'Чекаут'*/}
+      {/*  }}*/}
+      {/*/>*/}
       <Stack.Screen
-        name={PROFILE_SCREENS.CHECKOUT}
-        component={CheckoutView}
+        name={PROFILE_SCREENS.YANDEX_CHECKOUT}
+        component={YandexCheckoutView}
         options={{
           title: 'Чекаут'
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.TILDA_SHOP}
+        component={TildaShopView}
+        options={{
+          title: 'Магазин'
         }}
       />
       <Stack.Screen

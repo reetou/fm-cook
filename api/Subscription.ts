@@ -25,6 +25,18 @@ export const checkout = async (): Promise<{ id: string, customer_id: string }> =
   return res.data
 }
 
+export const weeklyPlan = async (): Promise<any> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'POST',
+    headers: {
+      Authorization: token
+    },
+    url: '/cooker/checkout/yandex'
+  })
+  return res.data
+}
+
 export default {
   checkout,
   startTrial,

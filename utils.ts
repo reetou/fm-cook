@@ -27,10 +27,12 @@ export const PROFILE_SCREENS = {
   MAIN: 'profile_main',
   SUPPORT_CHAT: 'profile_support_chat',
   EDIT_PROFILE: 'profile_edit',
-  CHECKOUT: 'checkout',
+  STRIPE_CHECKOUT: 'stripe_checkout',
+  YANDEX_CHECKOUT: 'yandex_checkout',
   ADD_ADDRESS: 'add_address',
   BUY_CONTAINERS: 'buy_containers',
-  LAST_ORDERS: 'last_orders'
+  LAST_ORDERS: 'last_orders',
+  TILDA_SHOP: 'tilda_shop'
 }
 
 export const PRODUCTS_SCREENS = {
@@ -153,7 +155,7 @@ export const formatGiftedUser = (user) => ({
   address: null
 })
 
-export const CHAT_DISABLED_ORDER_STATUSES = ['rejected', 'canceled', 'completed', 'created']
+export const CHAT_DISABLED_ORDER_STATUSES = ['rejected', 'canceled', 'completed']
 
 export const INACTIVE_ORDER_STATUSES = ['rejected', 'canceled', 'completed']
 
