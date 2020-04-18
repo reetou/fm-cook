@@ -35,6 +35,7 @@ export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [hasUpdates, setHasUpdates] = useState<boolean>(false)
+  const [updating, setUpdating] = useState<boolean>(false)
   const checkUpdates = async () => {
     if (process.env.NODE_ENV !== 'production') return
     try {
@@ -260,7 +261,9 @@ export default function NewProfileView({ navigation }) {
             hide: !hasUpdates,
             button: (
               <ListItemButton
+                disabled={updating}
                 onPress={async () => {
+                  setUpdating(true)
                   try {
                     const data = await fetchUpdateAsync()
                     if (data.isNew) {
@@ -270,6 +273,7 @@ export default function NewProfileView({ navigation }) {
                     console.error('Could not fetch updates', e)
                     Sentry.captureException(e)
                   }
+                  setUpdating(false)
                 }}
                 text="Обновить"
               />
