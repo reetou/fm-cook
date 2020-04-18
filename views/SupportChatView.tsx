@@ -5,6 +5,7 @@ import Support from "../api/Support";
 import UserContext from "../store/UserContext";
 import useChannel from "../hooks/useChannel";
 import * as Sentry from "sentry-expo";
+import Styleguide from "../Styleguide";
 
 export default function SupportChatView({ navigation }) {
   const [messages, setMessages] = useState<any[]>([])
@@ -48,6 +49,9 @@ export default function SupportChatView({ navigation }) {
   }, [])
   return (
     <GiftedChat
+      messagesContainerStyle={{
+        backgroundColor: Styleguide.primaryBackgroundColor
+      }}
       messages={messages}
       placeholder="Ваше сообщение..."
       onSend={sentMessages => {
