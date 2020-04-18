@@ -18,6 +18,8 @@ class Styleguide {
   public dutyStatusActiveTintColor: string;
   public dutyStatusNotActiveColor: string;
   public dutyStatusNotActiveTintColor: string;
+  public tabActiveColor: string;
+  public tabColor: string;
 
   constructor() {
     this.primaryBackgroundColor = 'white'
@@ -36,6 +38,8 @@ class Styleguide {
     this.dutyStatusActiveTintColor = 'rgba(4,170,17, 0.28)'
     this.dutyStatusNotActiveColor = 'rgb(185,185,185)'
     this.dutyStatusNotActiveTintColor = 'rgba(185,185,185, 0.28)'
+    this.tabActiveColor = '#0a84ff'
+    this.tabColor = '#000000'
   }
 
   statusBarContentColor(view, darkTheme = false): StatusBarStyle {

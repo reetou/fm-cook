@@ -9,6 +9,11 @@ import Products from "./screens/Products";
 import Orders from "./screens/Orders";
 import { PhoenixSocketProvider } from "./store/SocketContext";
 import { API_HOST } from "./api";
+// @ts-ignore
+import ProductsIcon from './assets/products.svg'
+// @ts-ignore
+import ProfileIcon from './assets/profile.svg'
+
 
 // @ts-ignore
 const wsUrl = `${API_HOST}/socket`
@@ -33,17 +38,22 @@ export default function MainApp() {
             }
 
             // You can return any component that you like here!
-            const getIcon = (name) => {
+            const getIcon = (name, props) => {
               switch (name) {
                 case TABS.PROFILE:
-                  return require('./assets/profile.png')
+                  return <ProfileIcon {...props} />
                 case TABS.PRODUCTS:
-                  return require('./assets/home.png')
+                  return <ProductsIcon {...props} />
                 case TABS.ORDERS:
-                  return require('./assets/heart.png')
+                  return <ProfileIcon {...props} />
               }
             }
-            return <Image source={getIcon(route.name)} style={{ width: size, height: size }} />
+            return getIcon(route.name, {
+              width: size,
+              height: size,
+              fill: focused ? Styleguide.tabActiveColor : Styleguide.tabColor,
+              color: 'red',
+            })
           },
         })}
         tabBarOptions={{
