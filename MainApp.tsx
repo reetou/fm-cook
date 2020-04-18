@@ -13,6 +13,8 @@ import { API_HOST } from "./api";
 import ProductsIcon from './assets/products.svg'
 // @ts-ignore
 import ProfileIcon from './assets/profile.svg'
+// @ts-ignore
+import OrdersIcon from './assets/orders.svg'
 
 
 // @ts-ignore
@@ -45,7 +47,7 @@ export default function MainApp() {
                 case TABS.PRODUCTS:
                   return <ProductsIcon {...props} />
                 case TABS.ORDERS:
-                  return <ProfileIcon {...props} />
+                  return <OrdersIcon {...props} />
               }
             }
             return getIcon(route.name, {
