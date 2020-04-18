@@ -29,10 +29,12 @@ import ListItemButton from "../components/ListItemButton";
 import SubscriptionSectionFooter from "../components/SubscriptionSectionFooter";
 import DutyStatus from "../components/DutyStatus";
 import AlertMessage from "../components/AlertMessage";
+import { checkForUpdateAsync, fetchUpdateAsync, reloadAsync } from "expo-updates";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
   const [refreshing, setRefreshing] = useState<boolean>(false)
+  const [hasUpdates, setHasUpdates] = useState<boolean>(false)
   const refresh = async () => {
     setRefreshing(true)
     try {
@@ -69,8 +71,23 @@ export default function NewProfileView({ navigation }) {
     }
     setRefreshing(false)
   }
+  const checkUpdates = async () => {
+    if (process.env.NODE_ENV !== 'production') return
+    try {
+      const data = await checkForUpdateAsync()
+      if (data.isAvailable) {
+        setHasUpdates(true)
+      }
+    } catch (e) {
+      console.error('Error happened at check updates', e)
+      Sentry.captureException(e)
+    }
+  }
   const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const canStartTrial = user.subscription_status === null
+  useEffect(() => {
+    checkUpdates()
+  }, [])
   return (
     <ScrollView
       refreshControl={(
@@ -172,6 +189,7 @@ export default function NewProfileView({ navigation }) {
         )}
       />
       <FlatList
+        keyExtractor={(item) => item.label}
         data={[
           {
             icon: require('../assets/profile.png'),
@@ -223,62 +241,86 @@ export default function NewProfileView({ navigation }) {
               />
             )
           },
+          {
+            icon: require('../assets/profile.png'),
+            label: 'Доступно обновление',
+            hide: !hasUpdates,
+            button: (
+              <ListItemButton
+                onPress={async () => {
+                  try {
+                    const data = await fetchUpdateAsync()
+                    if (data.isNew) {
+                      await reloadAsync()
+                    }
+                  } catch (e) {
+                    console.error('Could not fetch updates', e)
+                    Sentry.captureException(e)
+                  }
+                }}
+                text="Обновить"
+              />
+            )
+          }
         ]}
-        renderItem={({item, index}) => (
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingHorizontal: 16,
-                paddingVertical: 8,
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
+        renderItem={({item, index}) => {
+          if (item.hide) return
+          return (
+            <View>
               <View
                 style={{
                   flexDirection: 'row',
-                  alignItems: 'center'
+                  paddingHorizontal: 16,
+                  paddingVertical: 8,
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
                 }}
               >
-                <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}
+                >
+                  <View>
+                    {
+                      item.icon
+                        ? (
+                          <Image
+                            source={item.icon}
+                            style={{
+                              width: 24,
+                              height: 24,
+                            }}
+                            width={24}
+                            height={24}
+                          />
+                        )
+                        : null
+                    }
+                  </View>
+                  <Text style={{ paddingLeft: 16, paddingRight: 8 }}>{item.label}</Text>
                   {
-                    item.icon
+                    item.completed
                       ? (
-                        <Image
-                          source={item.icon}
-                          style={{
-                            width: 24,
-                            height: 24,
-                          }}
-                          width={24}
-                          height={24}
-                        />
+                        <CircleButton type="success" disabled size={20}>
+                          <Image
+                            source={require('../assets/success.png')}
+                            style={{
+                              width: 12,
+                              height: 12
+                            }}
+                          />
+                        </CircleButton>
                       )
                       : null
                   }
                 </View>
-                <Text style={{ paddingLeft: 16, paddingRight: 8 }}>{item.label}</Text>
-                {
-                  item.completed
-                    ? (
-                      <CircleButton type="success" disabled size={20}>
-                        <Image
-                          source={require('../assets/success.png')}
-                          style={{
-                            width: 12,
-                            height: 12
-                          }}
-                        />
-                      </CircleButton>
-                    )
-                    : null
-                }
+                {item.button || null}
               </View>
-              {item.button || null}
             </View>
-          </View>
-        )}
+          )
+        }}
       />
     </ScrollView>
   )
