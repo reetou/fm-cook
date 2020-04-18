@@ -6,12 +6,36 @@ class Styleguide {
   public primaryColor: string;
   public secondaryColor: string;
   public primaryBackgroundColor: string;
+  public sectionBorderColor: string;
+  public sectionWarningStatusColor: string;
+  public sectionDangerStatusColor: string;
+  public sectionSuccessStatusColor: string;
+  public buttonBackgroundColor: string;
+  public buttonTextColor: string;
+  public listItemButtonBackgroundColor: string;
+  public listItemButtonTextColor: string;
+  public dutyStatusActiveColor: string;
+  public dutyStatusActiveTintColor: string;
+  public dutyStatusNotActiveColor: string;
+  public dutyStatusNotActiveTintColor: string;
 
   constructor() {
-    this.primaryBackgroundColor = '#efefef'
+    this.primaryBackgroundColor = 'white'
     this.tintColor = '#a3aaae'
     this.primaryColor = '#ff5a5f'
     this.secondaryColor = '#595bd4'
+    this.sectionBorderColor = '#e4e4e4'
+    this.sectionWarningStatusColor = '#fa6400'
+    this.sectionDangerStatusColor = 'red'
+    this.sectionSuccessStatusColor = '#04aa11'
+    this.buttonBackgroundColor = '#0a84ff'
+    this.buttonTextColor = '#ffffff'
+    this.listItemButtonBackgroundColor = 'rgba(109,114,120,0.1)'
+    this.listItemButtonTextColor = '#0a84ff'
+    this.dutyStatusActiveColor = 'rgb(4,170,17)'
+    this.dutyStatusActiveTintColor = 'rgba(4,170,17, 0.28)'
+    this.dutyStatusNotActiveColor = 'rgb(185,185,185)'
+    this.dutyStatusNotActiveTintColor = 'rgba(185,185,185, 0.28)'
   }
 
   statusBarContentColor(view, darkTheme = false): StatusBarStyle {

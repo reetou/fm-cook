@@ -10,6 +10,7 @@ import LastOrdersView from "../views/LastOrdersView";
 import OrderDetailsView from "../views/OrderDetailsView";
 import YandexCheckoutView from "../views/YandexCheckoutView";
 import TildaShopView from "../views/TildaShopView";
+import NewProfileView from "../views/NewProfileView";
 const Stack = createStackNavigator();
 
 export default function Profile() {
@@ -17,7 +18,7 @@ export default function Profile() {
     <Stack.Navigator>
       <Stack.Screen
         name={PROFILE_SCREENS.MAIN}
-        component={ProfileView}
+        component={NewProfileView}
         options={{
           title: 'Профиль'
         }}

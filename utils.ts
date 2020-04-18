@@ -3,6 +3,7 @@ import { Meal } from "./types/Meal";
 import { formatToTimeZone } from "date-fns-timezone";
 import * as Localization from "expo-localization";
 import { User } from "./types/User";
+import Styleguide from "./Styleguide";
 
 
 export const TABS = {
@@ -186,7 +187,7 @@ export const formatSupportMessage = (message: any, user: any) => {
 
 const formatTimestamp = (ts: number) => {
   if (!ts) return 'error'
-  return formatToTimeZone(ts * 1000, 'DD.MM.YYYY HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })
+  return formatToTimeZone(ts * 1000, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })
 }
 
 export const AVAILABLE_SUBSCRIPTION_STATUSES = ['active', 'trialing']
@@ -205,6 +206,45 @@ export function subscriptionStatusTitle({subscription_status, active_until, tria
     case 'trialing': return `Пробный период до ${formatTimestamp(trial_end)}`
     case 'unpaid': return 'Не оплачена'
     default: return 'Не оформлена'
+  }
+}
+
+export function subscriptionStatusColorName({subscription_status}: User) {
+  switch (subscription_status) {
+    case 'active':
+    case 'trialing':
+      return 'success'
+    default: return 'warning'
+  }
+}
+
+export function certificationStatusTitle({certified}: User) {
+  if (certified) {
+    return 'Пройдена'
+  }
+  return 'Не пройдена'
+}
+
+export function certificationStatusColorName({certified}: User) {
+  if (certified) {
+    return 'success'
+  } else {
+    return 'warning'
+  }
+}
+
+export type StatusColorType = 'danger' | 'warning' | 'success' | 'info'
+
+export function getColor(type: StatusColorType) {
+  switch (type) {
+    case "danger":
+      return Styleguide.sectionDangerStatusColor
+    case "warning":
+      return Styleguide.sectionWarningStatusColor
+    case 'info':
+      return Styleguide.buttonBackgroundColor
+    default:
+      return Styleguide.sectionSuccessStatusColor
   }
 }
 

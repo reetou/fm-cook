@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import Styleguide from "./Styleguide";
 import { TABS } from "./utils";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import Profile from "./screens/Profile";
 import Products from "./screens/Products";
 import Orders from "./screens/Orders";
@@ -33,12 +33,22 @@ export default function MainApp() {
             }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
+            const getIcon = (name) => {
+              switch (name) {
+                case TABS.PROFILE:
+                  return require('./assets/profile.png')
+                case TABS.PRODUCTS:
+                  return require('./assets/home.png')
+                case TABS.ORDERS:
+                  return require('./assets/heart.png')
+              }
+            }
+            return <Image source={getIcon(route.name)} style={{ width: size, height: size }} />
           },
         })}
         tabBarOptions={{
-          activeTintColor: Styleguide.primaryColor,
-          inactiveTintColor: Styleguide.tintColor,
+          activeTintColor: Styleguide.listItemButtonTextColor,
+          inactiveTintColor: 'black',
         }}
       >
         <Tab.Screen
