@@ -52,7 +52,6 @@ export default function MainApp() {
               width: size,
               height: size,
               fill: focused ? Styleguide.tabActiveColor : Styleguide.tabColor,
-              color: 'red',
             })
           },
         })}
