@@ -144,9 +144,9 @@ export default function OrderDetailsView({ navigation, route: { params } }) {
                     disabled={loading || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
                   />
                   <OrderStatusButton
-                    onPress={() => onUpdateOrder(getNextOrderStatus(order.status))}
+                    onPress={() => onUpdateOrder(getNextOrderStatus(order))}
                     order_id={order.order_id}
-                    status={getNextOrderStatus(order.status)}
+                    status={getNextOrderStatus(order)}
                     disabled={loading || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
                   />
                 </React.Fragment>

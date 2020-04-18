@@ -94,6 +94,10 @@ export const getOrderStatusTitle = (status: string) => {
       return 'В работе'
     case 'created':
       return 'Создан'
+    case 'can_pickup':
+      return 'Можно забирать'
+    case 'delivering':
+      return 'Доставляется'
     default:
       return String(status)
   }
@@ -117,13 +121,16 @@ export const getOrderCancelHistoryTitle = (cancel_history: number) => {
   return ''
 }
 
-export const getNextOrderStatus = (status: string) => {
+export const getNextOrderStatus = ({status, type}: {status: string, type: 'delivery' | 'pickup'}) => {
   switch (status) {
     case 'created':
       return 'accepted'
     case 'accepted':
       return 'cooking'
     case 'cooking':
+      return type === 'delivery' ? 'delivering' : 'can_pickup'
+    case 'can_pickup':
+    case 'delivering':
       return 'completed'
   }
 }
@@ -131,6 +138,8 @@ export const getNextOrderStatus = (status: string) => {
 export const getOrderStatusColor = (status: string) => {
   switch (status) {
     case 'cooking':
+    case 'can_pickup':
+    case 'delivering':
       return 'orange'
     case 'rejected':
       return 'red'
