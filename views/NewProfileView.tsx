@@ -35,8 +35,21 @@ export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [hasUpdates, setHasUpdates] = useState<boolean>(false)
+  const checkUpdates = async () => {
+    if (process.env.NODE_ENV !== 'production') return
+    try {
+      const data = await checkForUpdateAsync()
+      if (data.isAvailable) {
+        setHasUpdates(true)
+      }
+    } catch (e) {
+      console.error('Error happened at check updates', e)
+      Sentry.captureException(e)
+    }
+  }
   const refresh = async () => {
     setRefreshing(true)
+    checkUpdates()
     try {
       const data = await User.getSelf()
       setUser(data.user)
@@ -70,18 +83,6 @@ export default function NewProfileView({ navigation }) {
       }
     }
     setRefreshing(false)
-  }
-  const checkUpdates = async () => {
-    if (process.env.NODE_ENV !== 'production') return
-    try {
-      const data = await checkForUpdateAsync()
-      if (data.isAvailable) {
-        setHasUpdates(true)
-      }
-    } catch (e) {
-      console.error('Error happened at check updates', e)
-      Sentry.captureException(e)
-    }
   }
   const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const canStartTrial = user.subscription_status === null
