@@ -28,6 +28,10 @@
       "bundleIdentifier": "com.borsch.cook",
       "buildNumber": "1.0.1"
     },
+    "android": {
+      "package": "com.borsch.cook",
+      "versionCode": 1
+    },
     "notification": {
       "iosDisplayInForeground": true
     },
