@@ -54,6 +54,17 @@ export default function LastOrdersView({ navigation }) {
           }}
         >
           <View>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  letterSpacing: 1,
+                  textTransform: 'uppercase',
+                }}
+              >
+                {item.slug}
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',

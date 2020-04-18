@@ -89,6 +89,17 @@ export default function OrdersView({ navigation }) {
           }}
         >
           <View>
+            <View>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  letterSpacing: 1,
+                  textTransform: 'uppercase',
+                }}
+              >
+                {item.slug}
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
