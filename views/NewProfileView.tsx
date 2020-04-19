@@ -3,7 +3,7 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  ScrollView,
+  ScrollView, StatusBar,
   Text,
   View
 } from "react-native";
@@ -99,6 +99,7 @@ export default function NewProfileView({ navigation }) {
       )}
       style={{ flex: 1, backgroundColor: Styleguide.primaryBackgroundColor }}
     >
+      <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
       {
         !user.on_duty ? <AlertMessage text="Внимание! Ваш аккаунт неактивен" /> : null
       }
