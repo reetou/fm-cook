@@ -30,7 +30,10 @@
     },
     "android": {
       "package": "com.borsch.cook",
-      "versionCode": 1
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#333333"
+      }
     },
     "notification": {
       "iosDisplayInForeground": true
