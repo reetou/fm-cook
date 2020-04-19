@@ -1,5 +1,5 @@
 import { StatusBarStyle } from "react-native";
-import { TABS } from "./utils";
+import { StatusColorType, TABS } from "./utils";
 
 class Styleguide {
   public tintColor: string;
@@ -49,6 +49,19 @@ class Styleguide {
         return darkTheme ? 'light-content' : 'dark-content'
       default:
         return 'default'
+    }
+  }
+
+  getColorByType(type: StatusColorType) {
+    switch (type) {
+      case "danger":
+        return this.sectionDangerStatusColor
+      case "warning":
+        return this.sectionWarningStatusColor
+      case 'info':
+        return this.buttonBackgroundColor
+      default:
+        return this.sectionSuccessStatusColor
     }
   }
 }

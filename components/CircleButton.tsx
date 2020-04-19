@@ -1,6 +1,7 @@
-import React, { ReactChildren, ReactNode } from 'react'
-import { Text, TouchableOpacity, View } from "react-native";
-import { getColor, StatusColorType } from "../utils";
+import React, { ReactNode } from 'react'
+import { TouchableOpacity } from "react-native";
+import { StatusColorType } from "../utils";
+import Styleguide from "../Styleguide";
 
 interface Props {
   type: StatusColorType;
@@ -18,7 +19,7 @@ export default function CircleButton(props: Props) {
         borderRadius: 30,
         height: props.size || 36,
         width: props.size || 36,
-        backgroundColor: getColor(props.type),
+        backgroundColor: Styleguide.getColorByType(props.type),
         justifyContent: 'center',
         alignItems: 'center',
         margin: props.margin || 0

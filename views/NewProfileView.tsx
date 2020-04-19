@@ -4,7 +4,7 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  Text, TouchableOpacity,
+  Text,
   View
 } from "react-native";
 import Styleguide from "../Styleguide";

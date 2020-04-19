@@ -1,4 +1,12 @@
-import { Alert, AsyncStorage, RefreshControl, ScrollView, StatusBar, View } from "react-native";
+import {
+  Alert,
+  AsyncStorage,
+  RefreshControl,
+  ScrollView,
+  StatusBar,
+  View,
+  Text
+} from "react-native";
 import Styleguide from "../Styleguide";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES, getErrorDetail,
@@ -14,6 +22,7 @@ import UserContext from "../store/UserContext";
 import User from "../api/User";
 import Subscription from "../api/Subscription";
 import * as Sentry from "sentry-expo";
+import BottomSheet from 'reanimated-bottom-sheet'
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -68,6 +77,21 @@ export default function ProfileView({ navigation }) {
       style={{ flex: 1, backgroundColor: Styleguide.primaryBackgroundColor }}
     >
       <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
+      <View>
+        <BottomSheet
+          snapPoints={[450, 300, 0]}
+          renderContent={() => (
+            <View>
+              <Text>Header</Text>
+            </View>
+          )}
+          renderHeader={() => (
+            <View>
+              <Text>Shit</Text>
+            </View>
+          )}
+        />
+      </View>
       <View style={{ alignItems: 'center' }}>
         <Avatar
           style={{

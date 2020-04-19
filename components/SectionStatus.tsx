@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View } from "react-native";
-import { getColor, StatusColorType } from "../utils";
+import { StatusColorType } from "../utils";
+import Styleguide from "../Styleguide";
 
 interface Props {
   text: string;
@@ -15,7 +16,7 @@ export default function SectionStatus(props: Props) {
       <View
         style={{
           width,
-          backgroundColor: getColor(props.type),
+          backgroundColor: Styleguide.getColorByType(props.type),
           position: 'absolute',
           top: 0,
           left: 0,
@@ -29,7 +30,7 @@ export default function SectionStatus(props: Props) {
         adjustsFontSizeToFit
         style={{
           fontSize: 24,
-          color: getColor(props.type),
+          color: Styleguide.getColorByType(props.type),
           textTransform: 'uppercase',
           paddingVertical: 4,
           paddingHorizontal: 8,

@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { List, ListItem, Button, ButtonGroup, useTheme } from "@ui-kitten/components";
+import React, { useContext, useEffect } from 'react'
+import { List, ListItem, ButtonGroup, useTheme } from "@ui-kitten/components";
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import UserContext from "../store/UserContext";
 import { productItemDescription, PRODUCTS_SCREENS } from "../utils";
-import { Meal } from "../types/Meal";
 import { Ionicons } from '@expo/vector-icons';
 import Styleguide from "../Styleguide";
 import AddLunchContext from "../store/AddLunchContext";

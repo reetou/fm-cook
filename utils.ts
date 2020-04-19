@@ -3,7 +3,6 @@ import { Meal } from "./types/Meal";
 import { formatToTimeZone } from "date-fns-timezone";
 import * as Localization from "expo-localization";
 import { User } from "./types/User";
-import Styleguide from "./Styleguide";
 
 
 export const TABS = {
@@ -243,19 +242,6 @@ export function certificationStatusColorName({certified}: User) {
 }
 
 export type StatusColorType = 'danger' | 'warning' | 'success' | 'info'
-
-export function getColor(type: StatusColorType) {
-  switch (type) {
-    case "danger":
-      return Styleguide.sectionDangerStatusColor
-    case "warning":
-      return Styleguide.sectionWarningStatusColor
-    case 'info':
-      return Styleguide.buttonBackgroundColor
-    default:
-      return Styleguide.sectionSuccessStatusColor
-  }
-}
 
 export function getErrorDetail(e: any) {
   if (e.response && e.response.data && e.response.data.errors && e.response.data.errors.detail) {

@@ -1,7 +1,6 @@
-import { Alert, AsyncStorage, Text, TouchableOpacity, View } from "react-native";
+import { Alert, AsyncStorage, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
-import Styleguide from "../Styleguide";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Auth from "../api/Auth";
 import { SCREENS } from "../utils";
 import { CommonActions } from '@react-navigation/native';

@@ -17,7 +17,7 @@ export default function Button(props: any) {
       <Text
         style={{
           textTransform: 'uppercase',
-          fontWeight: "600",
+          fontWeight: '600',
           color: Styleguide.buttonTextColor
         }}
       >
