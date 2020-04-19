@@ -32,6 +32,7 @@ export default function SubscriptionSectionFooter(props: Props) {
           style={{
             fontSize: 15,
             fontWeight: "600",
+            textAlign: 'center',
             color: Styleguide.buttonTextColor
           }}
         >

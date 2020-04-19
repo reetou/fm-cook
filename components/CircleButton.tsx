@@ -9,6 +9,7 @@ interface Props {
   disabled?: boolean;
   size?: number;
   margin?: number;
+  style?: any;
 }
 
 export default function CircleButton(props: Props) {
@@ -22,7 +23,8 @@ export default function CircleButton(props: Props) {
         backgroundColor: Styleguide.getColorByType(props.type),
         justifyContent: 'center',
         alignItems: 'center',
-        margin: props.margin || 0
+        margin: props.margin || 0,
+        ...props.style,
       }}
     >
       {props.children}
