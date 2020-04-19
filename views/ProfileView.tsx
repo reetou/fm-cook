@@ -99,7 +99,7 @@ export default function ProfileView({ navigation }) {
             height: 160
           }}
           size="giant"
-          source={user.avatar_url ? { uri: user.avatar_url } : null}
+          source={user.avatar_url ? { uri: user.avatar_url } : DEFAULT_ICON}
           defaultSource={DEFAULT_ICON}
         />
       </View>

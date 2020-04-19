@@ -133,7 +133,7 @@ export default function EditProfileView({ navigation }) {
             size="giant"
             source={
               avatar || user ? (
-                user.avatar_url ? { uri: user.avatar_url } : null
+                user.avatar_url ? { uri: user.avatar_url } : DEFAULT_ICON
               ) : DEFAULT_ICON
             }
             defaultSource={DEFAULT_ICON}

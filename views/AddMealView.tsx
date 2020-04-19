@@ -106,7 +106,7 @@ export default function AddMealView({ route: { params }, navigation }) {
             size="giant"
             source={
               avatar || (
-                params.image_url ? { uri: params.image_url } : null
+                params.image_url ? { uri: params.image_url } : DEFAULT_ICON
               )
             }
             defaultSource={DEFAULT_ICON}

@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { RefreshControl, ScrollView } from "react-native";
+import { RefreshControl } from "react-native";
 import { List, ListItem, Text, Avatar } from "@ui-kitten/components";
 import UserContext from "../store/UserContext";
 import User from "../api/User";
 import { productItemDescription, PRODUCTS_SCREENS } from "../utils";
 import * as Sentry from "sentry-expo";
+
+const DEFAULT_ICON = require('../assets/icon.png')
 
 export default function ProductsListView({ navigation }) {
   const {
@@ -62,7 +64,7 @@ export default function ProductsListView({ navigation }) {
           icon={() => (
             <Avatar
               size="large"
-              source={item.image_url ? { uri: item.image_url } : null}
+              source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
             />
           )}
           description={productItemDescription(item)}
