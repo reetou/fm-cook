@@ -5,6 +5,7 @@ import { formatToTimeZone } from "date-fns-timezone";
 import * as Localization from "expo-localization";
 import NewOrderProductsRow from "./NewOrderProductsRow";
 import { getOrderTypeTitle } from "../utils";
+import { hexToRgb } from "../animatedUtils";
 
 interface Props {
   order: any;
@@ -13,6 +14,7 @@ interface Props {
 
 export default function OrderItem(props: Props) {
   const { order, onPress } = props
+  const rgb = hexToRgb(Styleguide.getColorByType('warning'))
   return (
     <View
       style={{
@@ -28,8 +30,8 @@ export default function OrderItem(props: Props) {
           height: 6,
         },
         shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
+        shadowRadius: 2.5,
+        elevation: 1.5,
       }}
     >
       <TouchableOpacity
@@ -56,7 +58,7 @@ export default function OrderItem(props: Props) {
             {formatToTimeZone(order.created_at, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
           </Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 6 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 6 }}>
           <Text
             style={{
               color: Styleguide.orderItemSlugColor,
@@ -69,6 +71,25 @@ export default function OrderItem(props: Props) {
           >
             {`${order.order_price} ₽`}
           </Text>
+          <View
+            style={{
+              borderRadius: 4,
+              backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`,
+            }}
+          >
+            <Text
+              adjustsFontSizeToFit
+              style={{
+                paddingVertical: 4,
+                paddingHorizontal: 8,
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: Styleguide.getColorByType('warning'),
+              }}
+            >
+              Часто отменяет заказы
+            </Text>
+          </View>
         </View>
         <NewOrderProductsRow {...order} />
         <View

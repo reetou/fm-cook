@@ -1,6 +1,5 @@
-import { FlatList, View, Text, TouchableOpacity, Image, ScrollView, RefreshControl } from "react-native";
+import { FlatList, View, Text, TouchableOpacity, Image, ScrollView, RefreshControl, Platform } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { Avatar, List, ListItem } from "@ui-kitten/components";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES,
   CHAT_DISABLED_ORDER_STATUSES,
@@ -155,7 +154,7 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
       <Section
         title={`Чат с клиентом ${newMessages ? `(${newMessages})` : ''}`}
         style={{
-          marginHorizontal: -10
+          marginHorizontal: Platform.OS === 'ios' ? -10 : 0
         }}
         rightSide={(
           <TouchableOpacity
