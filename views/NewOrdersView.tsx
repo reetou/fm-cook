@@ -45,11 +45,6 @@ export default function OrdersView({ navigation }) {
       onUpdateOrder(order)
     })
   }, [cookerChannel])
-  const refresh = async () => {
-    setRefreshing(true)
-    await getOrders()
-    setRefreshing(false)
-  }
   const getOrders = async () => {
     setRefreshing(true)
     try {
@@ -109,7 +104,7 @@ export default function OrdersView({ navigation }) {
         refreshControl={(
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={refresh}
+            onRefresh={getOrdersForTab}
           />
         )}
         data={orders}
