@@ -29,7 +29,7 @@ import ListItemButton from "../components/ListItemButton";
 import SubscriptionSectionFooter from "../components/SubscriptionSectionFooter";
 import DutyStatus from "../components/DutyStatus";
 import AlertMessage from "../components/AlertMessage";
-import { checkForUpdateAsync, fetchUpdateAsync, reloadAsync } from "expo-updates";
+import * as Updates from "expo-updates";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -39,7 +39,7 @@ export default function NewProfileView({ navigation }) {
   const checkUpdates = async () => {
     if (process.env.NODE_ENV !== 'production') return
     try {
-      const data = await checkForUpdateAsync()
+      const data = await Updates.checkForUpdateAsync()
       if (data.isAvailable) {
         setHasUpdates(true)
       }
@@ -265,9 +265,9 @@ export default function NewProfileView({ navigation }) {
                 onPress={async () => {
                   setUpdating(true)
                   try {
-                    const data = await fetchUpdateAsync()
+                    const data = await Updates.fetchUpdateAsync()
                     if (data.isNew) {
-                      await reloadAsync()
+                      await Updates.reloadAsync()
                     }
                   } catch (e) {
                     console.error('Could not fetch updates', e)
