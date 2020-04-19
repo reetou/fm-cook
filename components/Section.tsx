@@ -10,6 +10,7 @@ interface Props {
   rightSide?: ReactNode;
   footer?: ReactNode;
   statusWidth?: number;
+  style?: any;
 }
 
 export default function Section(props: Props) {
@@ -21,12 +22,13 @@ export default function Section(props: Props) {
         borderColor: Styleguide.sectionBorderColor,
         padding: 20,
         marginHorizontal: 8,
-        marginVertical: 10
+        marginVertical: 10,
+        ...props.style
       }}
     >
       <View style={{ padding: 12 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ width: '50%', paddingRight: 10 }}>
+          <View style={{ width: '60%', paddingRight: 10 }}>
             {
               typeof props.title === 'string'
                 ? (

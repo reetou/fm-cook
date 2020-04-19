@@ -41,7 +41,7 @@ class Styleguide {
     this.secondaryColor = '#595bd4'
     this.sectionBorderColor = '#e4e4e4'
     this.sectionWarningStatusColor = '#fa6400'
-    this.sectionDangerStatusColor = 'red'
+    this.sectionDangerStatusColor = '#ff0000'
     this.sectionSuccessStatusColor = '#04aa11'
     this.buttonBackgroundColor = '#0a84ff'
     this.buttonTextColor = '#ffffff'

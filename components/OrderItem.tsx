@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import Styleguide from "../Styleguide";
 import { formatToTimeZone } from "date-fns-timezone";
 import * as Localization from "expo-localization";
@@ -80,9 +80,12 @@ export default function OrderItem(props: Props) {
           }}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: 15, fontWeight: 'bold' }}>
-            {formatToTimeZone(order.created_at, 'HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image source={require('../assets/clock.png')} style={{ width: 16, height: 16, marginRight: 12 }} />
+            <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: 15, fontWeight: 'bold' }}>
+              {formatToTimeZone(order.created_at, 'HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
+            </Text>
+          </View>
           <View
             style={{
               borderRadius: 20,

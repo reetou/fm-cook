@@ -104,7 +104,7 @@ export default function OrdersView({ navigation }) {
               alignItems: 'center',
             }}
           >
-            <Text>Заказов пока нет</Text>
+            {refreshing ? <Text>Загрузка</Text> : <Text>Заказов пока нет</Text>}
           </View>
         )}
         ItemSeparatorComponent={() => (

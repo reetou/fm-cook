@@ -9,7 +9,7 @@ interface Props {
 
 export default function ListItemText(props: Props) {
   return (
-    <View>
+    <View style={{ marginVertical: 12 }}>
       <Text
         style={{
           fontSize: 24,

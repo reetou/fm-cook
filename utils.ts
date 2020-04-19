@@ -102,6 +102,29 @@ export const getOrderStatusTitle = (status: string) => {
   }
 }
 
+export const getOrderStatusActionTitle = (status: string) => {
+  switch (status) {
+    case 'cooking':
+      return 'Готовится'
+    case 'completed':
+      return 'Выполнить'
+    case 'rejected':
+      return 'Отклонить'
+    case 'canceled':
+      return 'Отменить'
+    case 'accepted':
+      return 'Принять'
+    case 'created':
+      return 'Создан'
+    case 'can_pickup':
+      return 'Можно забирать'
+    case 'delivering':
+      return 'Доставляется'
+    default:
+      return String(status)
+  }
+}
+
 export const getOrderTypeTitle = (type: string) => {
   switch (type) {
     case 'delivery':
@@ -152,6 +175,23 @@ export const getOrderStatusColor = (status: string) => {
       return 'purple'
     default:
       return 'black'
+  }
+}
+
+export const getOrderStatusColorType = (status: string): StatusColorType => {
+  switch (status) {
+    case 'rejected':
+    case 'canceled':
+      return 'danger'
+    case 'completed':
+      return 'success'
+    case 'cooking':
+    case 'can_pickup':
+    case 'delivering':
+    case 'accepted':
+    case 'created':
+    default:
+      return 'info'
   }
 }
 
