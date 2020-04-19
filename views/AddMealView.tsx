@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity, TouchableWithoutFeedback, Vibration,
@@ -90,140 +92,106 @@ export default function AddMealView({ route: { params }, navigation }) {
         paddingTop: 10,
       }}
     >
-      <View
-        style={{
-          alignItems: 'center',
-        }}
-      >
-        <TouchableWithoutFeedback
-          onPress={pickAvatar}
-        >
-          <Avatar
-            style={{
-              width: 160,
-              height: 160
-            }}
-            size="giant"
-            source={
-              avatar || (
-                params.image_url ? { uri: params.image_url } : DEFAULT_ICON
-              )
-            }
-            defaultSource={DEFAULT_ICON}
-          />
-        </TouchableWithoutFeedback>
-      </View>
-      <Input
-        label="Название"
-        placeholder="Выберите красивое имя"
-        value={name}
-        editable={!loading}
-        onChangeText={setName}
-        maxLength={128}
-      />
-      <Input
-        label="Цена"
-        placeholder="В рублях"
-        value={price}
-        editable={!loading}
-        keyboardType="number-pad"
-        onChangeText={setPrice}
-        maxLength={128}
-      />
-      <Input
-        label="Вес в граммах (необязательно)"
-        value={weight}
-        editable={!loading}
-        keyboardType="number-pad"
-        onChangeText={setWeight}
-        maxLength={128}
-      />
-      <Input
-        label="Калории (необязательно)"
-        value={calories}
-        editable={!loading}
-        keyboardType="number-pad"
-        onChangeText={setCalories}
-        maxLength={128}
-      />
-      <View
-        style={{
-          marginTop: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <Text style={{ width: '30%' }}>Порций: </Text>
-        <RNPickerSelect
-          ref={ref}
-          disabled={loading}
-          touchableWrapperProps={{
-            style: {
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            },
-          }}
-          textInputProps={{
-            style: {
-              width: 60,
-              paddingVertical: 10,
-              textAlign: 'center',
-              backgroundColor: Number(portions) === 0 ? Styleguide.primaryColor : Styleguide.secondaryColor,
-              color: Styleguide.primaryBackgroundColor,
-              borderRadius: 20
-            },
-          }}
-          placeholder={{}}
-          value={portions}
-          onValueChange={(value) => {
-            setPortions(value)
-          }}
-          items={
-            new Array(49)
-              .fill(0)
-              .map((_, i) => ({
-                value: i,
-                label: String(i)
-              }))
-          }
-        />
-      </View>
-      <View style={{ alignItems: 'flex-start' }}>
-        <Toggle
-          disabled={loading}
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'padding'}>
+        <View
           style={{
-            marginTop: 10,
+            alignItems: 'center',
           }}
-          checked={available}
-          onChange={setAvailable}
-          text="Доступно для заказа"
-          status="success"
-        />
-      </View>
-      <View style={{ marginBottom: 30 }}>
-        <TouchableOpacity
-          disabled={loading}
-          style={{
-            marginTop: 30,
-            paddingVertical: 12,
-            marginHorizontal: 20,
-            backgroundColor: loading ? Styleguide.tintColor : Styleguide.primaryColor,
-            borderRadius: 20,
-          }}
-          onPress={submit}
         >
-          <Text
-            style={{
-              textAlign: 'center',
-              color: Styleguide.primaryBackgroundColor,
-            }}
+          <TouchableWithoutFeedback
+            onPress={pickAvatar}
           >
-            { params.id ? 'Обновить' : 'Сохранить' }
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Avatar
+              style={{
+                width: 160,
+                height: 160
+              }}
+              size="giant"
+              source={
+                avatar || (
+                  params.image_url ? { uri: params.image_url } : DEFAULT_ICON
+                )
+              }
+              defaultSource={DEFAULT_ICON}
+            />
+          </TouchableWithoutFeedback>
+        </View>
+        <Input
+          label="Название"
+          placeholder="Выберите красивое имя"
+          value={name}
+          editable={!loading}
+          onChangeText={setName}
+          maxLength={128}
+        />
+        <Input
+          label="Цена"
+          placeholder="В рублях"
+          value={price}
+          editable={!loading}
+          keyboardType="number-pad"
+          onChangeText={setPrice}
+          maxLength={128}
+        />
+        <Input
+          label="Вес в граммах (необязательно)"
+          value={weight}
+          editable={!loading}
+          keyboardType="number-pad"
+          onChangeText={setWeight}
+          maxLength={128}
+        />
+        <Input
+          label="Калории (необязательно)"
+          value={calories}
+          editable={!loading}
+          keyboardType="number-pad"
+          onChangeText={setCalories}
+          maxLength={128}
+        />
+        <Input
+          label="Порций"
+          value={String(portions)}
+          editable={!loading}
+          keyboardType="number-pad"
+          onChangeText={(v) => setPortions(Number(v))}
+          maxLength={128}
+        />
+        <View style={{ alignItems: 'flex-start' }}>
+          <Toggle
+            disabled={loading}
+            style={{
+              marginTop: 10,
+            }}
+            checked={available}
+            onChange={setAvailable}
+            text="Доступно для заказа"
+            status="success"
+          />
+        </View>
+        <View style={{ marginBottom: 30 }}>
+          <TouchableOpacity
+            disabled={loading}
+            style={{
+              marginTop: 30,
+              paddingVertical: 12,
+              marginHorizontal: 20,
+              backgroundColor: loading ? Styleguide.tintColor : Styleguide.primaryColor,
+              borderRadius: 20,
+            }}
+            onPress={submit}
+          >
+            <Text
+              style={{
+                textAlign: 'center',
+                color: Styleguide.primaryBackgroundColor,
+              }}
+            >
+              { params.id ? 'Обновить' : 'Сохранить' }
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </ScrollView>
   )
 }
