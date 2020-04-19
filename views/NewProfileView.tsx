@@ -50,7 +50,6 @@ export default function NewProfileView({ navigation }) {
   }
   const refresh = async () => {
     setRefreshing(true)
-    checkUpdates()
     try {
       const data = await User.getSelf()
       setUser(data.user)
