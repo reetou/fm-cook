@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { StatusColorType } from "../utils";
 import Styleguide from "../Styleguide";
 
@@ -29,7 +29,7 @@ export default function SectionStatus(props: Props) {
         numberOfLines={1}
         adjustsFontSizeToFit
         style={{
-          fontSize: 24,
+          fontSize: Platform.OS === 'ios' ? 24 : 12,
           color: Styleguide.getColorByType(props.type),
           textTransform: 'uppercase',
           paddingVertical: 4,

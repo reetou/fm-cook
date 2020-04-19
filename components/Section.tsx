@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import Styleguide from "../Styleguide";
 import SectionStatus from "./SectionStatus";
 
@@ -33,7 +33,10 @@ export default function Section(props: Props) {
                   <Text
                     adjustsFontSizeToFit
                     numberOfLines={1}
-                    style={{ fontSize: 24, letterSpacing: 0.2, marginBottom: 5 }}
+                    style={{
+                      fontSize: Platform.OS === 'ios' ? 24 : 14,
+                      letterSpacing: 0.2,
+                      marginBottom: 5 }}
                   >
                     {props.title}
                   </Text>
