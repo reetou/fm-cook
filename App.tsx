@@ -103,7 +103,7 @@ export default function App() {
     return <AppLoading />
   }
   return (
-    <ApplicationProvider  mapping={mapping} theme={theme}>
+    <ApplicationProvider mapping={mapping} theme={theme}>
       <UserContext.Provider
         value={{
           user,

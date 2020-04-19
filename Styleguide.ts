@@ -20,6 +20,19 @@ class Styleguide {
   public dutyStatusNotActiveTintColor: string;
   public tabActiveColor: string;
   public tabColor: string;
+  public segmentedTabBgColor: string;
+  public segmentedTabContainerBgColor: string;
+  public segmentedTabTextColor: string;
+  public segmentedActiveTabTextColor: string;
+
+  public orderItemSlugColor: string;
+  public orderItemDateColor: string;
+  public orderItemPriceColor: string;
+  public orderItemBorderColor: string;
+  public orderItemBottomSectionTextColor: string;
+  public orderItemOrderTypeTabBgColor: string;
+
+  public listItemTextColor: string;
 
   constructor() {
     this.primaryBackgroundColor = 'white'
@@ -40,6 +53,19 @@ class Styleguide {
     this.dutyStatusNotActiveTintColor = 'rgba(185,185,185, 0.28)'
     this.tabActiveColor = '#0a84ff'
     this.tabColor = '#000000'
+    this.segmentedTabBgColor = '#e9e9e9'
+    this.segmentedTabContainerBgColor = '#e9e9e9'
+    this.segmentedTabTextColor = '#000000'
+    this.segmentedActiveTabTextColor = '#ffffff'
+
+    this.orderItemSlugColor = '#6d7278'
+    this.orderItemDateColor = '#000000'
+    this.orderItemPriceColor = '#000000'
+    this.orderItemBorderColor = '#f4f4f4'
+    this.orderItemBottomSectionTextColor = this.secondaryColor
+    this.orderItemOrderTypeTabBgColor = '#f7f7f7'
+
+    this.listItemTextColor = '#6d7278'
   }
 
   statusBarContentColor(view, darkTheme = false): StatusBarStyle {
