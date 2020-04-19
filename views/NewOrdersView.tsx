@@ -51,20 +51,41 @@ export default function OrdersView({ navigation }) {
     setRefreshing(false)
   }
   const getOrders = async () => {
+    setRefreshing(true)
     try {
-      const { orders } = await Orders.getAll()
-      setOrders(orders)
+      const data = await Orders.getAll()
+      setOrders(data.orders)
     } catch (e) {
       Sentry.captureException(e)
       console.error('Cannot get orders', e)
     }
+    setRefreshing(false)
+  }
+  const getLastOrders = async () => {
+    setRefreshing(true)
+    try {
+      const data = await Orders.lastOrders()
+      setOrders(data.orders)
+    } catch (e) {
+      Sentry.captureException(e)
+      console.error('Cannot get last orders', e)
+    }
+    setRefreshing(false)
   }
   const showOrderDetails = (order: any) => {
     navigation.navigate(ORDERS_SCREENS.DETAILS, order)
   }
+  const getOrdersForTab = () => {
+    if (selectedIndex === 0) {
+      getOrders()
+    } else {
+      getLastOrders()
+    }
+  }
   useEffect(() => {
-    getOrders()
-  }, [])
+    setOrders([])
+    getOrdersForTab()
+  }, [selectedIndex])
   return (
     <View
       style={{
