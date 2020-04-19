@@ -1,4 +1,4 @@
-import { Alert, AsyncStorage, Text, TouchableOpacity, View } from "react-native";
+import { Alert, AsyncStorage, Platform, Text, TouchableOpacity, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Styleguide from "../Styleguide";
 import React, { useState } from "react";
@@ -58,8 +58,10 @@ export default function PhoneView({ navigation }) {
           },
           letterSpacing: 3,
           fontSize: 26,
-          textShadowColor: '#000',
-          textShadowRadius: 30,
+          ...Platform.OS === 'ios' ? {
+            textShadowColor: '#000',
+            textShadowRadius: 30,
+          } : {},
         }}
         value={phone}
         onChangeText={text => {
