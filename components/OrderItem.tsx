@@ -4,9 +4,10 @@ import Styleguide from "../Styleguide";
 import { formatToTimeZone } from "date-fns-timezone";
 import * as Localization from "expo-localization";
 import NewOrderProductsRow from "./NewOrderProductsRow";
-import { getOrderTypeTitle } from "../utils";
+import { getOrderStatusColorType, getOrderStatusTitle, getOrderTypeTitle } from "../utils";
 import { hexToRgb } from "../animatedUtils";
 import TouchableScale from 'react-native-touchable-scale';
+import SectionStatus from "./SectionStatus";
 
 interface Props {
   order: any;
@@ -49,13 +50,7 @@ export default function OrderItem(props: Props) {
         >
           Заказ {order.slug}
         </Text>
-        <Text
-          style={{ color: Styleguide.orderItemDateColor, fontSize: 15, width: '30%' }}
-          adjustsFontSizeToFit
-          numberOfLines={1}
-        >
-          {formatToTimeZone(order.created_at, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
-        </Text>
+        <SectionStatus text={getOrderStatusTitle(order.status)} type={getOrderStatusColorType(order.status)} />
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 6 }}>
         <Text
@@ -109,7 +104,7 @@ export default function OrderItem(props: Props) {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Image source={require('../assets/clock.png')} style={{ width: 16, height: 16, marginRight: 12 }} />
           <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: 15, fontWeight: 'bold' }}>
-            {formatToTimeZone(order.created_at, 'HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
+            {formatToTimeZone(order.created_at, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
           </Text>
         </View>
         <View
