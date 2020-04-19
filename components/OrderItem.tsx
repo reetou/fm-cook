@@ -70,25 +70,31 @@ export default function OrderItem(props: Props) {
         >
           {`${order.order_price} ₽`}
         </Text>
-        <View
-          style={{
-            borderRadius: 4,
-            backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`,
-          }}
-        >
-          <Text
-            adjustsFontSizeToFit
-            style={{
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-              textAlign: 'center',
-              fontWeight: 'bold',
-              color: Styleguide.getColorByType('warning'),
-            }}
-          >
-            Часто отменяет заказы
-          </Text>
-        </View>
+        {
+          order.cancel_history && order.cancel_history >= 5
+            ? (
+              <View
+                style={{
+                  borderRadius: 4,
+                  backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`,
+                }}
+              >
+                <Text
+                  adjustsFontSizeToFit
+                  style={{
+                    paddingVertical: 4,
+                    paddingHorizontal: 8,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    color: Styleguide.getColorByType('warning'),
+                  }}
+                >
+                  Часто отменяет заказы
+                </Text>
+              </View>
+            )
+            : null
+        }
       </View>
       <NewOrderProductsRow {...order} />
       <View
