@@ -276,18 +276,6 @@ export default function NewProfileView({ navigation }) {
               )
             },
             {
-              icon: require('../assets/containers.png'),
-              label: 'История заказов',
-              button: (
-                <ListItemButton
-                  onPress={() => {
-                    navigation.navigate(PROFILE_SCREENS.LAST_ORDERS)
-                  }}
-                  text="Перейти"
-                />
-              )
-            },
-            {
               icon: require('../assets/profile.png'),
               label: 'Доступно обновление',
               hide: !hasUpdates,
