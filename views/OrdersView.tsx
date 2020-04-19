@@ -1,7 +1,7 @@
 import { FlatList, RefreshControl, Text, TouchableHighlight, View } from "react-native";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Orders from "../api/Orders";
-import { Constants } from "expo-constants";
+import Constants from "expo-constants";
 import {
   getOrderCancelHistoryTitle,
   getOrderStatusColor,
