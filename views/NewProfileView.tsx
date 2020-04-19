@@ -3,7 +3,7 @@ import {
   FlatList,
   Image,
   RefreshControl,
-  ScrollView, StatusBar,
+  StatusBar,
   Text,
   View
 } from "react-native";
@@ -11,8 +11,7 @@ import Styleguide from "../Styleguide";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES, certificationStatusColorName, certificationStatusTitle, getErrorDetail,
   PROFILE_SCREENS,
-  SCREENS,
-  subscribeButtonTitle, subscriptionStatusColorName,
+  subscriptionStatusColorName,
   subscriptionStatusTitle,
   TABS
 } from "../utils";
