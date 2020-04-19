@@ -209,11 +209,10 @@ export function subscribeButtonTitle(status) {
 
 export function subscriptionStatusTitle({subscription_status, active_until, trial_end}: User) {
   switch (subscription_status) {
-    case null: return 'Доступен пробный период'
     case 'active': return `Активна до ${formatTimestamp(active_until)}`
     case 'trialing': return `Пробный период до ${formatTimestamp(trial_end)}`
     case 'unpaid': return 'Не оплачена'
-    default: return 'Не оформлена'
+    default: return 'Не активирована'
   }
 }
 
