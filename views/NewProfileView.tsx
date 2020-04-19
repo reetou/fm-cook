@@ -202,9 +202,6 @@ export default function NewProfileView({ navigation }) {
               <DutyStatus active={user.on_duty} />
             </View>
           )}
-          status={subscriptionStatusTitle(user)}
-          statusColor={subscriptionStatusColorName(user)}
-          statusWidth={180}
           rightSide={(
             <View>
               <CircleButton type="info" margin={-20}>
