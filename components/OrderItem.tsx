@@ -19,6 +19,8 @@ export default function OrderItem(props: Props) {
   const rgb = hexToRgb(Styleguide.getColorByType('warning'))
   return (
     <TouchableScale
+      pressInFriction={10}
+      pressOutFriction={10}
       onPress={onPress}
       style={{
         borderRadius: 16,
