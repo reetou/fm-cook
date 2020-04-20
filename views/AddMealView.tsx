@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Alert,
   KeyboardAvoidingView,
@@ -8,16 +8,17 @@ import {
   TouchableOpacity, TouchableWithoutFeedback, Vibration,
   View
 } from "react-native";
-import { Avatar, Input, Toggle } from "@ui-kitten/components";
+import { Avatar, Input, Toggle, useTheme } from "@ui-kitten/components";
 import Styleguide from "../Styleguide";
 import Meal from "../api/Meal";
 import { stringOrEmpty } from "../utils";
 import UserContext from "../store/UserContext";
-import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
+import ThemedTags from "../components/Tags/ThemedTags";
+import SwitchButton from "../components/SwitchButton";
+
 
 const DEFAULT_ICON = require('../assets/icon.png')
-
 
 export default function AddMealView({ route: { params }, navigation }) {
   const { setHasStaleData } = useContext(UserContext)
@@ -25,6 +26,8 @@ export default function AddMealView({ route: { params }, navigation }) {
   const [price, setPrice] = useState<string>(stringOrEmpty(params.price))
   const [weight, setWeight] = useState<string>(stringOrEmpty(params.weight))
   const [calories, setCalories] = useState<string>(stringOrEmpty(params.calories))
+  const [ingredients, setIngredients] = useState<any[]>(params.ingredients || [])
+  const [ingredientsValue, setIngredientsValue] = useState<string>('')
   const [available, setAvailable] = useState<boolean>(Boolean(params.available))
   const [portions, setPortions] = useState<number>(params.portions || 0)
   const [avatar, setAvatar] = useState<any>(null)
@@ -45,6 +48,7 @@ export default function AddMealView({ route: { params }, navigation }) {
         available: Boolean(available),
         ...weight ? { weight: Number(weight) } : {},
         ...calories ? { calories: Number(calories) } : {},
+        ingredients,
         portions: Number(portions),
       }
       if (params.id) {
@@ -58,6 +62,7 @@ export default function AddMealView({ route: { params }, navigation }) {
       setCalories(stringOrEmpty(meal.calories))
       setWeight(stringOrEmpty(meal.weight))
       setPrice(stringOrEmpty(meal.price))
+      setIngredients(meal.ingredients || [])
       setHasStaleData(true)
       Vibration.vibrate(300)
       navigation.popToTop()
@@ -84,7 +89,6 @@ export default function AddMealView({ route: { params }, navigation }) {
       setAvatar(pickerResult)
     }
   }
-  const ref = useRef()
   return (
     <ScrollView
       style={{
@@ -92,7 +96,7 @@ export default function AddMealView({ route: { params }, navigation }) {
         paddingTop: 10,
       }}
     >
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'padding'}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}>
         <View
           style={{
             alignItems: 'center',
@@ -149,6 +153,24 @@ export default function AddMealView({ route: { params }, navigation }) {
           onChangeText={setCalories}
           maxLength={128}
         />
+        <ThemedTags
+          tagsHeader="Ингредиенты"
+          label="Добавить ингредиент"
+          maxNumberOfTags={15}
+          initialText=""
+          textInputProps={{
+            placeholder: "Название...",
+          }}
+          createTagOnReturn
+          createTagOnString={[]}
+          initialTags={ingredients}
+          onChangeTags={(tags) => {
+            setIngredients(tags.filter(Boolean).map(v => v.toLowerCase()))
+          }}
+          onTagPress={(index, tagLabel, event, deleted) => {
+            // console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
+          }}
+        />
         <Input
           label="Порций"
           value={String(portions)}
@@ -157,16 +179,12 @@ export default function AddMealView({ route: { params }, navigation }) {
           onChangeText={(v) => setPortions(Number(v))}
           maxLength={128}
         />
-        <View style={{ alignItems: 'flex-start' }}>
-          <Toggle
+        <View style={{ alignItems: 'flex-start', marginTop: 20 }}>
+          <SwitchButton
             disabled={loading}
-            style={{
-              marginTop: 10,
-            }}
-            checked={available}
-            onChange={setAvailable}
-            text="Доступно для заказа"
-            status="success"
+            value={available}
+            onValueChange={setAvailable}
+            label="Принимаю заказы"
           />
         </View>
         <View style={{ marginBottom: 30 }}>

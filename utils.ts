@@ -195,6 +195,26 @@ export const getOrderStatusColorType = (status: string): StatusColorType => {
   }
 }
 
+export function formatThemeStyles(styles: any, componentName: string) {
+  return Object
+    .keys(styles)
+    .filter(k => k.toLowerCase().includes(componentName))
+    .map(k => {
+      const withoutName = k.slice(componentName.length)
+      const key = withoutName.slice(0, 1).toLowerCase() + withoutName.slice(1)
+      const data = {
+        [key]: styles[k]
+      }
+      return data
+    })
+    .reduce((prev, cur) => {
+      return {
+        ...prev,
+        ...cur
+      }
+    }, {})
+}
+
 export const formatGiftedUser = (user) => ({
   ...user,
   _id: user.id,
