@@ -1,8 +1,18 @@
-import { FlatList, View, Text, TouchableOpacity, Image, ScrollView, RefreshControl, Platform } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  RefreshControl,
+  Platform,
+  Alert, ActionSheetIOS
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES,
-  CHAT_DISABLED_ORDER_STATUSES,
+  CHAT_DISABLED_ORDER_STATUSES, getErrorDetail,
   getNextOrderStatus, getOrderStatusActionTitle,
   getOrderStatusColor, getOrderStatusColorType,
   getOrderStatusTitle, getOrderTypeTitle, INACTIVE_ORDER_STATUSES,
@@ -39,6 +49,7 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
     } catch (e) {
       Sentry.captureException(e)
       console.error('Cannot update order', e)
+      Alert.alert('Ошибка', getErrorDetail(e))
     }
     setLoading(false)
   }
@@ -71,8 +82,39 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
       title: order.slug.slice(0, 1).toUpperCase() + order.slug.slice(1)
     })
   }, [])
+  const confirmReject = () => {
+    const triggerAction = () => onUpdateOrder('rejected')
+    const title = 'Вы уверены?'
+    const message = 'Частые отказы от заказов могут привести к отключению от платформы'
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          title,
+          message,
+          options: ['Отмена', 'Подтвердить'],
+          destructiveButtonIndex: 1,
+          cancelButtonIndex: 0,
+        },
+        buttonIndex => {
+          if (buttonIndex === 1) {
+            /* destructive action */
+            triggerAction()
+          }
+        }
+      )
+    } else {
+      Alert.alert(
+        title,
+        message,
+        [
+          { text: 'Назад', onPress: () => {} },
+          { text: 'Подтвердить', onPress: triggerAction },
+        ],
+        { cancelable: true }
+      )
+    }
+  }
   if (!order) return null
-  const chatDisabled = loading || CHAT_DISABLED_ORDER_STATUSES.includes(order.status) || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const orderInactive = INACTIVE_ORDER_STATUSES.includes(order.status)
   return (
     <ScrollView
@@ -158,7 +200,6 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
         }}
         rightSide={(
           <TouchableOpacity
-            disabled={chatDisabled}
             onPress={() => {
               navigation.navigate(ORDERS_SCREENS.CHAT, {
                 order_id: order.order_id
@@ -187,7 +228,7 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
               <ActionButton
                 color="warning"
                 text="Отклонить"
-                onPress={() => onUpdateOrder('rejected')}
+                onPress={confirmReject}
                 disabled={loading || !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
               />
               <ActionButton
