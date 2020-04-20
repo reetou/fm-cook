@@ -27,7 +27,7 @@ export default function AddMealView({ route: { params }, navigation }) {
   const [weight, setWeight] = useState<string>(stringOrEmpty(params.weight))
   const [calories, setCalories] = useState<string>(stringOrEmpty(params.calories))
   const [ingredients, setIngredients] = useState<any[]>(params.ingredients || [])
-  const [ingredientsValue, setIngredientsValue] = useState<string>('')
+  const [description, setDescription] = useState<string>(stringOrEmpty(params.description))
   const [available, setAvailable] = useState<boolean>(Boolean(params.available))
   const [portions, setPortions] = useState<number>(params.portions || 0)
   const [avatar, setAvatar] = useState<any>(null)
@@ -48,6 +48,7 @@ export default function AddMealView({ route: { params }, navigation }) {
         available: Boolean(available),
         ...weight ? { weight: Number(weight) } : {},
         ...calories ? { calories: Number(calories) } : {},
+        description,
         ingredients,
         portions: Number(portions),
       }
@@ -63,6 +64,7 @@ export default function AddMealView({ route: { params }, navigation }) {
       setWeight(stringOrEmpty(meal.weight))
       setPrice(stringOrEmpty(meal.price))
       setIngredients(meal.ingredients || [])
+      setDescription(stringOrEmpty(meal.description))
       setHasStaleData(true)
       Vibration.vibrate(300)
       navigation.popToTop()
@@ -126,7 +128,15 @@ export default function AddMealView({ route: { params }, navigation }) {
           value={name}
           editable={!loading}
           onChangeText={setName}
-          maxLength={128}
+          maxLength={48}
+        />
+        <Input
+          label="Описание"
+          value={description}
+          multiline
+          editable={!loading}
+          onChangeText={setDescription}
+          maxLength={256}
         />
         <Input
           label="Цена"
