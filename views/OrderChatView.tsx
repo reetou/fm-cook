@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import Orders from "../api/Orders";
-import { formatGiftedMessage, formatGiftedUser } from "../utils";
+import {
+  CHAT_DISABLED_ORDER_STATUSES,
+  formatGiftedMessage,
+  formatGiftedUser, getErrorDetail
+} from "../utils";
 import * as Sentry from "sentry-expo";
+import { Alert } from "react-native";
 
 export default function OrderChatView({ route: { params } }) {
   const [messages, setMessages] = useState<any[]>([])
@@ -21,20 +26,29 @@ export default function OrderChatView({ route: { params } }) {
       console.error('Cannot get chat info', e)
     }
   }
+  const sendMessage = async (sentMessages) => {
+    try {
+      const msg = sentMessages[0]
+      setMessages([msg, ...messages])
+      await Orders.sendMessage(order.order_id, msg.text)
+    } catch (e) {
+      Sentry.captureException(e)
+      Alert.alert('Ошибка', getErrorDetail(e))
+    }
+  }
   useEffect(() => {
     getChatData()
   }, [])
   const user = cooker ? formatGiftedUser(cooker) : {_id: 1}
+  const chatDisabled = order ? CHAT_DISABLED_ORDER_STATUSES.includes(order.status) : true
   return (
     <GiftedChat
       messages={messages}
       placeholder="Ваше сообщение..."
-      onSend={sentMessages => {
-        const msg = sentMessages[0]
-        setMessages([msg, ...messages])
-        Orders.sendMessage(order.order_id, msg.text)
-      }}
+      maxInputLength={256}
+      onSend={sendMessage}
       user={user}
+      {...chatDisabled ? { renderInputToolbar: () => null } : {}}
     />
   )
 }
