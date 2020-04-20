@@ -1,12 +1,9 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
 import { ORDERS_SCREENS, PROFILE_SCREENS } from "../utils";
-import ProfileView from "../views/ProfileView";
 import SupportChatView from "../views/SupportChatView";
 import EditProfileView from "../views/EditProfileView";
 import AddAddressView from "../views/AddAddressView";
-import BuyContainersView from "../views/BuyContainersView";
-import LastOrdersView from "../views/LastOrdersView";
 import OrderDetailsView from "../views/OrderDetailsView";
 import YandexCheckoutView from "../views/YandexCheckoutView";
 import TildaShopView from "../views/TildaShopView";
@@ -63,20 +60,6 @@ export default function Profile() {
         component={AddAddressView}
         options={{
           title: 'Адрес'
-        }}
-      />
-      <Stack.Screen
-        name={PROFILE_SCREENS.BUY_CONTAINERS}
-        component={BuyContainersView}
-        options={{
-          title: 'Контейнеры'
-        }}
-      />
-      <Stack.Screen
-        name={PROFILE_SCREENS.LAST_ORDERS}
-        component={LastOrdersView}
-        options={{
-          title: 'История заказов'
         }}
       />
       <Stack.Screen
