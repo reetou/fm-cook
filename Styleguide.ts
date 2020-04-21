@@ -36,7 +36,7 @@ class Styleguide {
   public listItemTextColor: string;
 
   constructor() {
-    this.primaryBackgroundColor = 'white'
+    this.primaryBackgroundColor = '#ffffff'
     this.tintColor = '#a3aaae'
     this.primaryColor = '#ff5a5f'
     this.secondaryColor = '#595bd4'
