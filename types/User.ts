@@ -20,4 +20,5 @@ export interface User {
   subscription_status: string | null;
   active_until: number | null;
   trial_end: number | null;
+  certification_pending: boolean;
 }

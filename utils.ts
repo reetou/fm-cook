@@ -285,9 +285,12 @@ export function subscriptionStatusColorName({subscription_status}: User) {
   }
 }
 
-export function certificationStatusTitle({certified}: User) {
+export function certificationStatusTitle({certified, certification_pending}: User) {
   if (certified) {
     return 'Пройдена'
+  }
+  if (certification_pending) {
+    return 'На проверке'
   }
   return 'Не пройдена'
 }

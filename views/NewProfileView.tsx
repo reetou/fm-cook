@@ -33,6 +33,8 @@ import * as Updates from "expo-updates";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from 'react-native-reanimated'
 import SubscriptionFeatureSheet from "../components/SubscriptionFeatureSheet";
+import CertificationSheet from "../components/CertificationSheet";
+import Certification from "../api/Certification";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -88,14 +90,30 @@ export default function NewProfileView({ navigation }) {
     }
     setRefreshing(false)
   }
+  const sendCertificationRequest = async () => {
+    setRefreshing(true)
+    try {
+      await Certification.requestCertification()
+      await refresh()
+    } catch (e) {
+      Sentry.captureException(e)
+      Alert.alert('Ошибка', getErrorDetail(e))
+      if (!e.response) {
+        console.error('Cannot sendCertificationRequest', e)
+      }
+    }
+    setRefreshing(false)
+  }
   const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const canStartTrial = user.subscription_status === null
   const ref = useRef(null)
+  const certificationModalRef = useRef(null)
   useEffect(() => {
     checkUpdates()
   }, [])
   const subscriptionFeatureSheetHeight = 500
   const subscriptionButtonText = getSubscribeButtonText(user.subscription_status as any)
+  const certificationModalHeight = 450
   const handleSubscribe = () => {
     if (!user.subscription_status) {
       startTrial()
@@ -121,6 +139,21 @@ export default function NewProfileView({ navigation }) {
             buttonText={subscriptionButtonText}
             disabled={subscribeButtonDisabled}
             onPress={handleSubscribe}
+          />
+        )}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledInnerScrolling={false}
+      />
+      <BottomSheet
+        ref={certificationModalRef}
+        snapPoints={[certificationModalHeight, 0]}
+        borderRadius={12}
+        renderContent={() => (
+          <CertificationSheet
+            disabled={refreshing}
+            onPress={sendCertificationRequest}
+            height={certificationModalHeight}
           />
         )}
         initialSnap={1}
@@ -192,6 +225,9 @@ export default function NewProfileView({ navigation }) {
                         )
                         : (
                           <Button
+                            onPress={() => {
+                              certificationModalRef.current.snapTo(0)
+                            }}
                             text="Пройти"
                           />
                         )

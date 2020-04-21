@@ -3,7 +3,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import Styleguide from "../Styleguide";
 import { Image, Text, View } from "react-native";
 
-export default function SubscriptionFeatureSection() {
+interface Props {
+  text: string;
+}
+
+export default function BorschSheetContentHeader(props: Props) {
   return (
     <LinearGradient
       colors={[Styleguide.secondaryColor, Styleguide.primaryColor]}
@@ -46,7 +50,7 @@ export default function SubscriptionFeatureSection() {
           fontSize: 17
         }}
       >
-        Полный доступ к аккаунту повара на 14 дней
+        {props.text}
       </Text>
     </LinearGradient>
   )

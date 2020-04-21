@@ -4,9 +4,9 @@ import {
 } from "react-native";
 import Styleguide from "../Styleguide";
 import React from "react";
-import SubscriptionFeatureSection from "./SubscriptionFeatureSection";
+import BorschSheetContentHeader from "./BorschSheetContentHeader";
 import SubscriptionFeatureAdvantages from "./SubscriptionFeatureAdvantages";
-import TouchableScale from 'react-native-touchable-scale';
+import ScaleButton from "./ScaleButton";
 
 interface Props {
   onPress: () => void;
@@ -27,33 +27,11 @@ export default function SubscriptionFeatureSheet(props: Props) {
         justifyContent: 'flex-end'
       }}
     >
-      <SubscriptionFeatureSection />
+      <BorschSheetContentHeader
+        text="Полный доступ к аккаунту повара на 14 дней"
+      />
       <SubscriptionFeatureAdvantages />
-      <TouchableScale
-        pressInFriction={10}
-        pressOutFriction={10}
-        onPress={props.onPress}
-        disabled={props.disabled}
-      >
-        <View
-          style={{
-            paddingVertical: 15,
-            backgroundColor: props.disabled ? Styleguide.disabledButtonBackgroundColor() : Styleguide.buttonBackgroundColor,
-            borderRadius: 14
-          }}
-        >
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 15,
-              fontWeight: '600',
-              color: props.disabled ? Styleguide.tintColor : Styleguide.buttonTextColor
-            }}
-          >
-            {props.buttonText}
-          </Text>
-        </View>
-      </TouchableScale>
+      <ScaleButton onPress={props.onPress} buttonText={props.buttonText} />
     </View>
   )
 }
