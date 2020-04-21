@@ -309,3 +309,15 @@ export function getErrorDetail(e: any) {
   if (e.message) return e.message
   return 'Неизвестная ошибка'
 }
+
+export function getSubscribeButtonText(subscription_status: null | 'inactive' | 'trialing' | 'active') {
+  switch (subscription_status) {
+    case 'active':
+    case 'trialing':
+      return 'Подписка активна'
+    case 'inactive':
+      return 'Продлить'
+    default:
+      return 'Попробовать бесплатно на 14 дней'
+  }
+}

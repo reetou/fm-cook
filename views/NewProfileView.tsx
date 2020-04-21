@@ -13,7 +13,8 @@ import {
   PROFILE_SCREENS,
   subscriptionStatusColorName,
   subscriptionStatusTitle,
-  TABS
+  TABS,
+  getSubscribeButtonText
 } from "../utils";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../store/UserContext";
@@ -94,7 +95,7 @@ export default function NewProfileView({ navigation }) {
     checkUpdates()
   }, [])
   const subscriptionFeatureSheetHeight = 500
-  const subscriptionButtonText = canStartTrial ? 'Попробовать бесплатно на 14 дней' : 'Продлить'
+  const subscriptionButtonText = getSubscribeButtonText(user.subscription_status as any)
   const handleSubscribe = () => {
     if (!user.subscription_status) {
       startTrial()
@@ -102,6 +103,7 @@ export default function NewProfileView({ navigation }) {
       navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
     }
   }
+  const subscribeButtonDisabled = refreshing || (user.subscription_status && user.subscription_status !== 'inactive')
   return (
     <View
       style={{
@@ -117,6 +119,7 @@ export default function NewProfileView({ navigation }) {
           <SubscriptionFeatureSheet
             height={subscriptionFeatureSheetHeight}
             buttonText={subscriptionButtonText}
+            disabled={subscribeButtonDisabled}
             onPress={handleSubscribe}
           />
         )}
@@ -125,105 +128,106 @@ export default function NewProfileView({ navigation }) {
         enabledInnerScrolling={false}
       />
       <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
-      <Animated.ScrollView
+      <Animated.View
         style={{
           opacity: Animated.add(0.1, Animated.multiply(fall, 1))
         }}
-        refreshControl={(
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refresh}
-          />
-        )}
       >
-        {
-          !user.on_duty ? <AlertMessage text="Внимание! Ваш аккаунт неактивен" /> : null
-        }
-        <Section
-          title="Статус подписки"
-          status={subscriptionStatusTitle(user)}
-          statusColor={subscriptionStatusColorName(user)}
-          statusWidth={180}
-          rightSide={(
-            <View>
-              <CircleButton type="info" margin={-20}>
-                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
-              </CircleButton>
-            </View>
-          )}
-          footer={(
-            canSubscribe
-              ? (
-                <SubscriptionSectionFooter
-                  onPress={() => {
-                    if (!ref && !ref.current) {
-                      return
-                    }
-                    ref.current.snapTo(0)
-                  }}
-                  text={subscriptionButtonText}
-                />
-              )
-              : null
-          )}
-        />
-        <Section
-          title="Сертификация"
-          status={certificationStatusTitle(user)}
-          statusColor={certificationStatusColorName(user)}
-          rightSide={(
-            <View style={{ justifyContent: 'center' }}>
-              {
-                user.certified
-                  ? (
-                    <CircleButton type="success" disabled margin={-20}>
-                      <Image
-                        source={require('../assets/success.png')}
-                        style={{
-                          width: 16,
-                          height: 16
-                        }}
-                      />
-                    </CircleButton>
-                  )
-                  : (
-                    <Button
-                      text="Пройти"
-                    />
-                  )
-              }
-            </View>
-          )}
-        />
-        <Section
-          title={(
-            <View style={{ flexDirection: 'row' }}>
-              <Text>Статус активности</Text>
-              <DutyStatus active={user.on_duty} />
-            </View>
-          )}
-          rightSide={(
-            <View>
-              <CircleButton type="info" margin={-20}>
-                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
-              </CircleButton>
-            </View>
-          )}
-          footer={(
-            <View style={{ marginTop: 20 }}>
-              <SwitchButton
-                disabled={refreshing}
-                value={refreshing ? !user.on_duty : user.on_duty}
-                onValueChange={v => {
-                  updateOnDuty(v)
-                }}
-                label="Принимаю заказы"
-              />
-            </View>
-          )}
-        />
         <FlatList
           keyExtractor={(item) => item.label}
+          refreshing={refreshing}
+          onRefresh={refresh}
+          ListHeaderComponent={() => (
+            <React.Fragment>
+              {
+                !user.on_duty ? <AlertMessage text="Внимание! Ваш аккаунт неактивен" /> : null
+              }
+              <Section
+                title="Статус подписки"
+                status={subscriptionStatusTitle(user)}
+                statusColor={subscriptionStatusColorName(user)}
+                statusWidth={180}
+                rightSide={(
+                  <View>
+                    <CircleButton type="info" margin={-20}>
+                      <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                    </CircleButton>
+                  </View>
+                )}
+                footer={(
+                  canSubscribe
+                    ? (
+                      <SubscriptionSectionFooter
+                        disabled={subscribeButtonDisabled}
+                        onPress={() => {
+                          if (!ref && !ref.current) {
+                            return
+                          }
+                          ref.current.snapTo(0)
+                        }}
+                        text={subscriptionButtonText}
+                      />
+                    )
+                    : null
+                )}
+              />
+              <Section
+                title="Сертификация"
+                status={certificationStatusTitle(user)}
+                statusColor={certificationStatusColorName(user)}
+                rightSide={(
+                  <View style={{ justifyContent: 'center' }}>
+                    {
+                      user.certified
+                        ? (
+                          <CircleButton type="success" disabled margin={-20}>
+                            <Image
+                              source={require('../assets/success.png')}
+                              style={{
+                                width: 16,
+                                height: 16
+                              }}
+                            />
+                          </CircleButton>
+                        )
+                        : (
+                          <Button
+                            text="Пройти"
+                          />
+                        )
+                    }
+                  </View>
+                )}
+              />
+              <Section
+                title={(
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text>Статус активности</Text>
+                    <DutyStatus active={user.on_duty} />
+                  </View>
+                )}
+                rightSide={(
+                  <View>
+                    <CircleButton type="info" margin={-20}>
+                      <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                    </CircleButton>
+                  </View>
+                )}
+                footer={(
+                  <View style={{ marginTop: 20 }}>
+                    <SwitchButton
+                      disabled={refreshing}
+                      value={refreshing ? !user.on_duty : user.on_duty}
+                      onValueChange={v => {
+                        updateOnDuty(v)
+                      }}
+                      label="Принимаю заказы"
+                    />
+                  </View>
+                )}
+              />
+            </React.Fragment>
+          )}
           data={[
             {
               icon: require('../assets/profile.png'),
@@ -359,7 +363,7 @@ export default function NewProfileView({ navigation }) {
             )
           }}
         />
-      </Animated.ScrollView>
+      </Animated.View>
     </View>
   )
 }

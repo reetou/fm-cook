@@ -1,5 +1,6 @@
 import { StatusBarStyle } from "react-native";
 import { StatusColorType, TABS } from "./utils";
+import { hexToRgb } from "./animatedUtils";
 
 class Styleguide {
   public tintColor: string;
@@ -89,6 +90,11 @@ class Styleguide {
       default:
         return this.sectionSuccessStatusColor
     }
+  }
+
+  disabledButtonBackgroundColor() {
+    const disabledRgb = hexToRgb(this.tintColor)
+    return `rgba(${disabledRgb.r}, ${disabledRgb.g}, ${disabledRgb.b}, 0.2)`
   }
 }
 
