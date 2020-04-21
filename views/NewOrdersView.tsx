@@ -71,6 +71,9 @@ export default function OrdersView({ navigation }) {
     navigation.navigate(ORDERS_SCREENS.DETAILS, order)
   }
   const getOrdersForTab = () => {
+    if (!user.certified) {
+      return
+    }
     if (selectedIndex === 0) {
       getOrders()
     } else {
