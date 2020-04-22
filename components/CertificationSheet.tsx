@@ -28,6 +28,7 @@ export default function CertificationSheet(props: Props) {
       completed: Boolean(user.address)
     },
   ]
+  const buttonDisabled = requirements.some(v => !v.completed) || props.disabled || user.certification_pending
   return (
     <View
       style={{
@@ -91,7 +92,7 @@ export default function CertificationSheet(props: Props) {
       </View>
       <ScaleButton
         onPress={props.onPress}
-        disabled={props.disabled || user.certification_pending}
+        disabled={buttonDisabled}
         buttonText={user.certification_pending ? 'Заявка в работе' : 'Оставить заявку'}
       />
     </View>

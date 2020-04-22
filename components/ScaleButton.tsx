@@ -1,5 +1,5 @@
 import TouchableScale from "react-native-touchable-scale";
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import Styleguide from "../Styleguide";
 import React from "react";
 
@@ -14,8 +14,17 @@ export default function ScaleButton(props: Props) {
     <TouchableScale
       pressInFriction={10}
       pressOutFriction={10}
-      onPress={props.onPress}
       disabled={props.disabled}
+      {...Platform.OS === 'android' ? {
+        // На андроиде почему-то внутри модалки чтобы кнопка нажалась нужно или зажать
+        // или добавить onPressIn
+        onPressIn: props.onPress,
+        useNativeDriver: false,
+        pressInTension: 5,
+        tension: 5
+      } : {
+        onPress: props.onPress
+      }}
     >
       <View
         style={{
