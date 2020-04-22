@@ -185,7 +185,7 @@ export default function AddMealView({ route: { params }, navigation }) {
             disabled={loading}
             value={available}
             onValueChange={setAvailable}
-            label="Принимаю заказы"
+            label="Доступно для заказа"
           />
         </View>
         <View style={{ marginBottom: 30 }}>
