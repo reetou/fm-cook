@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, Image, FlatList } from "react-native";
+import { uniqBy } from "lodash-es";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -11,7 +12,7 @@ export default function NewOrderProductsRow({ meals, lunches }: any) {
       }}
       horizontal
       keyExtractor={(item, index) => `${item.id}${index}`}
-      data={meals.concat(lunches)}
+      data={uniqBy(meals.concat(lunches), 'id')}
       renderItem={({ item }: any) => (
         <View>
           <Image

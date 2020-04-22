@@ -12,14 +12,13 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import {
   AVAILABLE_SUBSCRIPTION_STATUSES,
-  CHAT_DISABLED_ORDER_STATUSES, getErrorDetail,
+  getErrorDetail,
   getNextOrderStatus, getOrderStatusActionTitle,
-  getOrderStatusColor, getOrderStatusColorType,
-  getOrderStatusTitle, getOrderTypeTitle, INACTIVE_ORDER_STATUSES,
+  getOrderStatusColorType,
+  getOrderStatusTitle, getOrderTypeTitle, INACTIVE_ORDER_STATUSES, localizePortions,
   ORDERS_SCREENS
 } from "../utils";
 import Styleguide from "../Styleguide";
-import OrderStatusButton from "../components/OrderStatusButton";
 import Orders from "../api/Orders";
 import useChannel from "../hooks/useChannel";
 import UserContext from "../store/UserContext";
@@ -27,6 +26,7 @@ import * as Sentry from "sentry-expo";
 import ListItemText from "./ListItemText";
 import Section from "../components/Section";
 import ActionButton from "../components/ActionButton";
+import { size, uniqBy } from 'lodash-es'
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -159,31 +159,34 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
           marginVertical: 12,
           maxHeight: 150
         }}
-        data={order.meals.concat(order.lunches)}
+        data={uniqBy(order.meals.concat(order.lunches), 'id')}
         keyExtractor={(item: any, index) => `${item.id}${index}`}
         horizontal
-        renderItem={({item, index}) => (
-          <View>
-            <Image
-              source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
-              style={{
-                width: 140,
-                height: 90,
-                borderRadius: 12
-              }}
-            />
-            <View style={{ marginTop: 10 }}>
-              <Text adjustsFontSizeToFit style={{ fontSize: 13 }}>{item.name}</Text>
-              <Text
-                adjustsFontSizeToFit
-                style={{ fontSize: 13, fontWeight: 'bold', color: Styleguide.secondaryColor }}
-                numberOfLines={1}
-              >
-                1 порция
-              </Text>
+        renderItem={({item, index}) => {
+          const portions = size(order.meals.concat(order.lunches).filter(v => v.id === item.id))
+          return (
+            <View>
+              <Image
+                source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
+                style={{
+                  width: 140,
+                  height: 90,
+                  borderRadius: 12
+                }}
+              />
+              <View style={{ marginTop: 10 }}>
+                <Text adjustsFontSizeToFit style={{ fontSize: 13 }}>{item.name}</Text>
+                <Text
+                  adjustsFontSizeToFit
+                  style={{ fontSize: 13, fontWeight: 'bold', color: Styleguide.secondaryColor }}
+                  numberOfLines={1}
+                >
+                  {`${portions} ${localizePortions(portions)}`}
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
+          )
+        }}
         ItemSeparatorComponent={() => (
           <View
             style={{

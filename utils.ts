@@ -56,13 +56,23 @@ interface ProductItemDescriptionOptions {
   hidePortions?: boolean;
 }
 
+export function localizePlural(count: number, values: string[]) {
+  const last = String(count)[String(count).length - 1]
+  if (Number(last) === 1) return values[0]
+  if ([2, 3, 4].includes(Number(last))) return values[1]
+  return values[2]
+}
+
+export function localizePortions(portions: number) {
+  return localizePlural(portions, ['порция', 'порции', 'порций'])
+}
 
 export const productItemDescription = (item: Meal & Lunch, options: ProductItemDescriptionOptions = {}): string => {
   let description = ''
   if (item.meals) {
     description = `${item.price} руб.`
     if (!options.hideAvailable) {
-      description += `, ${item.available ? `${item.portions} порций` : 'порции закончились'}`
+      description += `, ${item.available ? `${item.portions} ${localizePortions(item.portions)}` : 'порции закончились'}`
     }
     if (!options.hideDiscount) {
       description += `, скидка ${item.discount_percent}%`
@@ -70,7 +80,7 @@ export const productItemDescription = (item: Meal & Lunch, options: ProductItemD
   } else {
     description = `${item.price} руб.`
     if (!options.hidePortions) {
-      description += `, ${item.portions} порций`
+      description += `, ${item.portions} ${localizePortions(item.portions)}`
     }
     if (!options.hideAvailable) {
       description += `, ${item.available ? 'доступно для заказа' : 'нельзя заказать'}`
