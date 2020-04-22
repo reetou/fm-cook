@@ -8,8 +8,7 @@ import Lunch from "../api/Lunch";
 import AddLunchContext from "../store/AddLunchContext";
 import * as ImagePicker from 'expo-image-picker';
 import * as Sentry from "sentry-expo";
-
-const DEFAULT_ICON = require('../assets/icon.png')
+import EditableAvatar from "../components/EditableAvatar";
 
 
 export default function AddLunchView({ route: { params }, navigation }) {
@@ -92,23 +91,15 @@ export default function AddLunchView({ route: { params }, navigation }) {
               alignItems: 'center',
             }}
           >
-            <TouchableWithoutFeedback
+            <EditableAvatar
               onPress={pickAvatar}
-            >
-              <Avatar
-                style={{
-                  width: 160,
-                  height: 160
-                }}
-                size="giant"
-                source={
-                  avatar || (
-                    params.image_url ? { uri: params.image_url } : DEFAULT_ICON
-                  )
-                }
-                defaultSource={DEFAULT_ICON}
-              />
-            </TouchableWithoutFeedback>
+              size={160}
+              source={
+                avatar || (
+                  params.image_url ? { uri: params.image_url } : null
+                )
+              }
+            />
           </View>
           <Input
             label="Название"

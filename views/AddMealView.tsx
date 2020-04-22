@@ -16,9 +16,8 @@ import UserContext from "../store/UserContext";
 import * as ImagePicker from 'expo-image-picker';
 import ThemedTags from "../components/Tags/ThemedTags";
 import SwitchButton from "../components/SwitchButton";
+import EditableAvatar from "../components/EditableAvatar";
 
-
-const DEFAULT_ICON = require('../assets/icon.png')
 
 export default function AddMealView({ route: { params }, navigation }) {
   const { setHasStaleData } = useContext(UserContext)
@@ -104,23 +103,15 @@ export default function AddMealView({ route: { params }, navigation }) {
             alignItems: 'center',
           }}
         >
-          <TouchableWithoutFeedback
+          <EditableAvatar
             onPress={pickAvatar}
-          >
-            <Avatar
-              style={{
-                width: 160,
-                height: 160
-              }}
-              size="giant"
-              source={
-                avatar || (
-                  params.image_url ? { uri: params.image_url } : DEFAULT_ICON
-                )
-              }
-              defaultSource={DEFAULT_ICON}
-            />
-          </TouchableWithoutFeedback>
+            size={160}
+            source={
+              avatar || (
+                params.image_url ? { uri: params.image_url } : null
+              )
+            }
+          />
         </View>
         <Input
           label="Название"
