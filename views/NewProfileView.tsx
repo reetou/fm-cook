@@ -72,6 +72,7 @@ export default function NewProfileView({ navigation }) {
       setUser(data.user)
     } catch (e) {
       Sentry.captureException(e)
+      Alert.alert('Ошибка', getErrorDetail(e))
       console.error('Cannot update on duty status', e)
     }
     setRefreshing(false)
