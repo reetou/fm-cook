@@ -62,7 +62,7 @@ export const productItemDescription = (item: Meal & Lunch, options: ProductItemD
   if (item.meals) {
     description = `${item.price} руб.`
     if (!options.hideAvailable) {
-      description += `, ${item.available ? 'есть порции' : 'порции закончились'}`
+      description += `, ${item.available ? `${item.portions} порций` : 'порции закончились'}`
     }
     if (!options.hideDiscount) {
       description += `, скидка ${item.discount_percent}%`
