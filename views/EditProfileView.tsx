@@ -15,6 +15,7 @@ import { Avatar, Input, Toggle } from '@ui-kitten/components';
 import * as ImagePicker from "expo-image-picker";
 import User from "../api/User";
 import * as Sentry from "sentry-expo";
+import CameraIcon from '../assets/camera.svg'
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -109,6 +110,7 @@ export default function EditProfileView({ navigation }) {
       setLoading(false)
     }
   }, [refreshing])
+  const avatarSize = 160
   return (
     <ScrollView
       refreshControl={(
@@ -125,19 +127,43 @@ export default function EditProfileView({ navigation }) {
         <TouchableWithoutFeedback
           onPress={pickAvatar}
         >
-          <Avatar
-            style={{
-              width: 160,
-              height: 160
-            }}
-            size="giant"
-            source={
-              avatar || user ? (
-                user.avatar_url ? { uri: user.avatar_url } : DEFAULT_ICON
-              ) : DEFAULT_ICON
-            }
-            defaultSource={DEFAULT_ICON}
-          />
+          <View>
+            <Avatar
+              style={{
+                width: avatarSize,
+                height: avatarSize
+              }}
+              size="giant"
+              source={
+                avatar || user ? (
+                  user.avatar_url ? { uri: user.avatar_url } : DEFAULT_ICON
+                ) : DEFAULT_ICON
+              }
+              defaultSource={DEFAULT_ICON}
+            />
+            <View
+              style={{
+                width: avatarSize,
+                height: avatarSize,
+                backgroundColor: 'gray',
+                borderRadius: avatarSize / 2,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                opacity: 0.8
+              }}
+            >
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1
+                }}
+              >
+                <CameraIcon width={30} height={30} />
+              </View>
+            </View>
+          </View>
         </TouchableWithoutFeedback>
       </View>
       <Input
