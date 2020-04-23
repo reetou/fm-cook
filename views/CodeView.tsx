@@ -2,7 +2,7 @@ import { Alert, AsyncStorage, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import React, { useContext, useEffect, useState } from "react";
 import Auth from "../api/Auth";
-import { SCREENS } from "../utils";
+import { getErrorDetail, SCREENS } from "../utils";
 import { CommonActions } from '@react-navigation/native';
 import UserContext from "../store/UserContext";
 import registerForPushNotificationsAsync from "../registerForPushNotificationsAsync";
@@ -13,6 +13,7 @@ export default function CodeView({ navigation }) {
   const {
     setAuthenticated,
     setToken,
+    setSocketToken,
     setUser
   } = useContext(UserContext)
   const submit = async () => {
@@ -26,6 +27,7 @@ export default function CodeView({ navigation }) {
       setToken(data.token)
       setAuthenticated(true)
       setUser(data.user)
+      setSocketToken(data.socket_token)
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -38,7 +40,7 @@ export default function CodeView({ navigation }) {
       setCode('')
       Alert.alert(
         'Ошибка',
-        e.message,
+        getErrorDetail(e),
         [
           {
             text: 'OK', onPress: () => {}

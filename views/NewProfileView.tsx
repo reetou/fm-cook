@@ -1,5 +1,5 @@
 import {
-  Alert,
+  Alert, AsyncStorage,
   FlatList,
   Image,
   RefreshControl,
@@ -14,7 +14,7 @@ import {
   subscriptionStatusColorName,
   subscriptionStatusTitle,
   TABS,
-  getSubscribeButtonText
+  getSubscribeButtonText, SCREENS
 } from "../utils";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../store/UserContext";
@@ -35,6 +35,7 @@ import Animated from 'react-native-reanimated'
 import SubscriptionFeatureSheet from "../components/SubscriptionFeatureSheet";
 import CertificationSheet from "../components/CertificationSheet";
 import Certification from "../api/Certification";
+import ScaleButton from "../components/ScaleButton";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -399,6 +400,39 @@ export default function NewProfileView({ navigation }) {
               </View>
             )
           }}
+          ListFooterComponent={() => (
+            <View style={{ paddingHorizontal: 20, marginTop: 50, paddingBottom: 20 }}>
+              <ScaleButton
+                style={{ backgroundColor: Styleguide.sectionDangerStatusColor }}
+                onPress={async () => {
+                  Alert.alert(
+                    'Выход',
+                    'Вы уверены?',
+                    [
+                      {
+                        text: 'Отмена',
+                        onPress: () => {}
+                      },
+                      {
+                        text: 'Выйти',
+                        onPress: async () => {
+                          if (user.certified) {
+                            await updateOnDuty(false)
+                          }
+                          await AsyncStorage.removeItem('token')
+                          await AsyncStorage.removeItem('socketToken')
+                          setAuthenticated(false)
+                          navigation.navigate(SCREENS.SIGN_IN)
+                        }
+                      },
+                    ],
+                    { cancelable: true }
+                  )
+                }}
+                buttonText="Выйти"
+              />
+            </View>
+          )}
         />
       </Animated.View>
     </View>

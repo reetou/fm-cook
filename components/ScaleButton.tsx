@@ -7,6 +7,7 @@ interface Props {
   onPress: () => void;
   disabled?: boolean;
   buttonText: string;
+  style?: any;
 }
 
 export default function ScaleButton(props: Props) {
@@ -30,7 +31,8 @@ export default function ScaleButton(props: Props) {
         style={{
           paddingVertical: 15,
           backgroundColor: props.disabled ? Styleguide.disabledButtonBackgroundColor() : Styleguide.buttonBackgroundColor,
-          borderRadius: 14
+          borderRadius: 14,
+          ...props.style,
         }}
       >
         <Text

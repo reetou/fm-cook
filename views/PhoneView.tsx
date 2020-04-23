@@ -3,6 +3,7 @@ import { TextInputMask } from "react-native-masked-text";
 import Styleguide from "../Styleguide";
 import React, { useState } from "react";
 import Auth from "../api/Auth";
+import { getErrorDetail } from "../utils";
 
 export default function PhoneView({ navigation }) {
   const [phone, setPhone] = useState<string>('')
@@ -19,7 +20,7 @@ export default function PhoneView({ navigation }) {
       setPhone('')
       Alert.alert(
         'Ошибка',
-        e.message,
+        getErrorDetail(e),
         [
           {
             text: 'OK', onPress: () => {}
