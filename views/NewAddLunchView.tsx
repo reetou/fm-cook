@@ -156,18 +156,18 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
             elevation: 1.5,
           }}
         >
-          <View style={{ marginRight: 20 }}>
-            <EditableAvatar
-              disabled={loading}
-              onPress={pickAvatar}
-              source={
-                avatar || (
-                  params.image_url ? { uri: params.image_url } : null
-                )
-              }
-              size={66}
-            />
-          </View>
+          {/*<View style={{ marginRight: 20 }}>*/}
+          {/*  <EditableAvatar*/}
+          {/*    disabled={loading}*/}
+          {/*    onPress={pickAvatar}*/}
+          {/*    source={*/}
+          {/*      avatar || (*/}
+          {/*        params.image_url ? { uri: params.image_url } : null*/}
+          {/*      )*/}
+          {/*    }*/}
+          {/*    size={66}*/}
+          {/*  />*/}
+          {/*</View>*/}
           <View style={{ flex: 1, justifyContent: 'center' }}>
             <TextInput
               editable={!loading}
