@@ -60,6 +60,11 @@ export default function MainApp() {
         tabBarOptions={{
           activeTintColor: Styleguide.listItemButtonTextColor,
           inactiveTintColor: 'black',
+          labelStyle: {
+            fontSize: 8,
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
+          }
         }}
       >
         <Tab.Screen

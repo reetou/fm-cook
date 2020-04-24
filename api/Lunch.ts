@@ -28,14 +28,37 @@ const addLunch = async (data: any, avatar?: string): Promise<LunchResponse> => {
   return res.data
 }
 
-const updateLunch = async (id, data: any, avatar?: string): Promise<LunchResponse> => {
+const toggleAvailable = async (id: string, data: {available: boolean}, accessToken?: string): Promise<any> => {
+  let token = accessToken
+  if (!token) {
+    token = await getToken()
+  }
+  const res = await axios({
+    method: 'POST',
+    url: `/cooker/lunches/${id}/available`,
+    headers: {
+      Authorization: token,
+    },
+    data
+  })
+}
+
+const updateLunch = async (id, data: any, avatar?: string, toggleAvailableData?: {available: boolean}): Promise<LunchResponse> => {
   const token = await getToken()
   if (avatar) {
     try {
       await uploadAvatar(id, avatar)
     } catch (e) {
       Sentry.captureException(e)
-      console.error('Cannot upload avatar')
+      console.error('Cannot upload avatar', e)
+    }
+  }
+  if (toggleAvailableData) {
+    try {
+      await toggleAvailable(id, toggleAvailableData, token)
+    } catch (e) {
+      Sentry.captureException(e)
+      console.error('Cannot toggle available in lunch', e)
     }
   }
   const res = await axios({
@@ -43,10 +66,10 @@ const updateLunch = async (id, data: any, avatar?: string): Promise<LunchRespons
     url: `/cooker/lunches/${id}`,
     headers: {
       Authorization: token,
-      'Content-Type': 'multipart/form-data'
     },
     data
   })
+
   return res.data
 }
 

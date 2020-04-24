@@ -50,6 +50,7 @@ export default function ProductsListView({ navigation }) {
             if (item.meals) {
               navigation.navigate(PRODUCTS_SCREENS.ADD_LUNCH, {
                 ...item,
+                allowEditActivity: true,
                 header_title: 'Редактировать'
               })
             } else {

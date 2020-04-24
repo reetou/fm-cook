@@ -20,6 +20,7 @@ export default function Section(props: Props) {
         borderRadius: 12,
         borderWidth: 1,
         borderColor: Styleguide.sectionBorderColor,
+        backgroundColor: Styleguide.primaryBackgroundColor,
         padding: 20,
         marginHorizontal: 8,
         marginVertical: 10,

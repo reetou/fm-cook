@@ -5,9 +5,9 @@ import { Text, TouchableOpacity } from 'react-native'
 import ProductsListView from "../views/ProductsListView";
 import AddMealView from "../views/AddMealView";
 import AddProductView from "../views/AddProductView";
-import AddLunchView from "../views/AddLunchView";
-import SelectMealsView from "../views/SelectMealsView";
 import AddLunchContext from '../store/AddLunchContext';
+import NewAddLunchView from "../views/NewAddLunchView";
+import NewSelectMealsView from "../views/NewSelectMealsView";
 
 const Stack = createStackNavigator();
 
@@ -55,8 +55,8 @@ export default function Products({ navigation }) {
           component={AddProductView}
         />
         <Stack.Screen name={PRODUCTS_SCREENS.ADD_MEAL} component={AddMealView} />
-        <Stack.Screen name={PRODUCTS_SCREENS.ADD_LUNCH} component={AddLunchView} />
-        <Stack.Screen name={PRODUCTS_SCREENS.SELECT_MEALS} component={SelectMealsView} />
+        <Stack.Screen name={PRODUCTS_SCREENS.ADD_LUNCH} component={NewAddLunchView} />
+        <Stack.Screen name={PRODUCTS_SCREENS.SELECT_MEALS} component={NewSelectMealsView} />
       </Stack.Navigator>
     </AddLunchContext.Provider>
   )

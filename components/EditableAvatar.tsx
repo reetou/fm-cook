@@ -1,7 +1,6 @@
 import React from 'react'
-import { TouchableWithoutFeedback, View } from "react-native";
+import { TouchableOpacity, View, Image } from "react-native";
 import { Avatar } from "@ui-kitten/components";
-import CameraIcon from "../assets/camera.svg";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -9,11 +8,13 @@ interface Props {
   onPress: () => void;
   source: any;
   size: number;
+  disabled?: boolean;
 }
 
 export default function EditableAvatar(props: Props) {
   return (
-    <TouchableWithoutFeedback
+    <TouchableOpacity
+      disabled={props.disabled}
       onPress={props.onPress}
     >
       <View>
@@ -45,10 +46,16 @@ export default function EditableAvatar(props: Props) {
               flex: 1
             }}
           >
-            <CameraIcon width={30} height={30} />
+            <Image
+              style={{
+                width: 75 / 2.5,
+                height: 57 / 2.5
+              }}
+              source={require('../assets/camera.png')}
+            />
           </View>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   )
 }
