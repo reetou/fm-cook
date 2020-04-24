@@ -59,7 +59,12 @@ interface ProductItemDescriptionOptions {
 export function localizePlural(count: number, values: string[]) {
   const last = String(count)[String(count).length - 1]
   if (Number(last) === 1) return values[0]
-  if ([2, 3, 4].includes(Number(last))) return values[1]
+  if ([2, 3, 4].includes(Number(last))) {
+    if (count > 10 && count < 20) {
+      return values[2]
+    }
+    return values[1]
+  }
   return values[2]
 }
 
