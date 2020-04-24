@@ -18,6 +18,7 @@ import TouchableScale from 'react-native-touchable-scale';
 import PlusIcon from '../assets/plus_bg.svg'
 import RemoveIcon from '../assets/remove.svg'
 import ScaleButton from "../components/ScaleButton";
+import AlertMessage from "../components/AlertMessage";
 
 
 export default function NewAddLunchView({ route: { params }, navigation }) {
@@ -116,6 +117,13 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
       }}
     >
       <View>
+        {
+          meals.some(m => m.portions < 1)
+            ? (
+              <AlertMessage text="У одного из блюд недостаточно порций" />
+            )
+            : null
+        }
         {
           params.allowEditActivity
             ? (
