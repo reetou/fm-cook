@@ -73,7 +73,7 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
             >
               <View style={{ marginRight: 12 }}>
                 <Image
-                  source={item.image_url || DEFAULT_ICON}
+                  source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
                   defaultSource={DEFAULT_ICON}
                   style={{
                     borderRadius: 16,
