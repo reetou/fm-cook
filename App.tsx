@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
-import { Alert, AsyncStorage, View } from 'react-native';
+import { AsyncStorage, ImageBackground } from 'react-native';
 import Onboarding from "./screens/Onboarding";
 import { SCREENS } from "./utils";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -41,9 +41,11 @@ const Splash = ({ navigation }) => {
     navigation.replace(getInitialRouteName())
   }, [checking])
   return (
-    <View style={{ flex: 1, backgroundColor: 'red' }}>
-
-    </View>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('./assets/splash.png')
+      }
+    />
   )
 }
 export default function App() {
