@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "289050117941",
+    "firebase_url": "https://borsch-cooker.firebaseio.com",
+    "project_id": "borsch-cooker",
+    "storage_bucket": "borsch-cooker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289050117941:android:b7c4247d8adc5250d5ee7c",
+        "android_client_info": {
+          "package_name": "com.borsch.cook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289050117941-ul73j8b4f070fqnirjca6jt62hvql1s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-YA_3zujF04saLBd_zP9rj1L4AL6c5hk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289050117941-ul73j8b4f070fqnirjca6jt62hvql1s1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
