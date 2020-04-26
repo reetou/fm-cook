@@ -26,7 +26,7 @@ export default function YandexCheckoutView({ navigation }) {
 
   const onSuccessHandler = () => {
     navigation.replace(PROFILE_SCREENS.MAIN)
-    Alert.alert('Ура!', 'Оплата прошла успешно')
+    Alert.alert('Ура!', 'Оплата прошла успешно. Рекомендуем перезапустить приложение')
   };
   const onCanceledHandler = () => {
     navigation.replace(PROFILE_SCREENS.MAIN)
