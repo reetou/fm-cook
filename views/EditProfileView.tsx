@@ -135,6 +135,11 @@ export default function EditProfileView({ navigation }) {
         />
       </View>
       <Input
+        label="Телефон"
+        value={user.phone}
+        disabled
+      />
+      <Input
         label="Имя"
         placeholder="Имя будет видно всем клиентам"
         value={name}
