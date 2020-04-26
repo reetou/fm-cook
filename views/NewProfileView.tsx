@@ -111,7 +111,7 @@ export default function NewProfileView({ navigation }) {
   const ref = useRef(null)
   const certificationModalRef = useRef(null)
   useEffect(() => {
-    checkUpdates()
+    setTimeout(refresh, 200)
   }, [])
   const subscriptionFeatureSheetHeight = 500
   const subscriptionButtonText = getSubscribeButtonText(user.subscription_status as any)
