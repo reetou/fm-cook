@@ -1,95 +1,123 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet, AsyncStorage } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, StatusBar } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Ionicons } from '@expo/vector-icons';
-import { SCREENS } from "../utils";
+import { SCREENS, TABS } from "../utils";
 import { useNavigation } from '@react-navigation/core';
-
-const styles = StyleSheet.create({
-  mainContent: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  image: {
-    width: 320,
-    height: 320,
-  },
-  text: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 22,
-    color: 'white',
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    marginBottom: 16,
-  },
-});
+import FirstOnboardingImage from '../assets/onboarding/onboarding-1.svg'
+import SecondOnboardingImage from '../assets/onboarding/onboarding-2.svg'
+import ThirdOnboardingImage from '../assets/onboarding/onboarding-3.svg'
+import FourthOnboardingImage from '../assets/onboarding/onboarding-4.svg'
+import LogoType from '../assets/logotype.svg'
+import NextIcon from '../assets/onboarding/next.svg'
+import Constants from "expo-constants";
+import Styleguide from "../Styleguide";
 
 export interface OnboardingViewProps {
   onDone: () => void;
   navigation: any;
 }
 
+const NextButton = () => (
+  <View
+    style={{
+      width: 54,
+      height: 54,
+      backgroundColor: Styleguide.primaryColor,
+      borderRadius: 30,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
+    <NextIcon width={18} height={18} />
+  </View>
+)
+
 export default function Onboarding(props: OnboardingViewProps) {
   const navigation = useNavigation()
   return (
-    <AppIntroSlider
-      bottomButton
-      onDone={async () => {
-        await props.onDone()
-        navigation.navigate(SCREENS.SIGN_IN)
-      }}
-      renderItem={({item, dimensions}) => (
-        <LinearGradient
-          style={[
-            styles.mainContent,
-            dimensions,
-          ]}
-          colors={item.colors}
-          start={{ x: 0, y: 0.1 }}
-          end={{ x: 0.1, y: 1 }}
-        >
-          <Ionicons
-            style={{ backgroundColor: 'transparent' }}
-            name={item.icon}
-            size={200}
-            color="white"
-          />
-          <View>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.text}>{item.text}</Text>
+    <React.Fragment>
+      <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
+      <AppIntroSlider
+        onDone={async () => {
+          await props.onDone()
+          navigation.navigate(SCREENS.SIGN_IN)
+        }}
+        activeDotStyle={{
+          backgroundColor: 'black'
+        }}
+        renderNextButton={NextButton}
+        renderDoneButton={NextButton}
+        renderItem={({item, dimensions}) => (
+          <View
+            style={[
+              {
+                paddingTop: Constants.statusBarHeight,
+                flex: 1,
+                backgroundColor: '#ffffff',
+                justifyContent: 'flex-start'
+              },
+              dimensions,
+            ]}
+          >
+            <View
+              style={{
+                marginLeft: 24,
+                marginTop: 32,
+              }}
+            >
+              <LogoType />
+            </View>
+            <View
+              style={{
+                shadowColor: "#BDBDBD",
+                shadowOffset: {
+                  width: 0,
+                  height: 8,
+                },
+                shadowOpacity: 0.37,
+                shadowRadius: 2.5,
+                elevation: 1.5,
+              }}
+            >
+              {item.image}
+            </View>
+            <View style={{ marginHorizontal: 20 }}>
+              <Text
+                adjustsFontSizeToFit
+                style={{
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  textAlign: 'center'
+                }}
+              >
+                {item.text}
+              </Text>
+            </View>
           </View>
-        </LinearGradient>
-      )}
-      slides={[
-        {
-          key: 'somethun',
-          title: 'Сделано для вас',
-          text: 'Можно забрать еду самому или заказать доставку',
-          icon: 'md-copy',
-          colors: ['#63E2FF', '#B066FE'],
-        },
-        {
-          key: 'somethun1',
-          title: 'Приемлемая цена',
-          text: 'Оплата напрямую и без комиссии - повара продают без наценки',
-          icon: 'ios-add',
-          colors: ['#A3A1FF', '#3A3897'],
-        },
-        {
-          key: 'somethun2',
-          title: 'Безопасно',
-          text: 'Тщательно проверяем поваров',
-          icon: 'md-done-all',
-          colors: ['#29ABE2', '#4F00BC'],
-        },
-      ]}
-    />
+        )}
+        slides={[
+          {
+            key: '1',
+            text: 'Делитесь едой и компенсируйте затраты',
+            image: <FirstOnboardingImage />
+          },
+          {
+            key: '2',
+            text: 'Добавляйте блюда и назначайте цену',
+            image: <SecondOnboardingImage />
+          },
+          {
+            key: '3',
+            text: 'Выходите на линию когда удобно и принимайте заказы',
+            image: <ThirdOnboardingImage />
+          },
+          {
+            key: '4',
+            text: 'Станьте лучшим поваром района',
+            image: <FourthOnboardingImage />
+          },
+        ]}
+      />
+    </React.Fragment>
   );
 }
