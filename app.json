@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Fastmeal cook",
+    "name": "БОРЩ.ПОВАР",
     "slug": "fm-cook",
     "privacy": "unlisted",
     "platforms": [
@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.borsch.cook",
-      "buildNumber": "1.0.4"
+      "buildNumber": "1.0.5"
     },
     "android": {
       "package": "com.borsch.cook",
