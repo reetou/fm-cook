@@ -49,6 +49,18 @@ const updateMeal = async (id, data: Meal, avatar?: string): Promise<MealResponse
   return res.data
 }
 
+const deleteMeal = async (id: string): Promise<any> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'DELETE',
+    headers: {
+      Authorization: token,
+    },
+    url: `/cooker/meals/${id}`,
+  })
+  return res.data
+}
+
 const uploadAvatar = async (id: string, avatar: string): Promise<MealResponse> => {
   const token = await getToken()
   const formData = new FormData()
@@ -74,5 +86,6 @@ const uploadAvatar = async (id: string, avatar: string): Promise<MealResponse> =
 
 export default {
   addMeal,
-  updateMeal
+  updateMeal,
+  deleteMeal,
 }

@@ -73,6 +73,19 @@ const updateLunch = async (id, data: any, avatar?: string, toggleAvailableData?:
   return res.data
 }
 
+const deleteLunch = async (id: string): Promise<any> => {
+  const token = await getToken()
+  const res = await axios({
+    method: 'DELETE',
+    url: `/cooker/lunches/${id}`,
+    headers: {
+      Authorization: token,
+    },
+  })
+
+  return res.data
+}
+
 
 const uploadAvatar = async (id: string, avatar: string): Promise<LunchResponse> => {
   const token = await getToken()
@@ -99,5 +112,6 @@ const uploadAvatar = async (id: string, avatar: string): Promise<LunchResponse> 
 
 export default {
   addLunch,
-  updateLunch
+  updateLunch,
+  deleteLunch
 }
