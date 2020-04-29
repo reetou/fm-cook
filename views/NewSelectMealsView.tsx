@@ -87,8 +87,10 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontWeight: '500'
+                      fontWeight: '500',
+                      maxWidth: 160,
                     }}
+                    numberOfLines={2}
                   >
                     {item.name}
                   </Text>

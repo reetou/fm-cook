@@ -17,7 +17,7 @@ export interface User {
   avatar_url?: string;
   on_duty: boolean;
   description: string | null;
-  subscription_status: string | null;
+  subscription_status: 'active' | 'inactive' | 'trialing' | null;
   active_until: number | null;
   trial_end: number | null;
   certification_pending: boolean;

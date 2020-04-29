@@ -10,12 +10,14 @@ interface Props {
   size?: number;
   margin?: number;
   style?: any;
+  onPress?: () => void;
 }
 
 export default function CircleButton(props: Props) {
   return (
     <TouchableOpacity
       disabled={props.disabled}
+      onPress={props.onPress}
       style={{
         borderRadius: 30,
         height: props.size || 36,

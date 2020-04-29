@@ -2,7 +2,6 @@ import {
   Alert, AsyncStorage,
   FlatList,
   Image,
-  RefreshControl,
   StatusBar,
   Text,
   View
@@ -36,12 +35,18 @@ import SubscriptionFeatureSheet from "../components/SubscriptionFeatureSheet";
 import CertificationSheet from "../components/CertificationSheet";
 import Certification from "../api/Certification";
 import ScaleButton from "../components/ScaleButton";
+import SubscriptionStatusModal from "../components/modal/SubscriptionStatusModal";
+import DutyStatusModal from "../components/modal/DutyStatusModal";
+import SubscriptionFeatureModal from "../components/modal/SubscriptionFeatureModal";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const [hasUpdates, setHasUpdates] = useState<boolean>(false)
   const [updating, setUpdating] = useState<boolean>(false)
+  const [subscriptionFaqVisible, setSubscriptionFaqVisible] = useState<boolean>(false)
+  const [dutyStatusModalVisible, setDutyStatusModalVisible] = useState<boolean>(false)
+  const [subscriptionModalVisible, setSubscriptionModalVisible] = useState<boolean>(false)
   const [fall, setFall] = useState<any>(new Animated.Value(1))
   const checkUpdates = async () => {
     if (process.env.NODE_ENV !== 'production') return
@@ -163,6 +168,34 @@ export default function NewProfileView({ navigation }) {
         enabledInnerScrolling={false}
       />
       <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
+      <SubscriptionFeatureModal
+        isVisible={subscriptionModalVisible}
+        buttonText={subscriptionButtonText}
+        disabled={subscribeButtonDisabled}
+        onPress={handleSubscribe}
+        onClose={() => {
+          setSubscriptionModalVisible(false)
+        }}
+      />
+      <SubscriptionStatusModal
+        onClose={() => {
+          setSubscriptionFaqVisible(false)
+        }}
+        isVisible={subscriptionFaqVisible}
+        subscription_status={user.subscription_status}
+        disabled={refreshing}
+        onStartTrial={startTrial}
+        onCheckout={() => {
+          navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+          setSubscriptionFaqVisible(false)
+        }}
+      />
+      <DutyStatusModal
+        isVisible={dutyStatusModalVisible}
+        onClose={() => {
+          setDutyStatusModalVisible(false)
+        }}
+      />
       <Animated.View
         style={{
           opacity: Animated.add(0.1, Animated.multiply(fall, 1))
@@ -184,7 +217,13 @@ export default function NewProfileView({ navigation }) {
                 statusWidth={180}
                 rightSide={(
                   <View>
-                    <CircleButton type="info" margin={-20}>
+                    <CircleButton
+                      onPress={() => {
+                        setSubscriptionFaqVisible(true)
+                      }}
+                      type="info"
+                      margin={-20}
+                    >
                       <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
                     </CircleButton>
                   </View>
@@ -195,10 +234,11 @@ export default function NewProfileView({ navigation }) {
                       <SubscriptionSectionFooter
                         disabled={subscribeButtonDisabled}
                         onPress={() => {
-                          if (!ref && !ref.current) {
-                            return
-                          }
-                          ref.current.snapTo(0)
+                          // if (!ref && !ref.current) {
+                          //   return
+                          // }
+                          // ref.current.snapTo(0)
+                          setSubscriptionModalVisible(true)
                         }}
                         text={subscriptionButtonText}
                       />
@@ -246,7 +286,13 @@ export default function NewProfileView({ navigation }) {
                 )}
                 rightSide={(
                   <View>
-                    <CircleButton type="info" margin={-20}>
+                    <CircleButton
+                      type="info"
+                      margin={-20}
+                      onPress={() => {
+                        setDutyStatusModalVisible(true)
+                      }}
+                    >
                       <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
                     </CircleButton>
                   </View>

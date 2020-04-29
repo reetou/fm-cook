@@ -10,7 +10,7 @@ import ScaleButton from "./ScaleButton";
 
 interface Props {
   onPress: () => void;
-  height: number;
+  height?: number;
   buttonText: string;
   disabled?: boolean;
 }
@@ -19,19 +19,25 @@ export default function SubscriptionFeatureSheet(props: Props) {
   return (
     <View
       style={{
-        height: props.height,
         backgroundColor: Styleguide.primaryBackgroundColor,
         padding: 20,
         borderTopRightRadius: 12,
         borderTopLeftRadius: 12,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        ...props.height ? {
+          height: props.height,
+        } : {},
       }}
     >
       <BorschSheetContentHeader
         text="Полный доступ к аккаунту повара на 14 дней"
       />
       <SubscriptionFeatureAdvantages />
-      <ScaleButton onPress={props.onPress} buttonText={props.buttonText} />
+      <ScaleButton
+        onPress={props.onPress}
+        buttonText={props.buttonText}
+        disabled={props.disabled}
+      />
     </View>
   )
 }
