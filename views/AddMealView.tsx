@@ -17,6 +17,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ThemedTags from "../components/Tags/ThemedTags";
 import SwitchButton from "../components/SwitchButton";
 import EditableAvatar from "../components/EditableAvatar";
+import { LinearGradient } from "expo-linear-gradient";
 
 
 export default function AddMealView({ route: { params }, navigation }) {
@@ -91,126 +92,145 @@ export default function AddMealView({ route: { params }, navigation }) {
     }
   }
   return (
-    <ScrollView
-      style={{
-        paddingHorizontal: 10,
-        paddingTop: 10,
-      }}
-    >
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}>
-        <View
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingHorizontal: 10,
+        }}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
           style={{
-            alignItems: 'center',
+            marginVertical: 20
           }}
         >
-          <EditableAvatar
-            onPress={pickAvatar}
-            size={160}
-            source={
-              avatar || (
-                params.image_url ? { uri: params.image_url } : null
-              )
-            }
-          />
-        </View>
-        <Input
-          label="Название"
-          placeholder="Выберите красивое имя"
-          value={name}
-          editable={!loading}
-          onChangeText={setName}
-          maxLength={48}
-        />
-        <Input
-          label="Описание"
-          value={description}
-          multiline
-          editable={!loading}
-          onChangeText={setDescription}
-          maxLength={256}
-        />
-        <Input
-          label="Цена"
-          placeholder="В рублях"
-          value={price}
-          editable={!loading}
-          keyboardType="number-pad"
-          onChangeText={setPrice}
-          maxLength={128}
-        />
-        <Input
-          label="Вес в граммах (необязательно)"
-          value={weight}
-          editable={!loading}
-          keyboardType="number-pad"
-          onChangeText={setWeight}
-          maxLength={128}
-        />
-        <Input
-          label="Калории (необязательно)"
-          value={calories}
-          editable={!loading}
-          keyboardType="number-pad"
-          onChangeText={setCalories}
-          maxLength={128}
-        />
-        <ThemedTags
-          tagsHeader="Ингредиенты"
-          label="Добавить ингредиент"
-          maxNumberOfTags={15}
-          initialText=""
-          textInputProps={{
-            placeholder: "Название...",
-          }}
-          createTagOnReturn
-          createTagOnString={[]}
-          initialTags={ingredients}
-          onChangeTags={(tags) => {
-            setIngredients(tags.filter(Boolean).map(v => v.toLowerCase()))
-          }}
-          onTagPress={(index, tagLabel, event, deleted) => {
-            // console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
-          }}
-        />
-        <Input
-          label="Порций"
-          value={String(portions)}
-          editable={!loading}
-          keyboardType="number-pad"
-          onChangeText={(v) => setPortions(Number(v))}
-          maxLength={128}
-        />
-        <View style={{ alignItems: 'flex-start', marginTop: 20 }}>
-          <SwitchButton
-            disabled={loading}
-            value={available}
-            onValueChange={setAvailable}
-            label="Доступно для заказа"
-          />
-        </View>
-        <View style={{ marginBottom: 30 }}>
-          <TouchableOpacity
-            disabled={loading}
+          <View
             style={{
-              marginTop: 30,
+              alignItems: 'center',
+            }}
+          >
+            <EditableAvatar
+              onPress={pickAvatar}
+              size={160}
+              source={
+                avatar || (
+                  params.image_url ? { uri: params.image_url } : null
+                )
+              }
+            />
+          </View>
+          <Input
+            label="Название"
+            placeholder="Выберите красивое имя"
+            value={name}
+            editable={!loading}
+            onChangeText={setName}
+            maxLength={48}
+          />
+          <Input
+            label="Описание"
+            value={description}
+            multiline
+            editable={!loading}
+            onChangeText={setDescription}
+            maxLength={256}
+          />
+          <Input
+            label="Цена"
+            placeholder="В рублях"
+            value={price}
+            editable={!loading}
+            keyboardType="number-pad"
+            onChangeText={setPrice}
+            maxLength={128}
+          />
+          <Input
+            label="Вес в граммах (необязательно)"
+            value={weight}
+            editable={!loading}
+            keyboardType="number-pad"
+            onChangeText={setWeight}
+            maxLength={128}
+          />
+          <Input
+            label="Калории (необязательно)"
+            value={calories}
+            editable={!loading}
+            keyboardType="number-pad"
+            onChangeText={setCalories}
+            maxLength={128}
+          />
+          <ThemedTags
+            tagsHeader="Ингредиенты"
+            label="Добавить ингредиент"
+            maxNumberOfTags={15}
+            initialText=""
+            textInputProps={{
+              placeholder: "Название...",
+            }}
+            createTagOnReturn
+            createTagOnString={[]}
+            initialTags={ingredients}
+            onChangeTags={(tags) => {
+              setIngredients(tags.filter(Boolean).map(v => v.toLowerCase()))
+            }}
+            onTagPress={(index, tagLabel, event, deleted) => {
+              // console.log(index, tagLabel, event, deleted ? "deleted" : "not deleted")
+            }}
+          />
+          <Input
+            label="Порций"
+            value={String(portions)}
+            editable={!loading}
+            keyboardType="number-pad"
+            onChangeText={(v) => setPortions(Number(v))}
+            maxLength={128}
+          />
+          <View style={{ alignItems: 'flex-start', marginTop: 20 }}>
+            <SwitchButton
+              disabled={loading}
+              value={available}
+              onValueChange={setAvailable}
+              label="Доступно для заказа"
+            />
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
+      <View
+        style={{
+          backgroundColor: Styleguide.primaryBackgroundColor,
+          paddingVertical: 20,
+        }}
+      >
+        <TouchableOpacity
+          disabled={loading}
+          style={{
+          }}
+          onPress={submit}
+        >
+          <LinearGradient
+            colors={[Styleguide.secondaryColor, Styleguide.primaryColor]}
+            start={Platform.OS === 'ios' ? [0.2, 0.2] : [1, 0.7]}
+            style={{
               paddingVertical: 12,
               marginHorizontal: 20,
               backgroundColor: loading ? Styleguide.tintColor : Styleguide.primaryColor,
               borderRadius: 20,
             }}
-            onPress={submit}
           >
             <Text
               style={{
                 textAlign: 'center',
+                fontWeight: 'bold',
                 color: Styleguide.primaryBackgroundColor,
               }}
             >
-              { params.id ? 'Обновить' : 'Сохранить' }
+              Сохранить
             </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+    </View>
   )
 }
