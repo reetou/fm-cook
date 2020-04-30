@@ -37,7 +37,7 @@ export default function OrdersView({ navigation }) {
     }
     cookerChannel.on('new_order', ({ order }: any): void => {
       const ids = orders.map(o => o.order_id)
-      if (!ids.includes(order.order_id) && !refreshing) {
+      if (!ids.includes(order.order_id)) {
         onNewOrder(order)
       }
     })
