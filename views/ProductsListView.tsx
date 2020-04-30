@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RefreshControl, View, Text, TouchableOpacity, Alert } from "react-native";
-import { List, ListItem, Avatar } from "@ui-kitten/components";
 import UserContext from "../store/UserContext";
 import User from "../api/User";
-import { getErrorDetail, productItemDescription, PRODUCTS_SCREENS } from "../utils";
+import { getErrorDetail, PRODUCTS_SCREENS } from "../utils";
 import * as Sentry from "sentry-expo";
 import { SwipeListView } from 'react-native-swipe-list-view';
 import Styleguide from "../Styleguide";
