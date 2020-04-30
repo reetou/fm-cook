@@ -9,8 +9,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import Styleguide from "../Styleguide";
 import Lunch from "../api/Lunch";
 import Meal from "../api/Meal";
-
-const DEFAULT_ICON = require('../assets/icon.png')
+import ProductItem from "../components/ProductItem";
 
 export default function ProductsListView({ navigation }) {
   const {
@@ -111,8 +110,8 @@ export default function ProductsListView({ navigation }) {
       keyExtractor={item => item.id}
       data={user.meals.concat(user.lunches)}
       renderItem={({ item }) => (
-        <ListItem
-          disabled={refreshing}
+        <ProductItem
+          item={item}
           onPress={() => {
             if (item.meals) {
               navigation.navigate(PRODUCTS_SCREENS.ADD_LUNCH, {
@@ -127,15 +126,7 @@ export default function ProductsListView({ navigation }) {
               })
             }
           }}
-          key={item.id}
-          title={item.name}
-          icon={() => (
-            <Avatar
-              size="large"
-              source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
-            />
-          )}
-          description={productItemDescription(item)}
+          disabled={refreshing}
         />
       )}
     />
