@@ -18,6 +18,7 @@ import ThemedTags from "../components/Tags/ThemedTags";
 import SwitchButton from "../components/SwitchButton";
 import EditableAvatar from "../components/EditableAvatar";
 import { LinearGradient } from "expo-linear-gradient";
+import askCameraRollPermission from "../askCameraRollPermission";
 
 
 export default function AddMealView({ route: { params }, navigation }) {
@@ -74,12 +75,8 @@ export default function AddMealView({ route: { params }, navigation }) {
     setLoading(false)
   }
   const pickAvatar = async () => {
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert('Ошибка', 'Не получено разрешение на доступ к галерее')
-      return;
-    }
+    const hasAccess = await askCameraRollPermission()
+    if (!hasAccess) return
 
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
       quality: 0.20,

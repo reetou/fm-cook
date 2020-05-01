@@ -9,6 +9,7 @@ import AddLunchContext from "../store/AddLunchContext";
 import * as ImagePicker from 'expo-image-picker';
 import * as Sentry from "sentry-expo";
 import EditableAvatar from "../components/EditableAvatar";
+import askCameraRollPermission from "../askCameraRollPermission";
 
 
 export default function AddLunchView({ route: { params }, navigation }) {
@@ -62,12 +63,8 @@ export default function AddLunchView({ route: { params }, navigation }) {
     setLoading(false)
   }
   const pickAvatar = async () => {
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert('Ошибка', 'Не получено разрешение на доступ к галерее')
-      return;
-    }
+    const hasAccess = await askCameraRollPermission()
+    if (!hasAccess) return
 
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
       quality: 0.20,

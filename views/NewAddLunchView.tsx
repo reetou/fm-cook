@@ -19,6 +19,7 @@ import PlusIcon from '../assets/plus_bg.svg'
 import RemoveIcon from '../assets/remove.svg'
 import ScaleButton from "../components/ScaleButton";
 import AlertMessage from "../components/AlertMessage";
+import askCameraRollPermission from "../askCameraRollPermission";
 
 
 export default function NewAddLunchView({ route: { params }, navigation }) {
@@ -80,12 +81,8 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
     setLoading(false)
   }
   const pickAvatar = async () => {
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert('Ошибка', 'Не получено разрешение на доступ к галерее')
-      return;
-    }
+    const hasAccess = await askCameraRollPermission()
+    if (!hasAccess) return
 
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
       quality: 0.20,
