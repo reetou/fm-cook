@@ -30,11 +30,12 @@
     },
     "android": {
       "package": "com.borsch.cook",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "VIBRATE",
-        "CAMERA_ROLL"
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
         "backgroundColor": "#333333"
