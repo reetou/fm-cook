@@ -38,6 +38,7 @@ import ScaleButton from "../components/ScaleButton";
 import SubscriptionStatusModal from "../components/modal/SubscriptionStatusModal";
 import DutyStatusModal from "../components/modal/DutyStatusModal";
 import SubscriptionFeatureModal from "../components/modal/SubscriptionFeatureModal";
+import { CommonActions } from "@react-navigation/native";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -468,7 +469,15 @@ export default function NewProfileView({ navigation }) {
                           await AsyncStorage.removeItem('token')
                           await AsyncStorage.removeItem('socketToken')
                           setAuthenticated(false)
-                          navigation.navigate(SCREENS.SIGN_IN)
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 0,
+                              routes: [
+                                {
+                                  name: SCREENS.SIGN_IN,
+                                },
+                              ],
+                            }))
                         }
                       },
                     ],
