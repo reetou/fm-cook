@@ -14,6 +14,7 @@ import { AppLoading } from "expo";
 import { User } from './types/User';
 import { getSocketToken } from "./api/storage";
 import * as Sentry from 'sentry-expo'
+import Documents from "./screens/Documents";
 
 Sentry.init({
   dsn: 'https://d6137643f47c4b0d89f69edf7ad65b96@o244178.ingest.sentry.io/5201546',
@@ -134,6 +135,7 @@ export default function App() {
             <Stack.Screen name={SCREENS.ONBOARDING} component={OnboardingScreen} />
             <Stack.Screen name={SCREENS.SIGN_IN} component={SignIn} />
             <Stack.Screen name={SCREENS.MAIN_APP} component={MainApp} />
+            <Stack.Screen name="documents" component={Documents} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserContext.Provider>

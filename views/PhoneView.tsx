@@ -1,9 +1,22 @@
-import { Alert, AsyncStorage, Platform, Text, TouchableOpacity, View } from "react-native";
+import { Alert, AsyncStorage, Platform, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import Styleguide from "../Styleguide";
 import React, { useState } from "react";
 import Auth from "../api/Auth";
 import { getErrorDetail } from "../utils";
+
+const TextLink = (props: {text: string, onPress: () => void}) => (
+  <TouchableWithoutFeedback onPress={props.onPress}>
+    <Text
+      style={{
+        color: Styleguide.primaryColor,
+        fontWeight: '500'
+      }}
+    >
+      {props.text}
+    </Text>
+  </TouchableWithoutFeedback>
+)
 
 export default function PhoneView({ navigation }) {
   const [phone, setPhone] = useState<string>('')
@@ -72,11 +85,32 @@ export default function PhoneView({ navigation }) {
           setPhone(text)
         }}
       />
+      <View style={{ padding: 20 }}>
+        <Text style={{ textAlign: 'center' }}>
+          {`Вводя свой номер телефона вы соглашаетесь с нашими `}
+          <TextLink
+            text="Условиями пользования"
+            onPress={() => {
+              navigation.push('documents', {
+                screen: 'terms'
+              })
+            }}
+          />
+          {` и `}
+          <TextLink
+            text="Политикой конфиденциальности"
+            onPress={() => {
+              navigation.push('documents', {
+                screen: 'privacy_policy'
+              })
+            }}
+          />
+        </Text>
+      </View>
       <TouchableOpacity
         onPress={submit}
         disabled={disabled}
         style={{
-          marginTop: 30,
           paddingVertical: 12,
           width: '80%',
           marginHorizontal: 20,
