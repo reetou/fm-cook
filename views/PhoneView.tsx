@@ -53,7 +53,7 @@ export default function PhoneView({ navigation }) {
       }}
     >
       <TextInputMask
-        autoFocus
+        autoFocus={Platform.OS === 'ios'}
         type={'cel-phone'}
         editable={!loading}
         options={{

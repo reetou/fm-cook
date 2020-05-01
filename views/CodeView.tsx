@@ -1,4 +1,4 @@
-import { Alert, AsyncStorage, View } from "react-native";
+import { Alert, AsyncStorage, Platform, View } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import React, { useContext, useEffect, useState } from "react";
 import Auth from "../api/Auth";
@@ -65,7 +65,7 @@ export default function CodeView({ navigation }) {
       }}
     >
       <TextInputMask
-        autoFocus
+        autoFocus={Platform.OS === 'ios'}
         secureTextEntry
         editable={code.length < 4}
         caretHidden
