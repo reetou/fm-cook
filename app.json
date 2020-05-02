@@ -30,19 +30,22 @@
     },
     "android": {
       "package": "com.borsch.cook",
-      "versionCode": 4,
+      "versionCode": 5,
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "VIBRATE",
         "CAMERA_ROLL",
-        "READ_EXTERNAL_STORAGE"
+        "READ_EXTERNAL_STORAGE",
+        "com.google.android.c2dm.permission.RECEIVE"
       ],
       "adaptiveIcon": {
         "backgroundColor": "#333333"
       }
     },
     "notification": {
-      "iosDisplayInForeground": true
+      "iosDisplayInForeground": true,
+      "androidMode": "default",
+      "icon": "./assets/icon.png"
     },
     "hooks": {
       "postPublish": [
