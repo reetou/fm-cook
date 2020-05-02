@@ -6,6 +6,7 @@ import { getErrorDetail, SCREENS } from "../utils";
 import { CommonActions } from '@react-navigation/native';
 import UserContext from "../store/UserContext";
 import registerForPushNotificationsAsync from "../registerForPushNotificationsAsync";
+import * as Sentry from "sentry-expo";
 
 export default function CodeView({ navigation }) {
   const [code, setCode] = useState<string>('')
@@ -24,6 +25,7 @@ export default function CodeView({ navigation }) {
       await AsyncStorage.setItem('socketToken', data.socket_token)
       await AsyncStorage.setItem('cached_user', JSON.stringify(data.user))
       registerForPushNotificationsAsync()
+        .catch(e => Sentry.captureException(e))
       setToken(data.token)
       setAuthenticated(true)
       setUser(data.user)
