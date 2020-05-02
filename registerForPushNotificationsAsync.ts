@@ -1,7 +1,7 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import Push from "./api/Push";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 
 export default async function registerForPushNotificationsAsync() {
   const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -19,6 +19,15 @@ export default async function registerForPushNotificationsAsync() {
   // Get the token that identifies this device
   const token = await Notifications.getExpoPushTokenAsync();
 
+
+  if (Platform.OS === 'android') {
+    Notifications.createChannelAndroidAsync('Default', {
+      name: 'default',
+      sound: true,
+      priority: 'max',
+      vibrate: [0, 250, 250, 250],
+    });
+  }
   // POST the token to your backend server from where you can retrieve it to send push notifications.
   return Push.sendExpoToken(token)
 }
