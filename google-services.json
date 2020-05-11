@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "289050117941",
-    "firebase_url": "https://borsch-cooker.firebaseio.com",
-    "project_id": "borsch-cooker",
-    "storage_bucket": "borsch-cooker.appspot.com"
+    "project_number": "801519924417",
+    "firebase_url": "https://fm-cook.firebaseio.com",
+    "project_id": "fm-cook",
+    "storage_bucket": "fm-cook.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289050117941:android:b7c4247d8adc5250d5ee7c",
+        "mobilesdk_app_id": "1:801519924417:android:a28361a903959df18a9040",
         "android_client_info": {
-          "package_name": "com.borsch.cook"
+          "package_name": "com.buhanka.cook"
         }
       },
       "oauth_client": [
         {
-          "client_id": "289050117941-ul73j8b4f070fqnirjca6jt62hvql1s1.apps.googleusercontent.com",
+          "client_id": "801519924417-8gljg2ivv5ritbu4a3a4apc0vciusrje.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-YA_3zujF04saLBd_zP9rj1L4AL6c5hk"
+          "current_key": "AIzaSyCrAwfwdIxWTCDWA6pNEbMW9sKPOb7aAhs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "289050117941-ul73j8b4f070fqnirjca6jt62hvql1s1.apps.googleusercontent.com",
+              "client_id": "801519924417-8gljg2ivv5ritbu4a3a4apc0vciusrje.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
