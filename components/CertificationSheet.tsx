@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { Image, Text, View } from "react-native";
 import Styleguide from "../Styleguide";
 import ScaleButton from "./ScaleButton";
-import BorschSheetContentHeader from "./BorschSheetContentHeader";
 import CircleButton from "./CircleButton";
 import UserContext from "../store/UserContext";
 import AnimatedLogo from "./AnimatedLogo";

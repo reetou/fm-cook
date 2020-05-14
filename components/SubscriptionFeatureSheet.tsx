@@ -4,7 +4,6 @@ import {
 } from "react-native";
 import Styleguide from "../Styleguide";
 import React from "react";
-import BorschSheetContentHeader from "./BorschSheetContentHeader";
 import SubscriptionFeatureAdvantages from "./SubscriptionFeatureAdvantages";
 import ScaleButton from "./ScaleButton";
 import AnimatedLogo from "./AnimatedLogo";
