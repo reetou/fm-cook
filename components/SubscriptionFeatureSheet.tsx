@@ -7,6 +7,7 @@ import React from "react";
 import BorschSheetContentHeader from "./BorschSheetContentHeader";
 import SubscriptionFeatureAdvantages from "./SubscriptionFeatureAdvantages";
 import ScaleButton from "./ScaleButton";
+import AnimatedLogo from "./AnimatedLogo";
 
 interface Props {
   onPress: () => void;
@@ -29,9 +30,7 @@ export default function SubscriptionFeatureSheet(props: Props) {
         } : {},
       }}
     >
-      <BorschSheetContentHeader
-        text="Полный доступ к аккаунту повара на 14 дней"
-      />
+      <AnimatedLogo />
       <SubscriptionFeatureAdvantages />
       <ScaleButton
         onPress={props.onPress}

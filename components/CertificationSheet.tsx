@@ -5,6 +5,7 @@ import ScaleButton from "./ScaleButton";
 import BorschSheetContentHeader from "./BorschSheetContentHeader";
 import CircleButton from "./CircleButton";
 import UserContext from "../store/UserContext";
+import AnimatedLogo from "./AnimatedLogo";
 
 interface Props {
   onPress: () => void;
@@ -41,9 +42,7 @@ export default function CertificationSheet(props: Props) {
       }}
     >
       <View>
-        <BorschSheetContentHeader
-          text="Доступ к платформе"
-        />
+        <AnimatedLogo />
         <View style={{ marginTop: 5, marginBottom: 12 }}>
           <Text style={{ fontSize: 24, fontWeight: '600', marginVertical: 12 }}>Сертификация</Text>
           {
