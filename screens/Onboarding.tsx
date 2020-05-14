@@ -3,13 +3,9 @@ import { View, Text, StatusBar } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { SCREENS, TABS } from "../utils";
 import { useNavigation } from '@react-navigation/core';
-import FirstOnboardingImage from '../assets/onboarding/onboarding-1.svg'
-import SecondOnboardingImage from '../assets/onboarding/onboarding-2.svg'
-import ThirdOnboardingImage from '../assets/onboarding/onboarding-3.svg'
-import FourthOnboardingImage from '../assets/onboarding/onboarding-4.svg'
-import LogoType from '../assets/logotype.svg'
 import NextIcon from '../assets/onboarding/next.svg'
 import Constants from "expo-constants";
+import LottieView from "lottie-react-native";
 import Styleguide from "../Styleguide";
 
 export interface OnboardingViewProps {
@@ -31,6 +27,36 @@ const NextButton = () => (
     <NextIcon width={18} height={18} />
   </View>
 )
+
+function LottieItem(props: { item_key: number }) {
+  const getSource = () => {
+    switch (props.item_key) {
+      case 1:
+        return {
+          height: 200,
+          autoPlay: true,
+          source: require('../assets/lottie/flow.json')
+        }
+      case 2:
+        return {
+          height: 200,
+          autoPlay: true,
+          source: require('../assets/lottie/food_delivered.json')
+        }
+      default:
+        return {
+          height: 200,
+          autoPlay: true,
+          source: require('../assets/lottie/order_created.json')
+        }
+    }
+  }
+  return (
+    <LottieView
+      {...getSource()}
+    />
+  )
+}
 
 export default function Onboarding(props: OnboardingViewProps) {
   const navigation = useNavigation()
@@ -54,19 +80,11 @@ export default function Onboarding(props: OnboardingViewProps) {
                 paddingTop: Constants.statusBarHeight,
                 flex: 1,
                 backgroundColor: '#ffffff',
-                justifyContent: 'flex-start'
+                justifyContent: 'space-evenly'
               },
               dimensions,
             ]}
           >
-            <View
-              style={{
-                marginLeft: 24,
-                marginTop: 32,
-              }}
-            >
-              <LogoType />
-            </View>
             <View
               style={{
                 shadowColor: "#BDBDBD",
@@ -77,6 +95,10 @@ export default function Onboarding(props: OnboardingViewProps) {
                 shadowOpacity: 0.37,
                 shadowRadius: 2.5,
                 elevation: 1.5,
+                height: 300,
+                backgroundColor: Styleguide.primaryBackgroundColor,
+                borderRadius: 16,
+                marginHorizontal: 20,
               }}
             >
               {item.image}
@@ -99,22 +121,17 @@ export default function Onboarding(props: OnboardingViewProps) {
           {
             key: '1',
             text: 'Делитесь едой и компенсируйте затраты',
-            image: <FirstOnboardingImage />
+            image: <LottieItem item_key={1} />
           },
           {
             key: '2',
-            text: 'Добавляйте блюда и назначайте цену',
-            image: <SecondOnboardingImage />
+            text: 'Договаривайтесь о деталях в чате',
+            image: <LottieItem item_key={2} />
           },
           {
             key: '3',
-            text: 'Выходите на линию когда удобно и принимайте заказы',
-            image: <ThirdOnboardingImage />
-          },
-          {
-            key: '4',
-            text: 'Станьте лучшим поваром района',
-            image: <FourthOnboardingImage />
+            text: 'Выходите на линию когда удобно',
+            image: <LottieItem item_key={3} />
           },
         ]}
       />

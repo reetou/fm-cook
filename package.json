@@ -26,6 +26,7 @@
     "expo-speech": "~8.1.0",
     "expo-updates": "~0.1.2",
     "lodash-es": "^4.17.15",
+    "lottie-react-native": "~2.6.1",
     "phoenix": "^1.4.16",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
