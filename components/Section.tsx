@@ -11,6 +11,7 @@ interface Props {
   footer?: ReactNode;
   statusWidth?: number;
   style?: any;
+  collapsed?: boolean;
 }
 
 export default function Section(props: Props) {
@@ -47,7 +48,7 @@ export default function Section(props: Props) {
                 : props.title
             }
             {
-              props.status
+              !props.collapsed && props.status
                 ? (
                   <SectionStatus
                     text={props.status}
@@ -60,7 +61,11 @@ export default function Section(props: Props) {
           </View>
           {props.rightSide || null}
         </View>
-        {props.footer || null}
+        {
+          !props.collapsed && props.footer
+            ? props.footer
+            : null
+        }
       </View>
     </View>
   )

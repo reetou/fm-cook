@@ -3,7 +3,7 @@ import {
   FlatList,
   Image,
   StatusBar,
-  Text,
+  Text, TouchableOpacity,
   View
 } from "react-native";
 import Styleguide from "../Styleguide";
@@ -34,11 +34,12 @@ import Animated from 'react-native-reanimated'
 import SubscriptionFeatureSheet from "../components/SubscriptionFeatureSheet";
 import CertificationSheet from "../components/CertificationSheet";
 import Certification from "../api/Certification";
-import ScaleButton from "../components/ScaleButton";
 import SubscriptionStatusModal from "../components/modal/SubscriptionStatusModal";
 import DutyStatusModal from "../components/modal/DutyStatusModal";
 import SubscriptionFeatureModal from "../components/modal/SubscriptionFeatureModal";
 import { CommonActions } from "@react-navigation/native";
+import { hexToRgba } from "../animatedUtils";
+import Constants from 'expo-constants'
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -113,6 +114,7 @@ export default function NewProfileView({ navigation }) {
     setRefreshing(false)
   }
   const canSubscribe = !AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
+  const isSubscribed = AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)
   const canStartTrial = user.subscription_status === null
   const ref = useRef(null)
   const certificationModalRef = useRef(null)
@@ -126,7 +128,8 @@ export default function NewProfileView({ navigation }) {
     if (!user.subscription_status) {
       startTrial()
     } else {
-      navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+      setSubscriptionModalVisible(false)
+      navigation.navigate(PROFILE_SCREENS.CP_CHECKOUT)
     }
   }
   const subscribeButtonDisabled = refreshing || (user.subscription_status && user.subscription_status !== 'inactive')
@@ -135,6 +138,8 @@ export default function NewProfileView({ navigation }) {
       style={{
         flex: 1,
         backgroundColor: Styleguide.primaryBackgroundColor,
+        paddingTop: Constants.statusBarHeight,
+        marginBottom: 0,
       }}
     >
       <BottomSheet
@@ -155,7 +160,7 @@ export default function NewProfileView({ navigation }) {
       />
       <BottomSheet
         ref={certificationModalRef}
-        snapPoints={[certificationModalHeight, 0]}
+        snapPoints={[certificationModalHeight, -50]}
         borderRadius={12}
         renderContent={() => (
           <CertificationSheet
@@ -187,7 +192,7 @@ export default function NewProfileView({ navigation }) {
         disabled={refreshing}
         onStartTrial={startTrial}
         onCheckout={() => {
-          navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+          navigation.navigate(PROFILE_SCREENS.CP_CHECKOUT)
           setSubscriptionFaqVisible(false)
         }}
       />
@@ -199,7 +204,8 @@ export default function NewProfileView({ navigation }) {
       />
       <Animated.View
         style={{
-          opacity: Animated.add(0.1, Animated.multiply(fall, 1))
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1)),
+          flex: 1
         }}
       >
         <FlatList
@@ -209,46 +215,56 @@ export default function NewProfileView({ navigation }) {
           ListHeaderComponent={() => (
             <React.Fragment>
               {
-                !user.on_duty ? <AlertMessage text="Внимание! Ваш аккаунт неактивен" /> : null
+                !user.on_duty && user.certified ? <AlertMessage text="Вы не принимаете заказы" /> : null
+              }
+              {
+                !isSubscribed && user.certified ? <AlertMessage color={Styleguide.sectionDangerStatusColor} text="Нужно продлить подписку" /> : null
+              }
+              {
+                user.certified
+                  ? (
+                    <Section
+                      title="Подписка"
+                      status={subscriptionStatusTitle(user)}
+                      statusColor={subscriptionStatusColorName(user)}
+                      statusWidth={180}
+                      rightSide={(
+                        <View>
+                          <CircleButton
+                            onPress={() => {
+                              setSubscriptionFaqVisible(true)
+                            }}
+                            type="info"
+                            margin={-20}
+                          >
+                            <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                          </CircleButton>
+                        </View>
+                      )}
+                      footer={(
+                        canSubscribe
+                          ? (
+                            <SubscriptionSectionFooter
+                              disabled={subscribeButtonDisabled}
+                              onPress={() => {
+                                // if (!ref && !ref.current) {
+                                //   return
+                                // }
+                                // ref.current.snapTo(0)
+                                setSubscriptionModalVisible(true)
+                              }}
+                              text={subscriptionButtonText}
+                            />
+                          )
+                          : null
+                      )}
+                    />
+                  )
+                  : null
               }
               <Section
-                title="Статус подписки"
-                status={subscriptionStatusTitle(user)}
-                statusColor={subscriptionStatusColorName(user)}
-                statusWidth={180}
-                rightSide={(
-                  <View>
-                    <CircleButton
-                      onPress={() => {
-                        setSubscriptionFaqVisible(true)
-                      }}
-                      type="info"
-                      margin={-20}
-                    >
-                      <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
-                    </CircleButton>
-                  </View>
-                )}
-                footer={(
-                  canSubscribe
-                    ? (
-                      <SubscriptionSectionFooter
-                        disabled={subscribeButtonDisabled}
-                        onPress={() => {
-                          // if (!ref && !ref.current) {
-                          //   return
-                          // }
-                          // ref.current.snapTo(0)
-                          setSubscriptionModalVisible(true)
-                        }}
-                        text={subscriptionButtonText}
-                      />
-                    )
-                    : null
-                )}
-              />
-              <Section
-                title="Сертификация"
+                collapsed={user.certified}
+                title={user.certified ? 'Вы сертифицированы' : 'Сертификация'}
                 status={certificationStatusTitle(user)}
                 statusColor={certificationStatusColorName(user)}
                 rightSide={(
@@ -278,39 +294,45 @@ export default function NewProfileView({ navigation }) {
                   </View>
                 )}
               />
-              <Section
-                title={(
-                  <View style={{ flexDirection: 'row' }}>
-                    <Text>Статус активности</Text>
-                    <DutyStatus active={user.on_duty} />
-                  </View>
-                )}
-                rightSide={(
-                  <View>
-                    <CircleButton
-                      type="info"
-                      margin={-20}
-                      onPress={() => {
-                        setDutyStatusModalVisible(true)
-                      }}
-                    >
-                      <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
-                    </CircleButton>
-                  </View>
-                )}
-                footer={(
-                  <View style={{ marginTop: 20 }}>
-                    <SwitchButton
-                      disabled={refreshing}
-                      value={refreshing ? !user.on_duty : user.on_duty}
-                      onValueChange={v => {
-                        updateOnDuty(v)
-                      }}
-                      label="Принимаю заказы"
+              {
+                user.certified && isSubscribed
+                  ? (
+                    <Section
+                      title={(
+                        <View style={{ flexDirection: 'row' }}>
+                          <Text>Статус активности</Text>
+                          <DutyStatus active={user.on_duty} />
+                        </View>
+                      )}
+                      rightSide={(
+                        <View>
+                          <CircleButton
+                            type="info"
+                            margin={-20}
+                            onPress={() => {
+                              setDutyStatusModalVisible(true)
+                            }}
+                          >
+                            <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                          </CircleButton>
+                        </View>
+                      )}
+                      footer={(
+                        <View style={{ marginTop: 20 }}>
+                          <SwitchButton
+                            disabled={refreshing}
+                            value={refreshing ? !user.on_duty : user.on_duty}
+                            onValueChange={v => {
+                              updateOnDuty(v)
+                            }}
+                            label="Принимаю заказы"
+                          />
+                        </View>
+                      )}
                     />
-                  </View>
-                )}
-              />
+                  )
+                  : null
+              }
             </React.Fragment>
           )}
           data={[
@@ -349,18 +371,6 @@ export default function NewProfileView({ navigation }) {
                     navigation.navigate(PROFILE_SCREENS.SUPPORT_CHAT)
                   }}
                   text="Написать"
-                />
-              )
-            },
-            {
-              icon: require('../assets/containers.png'),
-              label: 'Контейнеры',
-              button: (
-                <ListItemButton
-                  onPress={() => {
-                    navigation.navigate(PROFILE_SCREENS.TILDA_SHOP)
-                  }}
-                  text="Купить"
                 />
               )
             },
@@ -448,44 +458,94 @@ export default function NewProfileView({ navigation }) {
             )
           }}
           ListFooterComponent={() => (
-            <View style={{ paddingHorizontal: 20, marginTop: 50, paddingBottom: 20 }}>
-              <ScaleButton
-                style={{ backgroundColor: Styleguide.sectionDangerStatusColor }}
-                onPress={async () => {
-                  Alert.alert(
-                    'Выход',
-                    'Вы уверены?',
-                    [
-                      {
-                        text: 'Отмена',
-                        onPress: () => {}
-                      },
-                      {
-                        text: 'Выйти',
-                        onPress: async () => {
-                          if (user.certified) {
-                            await updateOnDuty(false)
-                          }
-                          await AsyncStorage.removeItem('token')
-                          await AsyncStorage.removeItem('socketToken')
-                          setAuthenticated(false)
-                          navigation.dispatch(
-                            CommonActions.reset({
-                              index: 0,
-                              routes: [
-                                {
-                                  name: SCREENS.SIGN_IN,
-                                },
-                              ],
-                            }))
-                        }
-                      },
-                    ],
-                    { cancelable: true }
+            <View>
+              {
+                !user.certified
+                  ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate(PROFILE_SCREENS.GET_STARTED)
+                      }}
+                    >
+                      <View
+                        style={{
+                          marginTop: Constants.statusBarHeight,
+                          backgroundColor: Styleguide.buttonBackgroundColor,
+                          padding: 20,
+                          marginHorizontal: 10,
+                          borderRadius: 20,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: Styleguide.primaryBackgroundColor,
+                            textAlign: 'center',
+                            fontWeight: '500',
+                          }}
+                        >
+                          С чего начать?
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   )
-                }}
-                buttonText="Выйти"
-              />
+                  : null
+              }
+              <View style={{ paddingHorizontal: 20, marginTop: 50, paddingBottom: 20 }}>
+
+                <TouchableOpacity
+                  onPress={async () => {
+                    Alert.alert(
+                      'Выход',
+                      'Вы уверены?',
+                      [
+                        {
+                          text: 'Отмена',
+                          onPress: () => {}
+                        },
+                        {
+                          text: 'Выйти',
+                          onPress: async () => {
+                            if (user.certified) {
+                              await updateOnDuty(false)
+                            }
+                            await AsyncStorage.removeItem('token')
+                            await AsyncStorage.removeItem('socketToken')
+                            setAuthenticated(false)
+                            navigation.dispatch(
+                              CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                  {
+                                    name: SCREENS.SIGN_IN,
+                                  },
+                                ],
+                              }))
+                          }
+                        },
+                      ],
+                      { cancelable: true }
+                    )
+                  }}
+                >
+                  <View
+                    style={{
+                      padding: 12,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                        textAlign: 'center',
+                        color: Styleguide.sectionDangerStatusColor
+                      }}
+                    >
+                      Выйти
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />

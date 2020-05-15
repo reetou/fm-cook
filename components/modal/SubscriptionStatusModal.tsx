@@ -36,23 +36,6 @@ export default function SubscriptionStatusModal(props: Props) {
               source={require('../../assets/alert.png')}
               header="Подписка неактивна"
               text="Чтобы принимать заказы, нужно продлить подписку."
-              footer={(
-                <View
-                  style={{
-                    marginTop: 16
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: '500',
-                      textAlign: 'center'
-                    }}
-                  >
-                    300 рублей в неделю
-                  </Text>
-                </View>
-              )}
             />
             <View
               style={{

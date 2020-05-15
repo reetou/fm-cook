@@ -228,7 +228,7 @@ export default function ProfileView({ navigation }) {
                   if (!user.subscription_status) {
                     startTrial()
                   } else {
-                    navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+                    navigation.navigate(PROFILE_SCREENS.CP_CHECKOUT)
                   }
                 }}
                 title={subscribeButtonTitle(user.subscription_status)}
@@ -239,7 +239,7 @@ export default function ProfileView({ navigation }) {
         <ListItem
           disabled={refreshing}
           onPress={() => {
-            navigation.navigate(PROFILE_SCREENS.YANDEX_CHECKOUT)
+            navigation.navigate(PROFILE_SCREENS.CP_CHECKOUT)
           }}
           title={"Занести денег"}
         />

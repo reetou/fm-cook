@@ -4,6 +4,7 @@ import Styleguide from "../Styleguide";
 
 interface Props {
   text: string;
+  color?: string;
 }
 
 export default function AlertMessage(props: Props) {
@@ -13,7 +14,7 @@ export default function AlertMessage(props: Props) {
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: Styleguide.sectionWarningStatusColor,
+        backgroundColor: props.color || Styleguide.sectionWarningStatusColor,
         paddingVertical: 15,
         paddingHorizontal: 10
       }}

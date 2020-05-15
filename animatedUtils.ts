@@ -15,6 +15,14 @@ export const hexToRgb = (hex: string) => {
     : null;
 };
 
+export const hexToRgba = (hex: string, opacity: number) => {
+  const rgb = hexToRgb(hex)
+  if (!rgb) {
+    return hex
+  }
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`
+};
+
 const white = { r: 255, g: 255, b: 255 };
 
 export const interpolateColors = (

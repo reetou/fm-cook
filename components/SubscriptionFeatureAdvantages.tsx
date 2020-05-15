@@ -5,9 +5,8 @@ import CircleButton from "./CircleButton";
 export default function SubscriptionFeatureAdvantages() {
   const advantages = [
     'Неограниченные заказы',
-    'Постоянный поток заказов',
-    'Доступ к магазину контейнеров',
-    'Поддержка 24/7'
+    'Поддержка 24/7',
+    'Работайте, когда удобно'
   ]
   return (
     <View style={{ marginBottom: 12 }}>

@@ -32,7 +32,9 @@ export const PROFILE_SCREENS = {
   ADD_ADDRESS: 'add_address',
   BUY_CONTAINERS: 'buy_containers',
   LAST_ORDERS: 'last_orders',
-  TILDA_SHOP: 'tilda_shop'
+  TILDA_SHOP: 'tilda_shop',
+  CP_CHECKOUT: 'cloudpayments_checkout',
+  GET_STARTED: 'get_started'
 }
 
 export const PRODUCTS_SCREENS = {
@@ -286,8 +288,7 @@ export function subscriptionStatusTitle({subscription_status, active_until, tria
   switch (subscription_status) {
     case 'active': return `Активна до ${formatTimestamp(active_until)}`
     case 'trialing': return `Пробный период до ${formatTimestamp(trial_end)}`
-    case 'unpaid': return 'Не оплачена'
-    default: return 'Не активирована'
+    default: return 'Надо продлить'
   }
 }
 

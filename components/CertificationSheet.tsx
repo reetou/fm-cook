@@ -20,12 +20,16 @@ export default function CertificationSheet(props: Props) {
       completed: Boolean(user.name)
     },
     {
-      text: 'Добавьте аватарку',
+      text: 'Добавьте свое фото',
       completed: Boolean(user.avatar_url)
     },
     {
       text: 'Добавьте адрес',
       completed: Boolean(user.address)
+    },
+    {
+      text: 'Дождитесь нашего звонка',
+      completed: false
     },
   ]
   const buttonDisabled = requirements.some(v => !v.completed) || props.disabled || user.certification_pending
@@ -35,15 +39,19 @@ export default function CertificationSheet(props: Props) {
         height: props.height,
         backgroundColor: Styleguide.primaryBackgroundColor,
         padding: 20,
-        borderTopRightRadius: 12,
-        borderTopLeftRadius: 12,
-        justifyContent: 'space-between'
+        borderTopRightRadius: 24,
+        borderTopLeftRadius: 24,
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: Styleguide.tintColor,
+        borderBottomWidth: 0,
       }}
     >
       <View>
+        <Text style={{ fontSize: 13, textAlign: 'right' }}>Смахните вниз, чтобы закрыть</Text>
         <AnimatedLogo />
         <View style={{ marginTop: 5, marginBottom: 12 }}>
-          <Text style={{ fontSize: 24, fontWeight: '600', marginVertical: 12 }}>Сертификация</Text>
+          <Text style={{ fontSize: 24, fontWeight: '600', marginVertical: 12 }}>Процесс проверки</Text>
           {
             requirements.map((a, index) => (
               <View
@@ -52,7 +60,7 @@ export default function CertificationSheet(props: Props) {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  marginVertical: 12
+                  marginVertical: 6
                 }}
               >
                 <Text
