@@ -1,7 +1,7 @@
 import {
   Alert, AsyncStorage,
   FlatList,
-  Image,
+  Image, Platform,
   StatusBar,
   Text, TouchableOpacity,
   View
@@ -138,7 +138,7 @@ export default function NewProfileView({ navigation }) {
       style={{
         flex: 1,
         backgroundColor: Styleguide.primaryBackgroundColor,
-        paddingTop: Constants.statusBarHeight,
+        paddingTop: Platform.OS === 'ios' ? Constants.statusBarHeight : 0,
         marginBottom: 0,
       }}
     >
@@ -471,7 +471,7 @@ export default function NewProfileView({ navigation }) {
                         style={{
                           marginTop: Constants.statusBarHeight,
                           backgroundColor: Styleguide.buttonBackgroundColor,
-                          padding: 20,
+                          padding: Platform.OS === 'ios' ? 20 : 14,
                           marginHorizontal: 10,
                           borderRadius: 20,
                         }}

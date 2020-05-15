@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar, Platform } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { SCREENS, TABS } from "../utils";
 import { useNavigation } from '@react-navigation/core';
@@ -85,24 +85,30 @@ export default function Onboarding(props: OnboardingViewProps) {
               dimensions,
             ]}
           >
-            <View
-              style={{
-                shadowColor: "#BDBDBD",
-                shadowOffset: {
-                  width: 0,
-                  height: 8,
-                },
-                shadowOpacity: 0.37,
-                shadowRadius: 2.5,
-                elevation: 1.5,
-                height: 300,
-                backgroundColor: Styleguide.primaryBackgroundColor,
-                borderRadius: 16,
-                marginHorizontal: 20,
-              }}
-            >
-              {item.image}
-            </View>
+            {
+              Platform.OS === 'ios'
+                ? (
+                  <View
+                    style={{
+                      shadowColor: "#BDBDBD",
+                      shadowOffset: {
+                        width: 0,
+                        height: 8,
+                      },
+                      shadowOpacity: 0.37,
+                      shadowRadius: 2.5,
+                      elevation: 1.5,
+                      height: 300,
+                      backgroundColor: Styleguide.primaryBackgroundColor,
+                      borderRadius: 16,
+                      marginHorizontal: 20,
+                    }}
+                  >
+                    {item.image}
+                  </View>
+                )
+                : null
+            }
             <View style={{ marginHorizontal: 20 }}>
               <Text
                 adjustsFontSizeToFit

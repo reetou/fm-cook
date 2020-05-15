@@ -1,11 +1,12 @@
 import React from 'react'
-import { Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import Constants from 'expo-constants'
 import Styleguide from "../Styleguide";
 import ModalHeader from "../components/modal/ModalHeader";
 import { useNavigation } from '@react-navigation/native';
 import LottieView from "lottie-react-native";
 import { ScrollView } from 'react-native-gesture-handler';
+import AnimatedLogo from "../components/AnimatedLogo";
 
 const Title = (props) => (
   <Text style={{ fontSize: 18, marginTop: 8 }} {...props} />
@@ -40,16 +41,26 @@ export default function GetStartedView() {
             paddingHorizontal: 20,
           }}
         >
-          <View
-            style={{
-              height: 200,
-            }}
-          >
-            <LottieView
-              source={require('../assets/lottie/flow.json')}
-              autoPlay
-            />
-          </View>
+          {
+            Platform.OS === 'ios'
+              ? (
+                <View
+                  style={{
+                    height: 200,
+                  }}
+                >
+                  <LottieView
+                    source={require('../assets/lottie/flow.json')}
+                    autoPlay
+                  />
+                </View>
+              )
+              : (
+                <View style={{ marginBottom: 20 }}>
+                  <AnimatedLogo />
+                </View>
+              )
+          }
           <Text
             style={{
               fontWeight: '500',
