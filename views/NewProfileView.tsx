@@ -173,7 +173,10 @@ export default function NewProfileView({ navigation }) {
         callbackNode={fall}
         enabledInnerScrolling={false}
       />
-      <StatusBar barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)} />
+      <StatusBar
+        barStyle={Styleguide.statusBarContentColor(TABS.PROFILE)}
+        {...Platform.OS === 'android' ? { backgroundColor: Styleguide.primaryBackgroundColor } : {}}
+      />
       <SubscriptionFeatureModal
         isVisible={subscriptionModalVisible}
         buttonText={subscriptionButtonText}
