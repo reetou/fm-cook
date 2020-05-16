@@ -39,7 +39,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
 
   useEffect(() => {
     navigation.setOptions({
-      title: params.header_title || 'Новый ланч'
+      title: params.header_title || 'Новое комбо'
     })
     setName(stringOrEmpty(params.name))
     setPrice(stringOrEmpty(params.price, '0'))
@@ -125,18 +125,21 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
           params.allowEditActivity
             ? (
               <Section
-                title={lunchAvailable ? 'Ланч активен' : 'Ланч неактивен'}
+                title={lunchAvailable ? 'Можно заказать' : 'Нельзя заказать'}
                 style={{ borderColor: 'transparent' }}
                 footer={(
                   <View style={{ marginTop: 20 }}>
+                    <Text style={{ marginBottom: 15 }}>
+                      Покупатели могут заказать это комбо, если оно активно
+                    </Text>
                     <SwitchButton
                       disabled={loading}
                       value={available}
                       onValueChange={setAvailable}
-                      label={lunchAvailable ? 'Сделать неактивным' : 'Сделать активным'}
+                      label="Сделать активным"
                     />
                     <Text style={{ marginTop: 15 }}>
-                      {'* Активируя ланч вы делаете все блюда в его составе активными в вашем меню'}
+                      {'* Активируя комбо, вы делаете все блюда в его составе активными в вашем меню'}
                     </Text>
                   </View>
                 )}
@@ -215,7 +218,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
         </View>
         <View style={{ marginVertical: 20 }}>
           <Text style={{ paddingLeft: 20, fontSize: 20, fontWeight: '500' }}>
-            Состав ланча
+            Состав комбо
           </Text>
         </View>
       </View>

@@ -22,6 +22,7 @@ export default function OrderChatView({ route: { params } }) {
       setOrder(data.order)
       setMessages(data.messages.map((m: any) => formatGiftedMessage(m, data.order_members.cooker, data.order_members.client)))
     } catch (e) {
+      Alert.alert('Ошибка', getErrorDetail(e))
       Sentry.captureException(e)
       console.error('Cannot get chat info', e)
     }

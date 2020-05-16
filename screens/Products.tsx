@@ -43,7 +43,7 @@ export default function Products({ navigation }) {
                 <Text>Добавить</Text>
               </TouchableOpacity>
             ),
-            title: 'Блюда и ланчи'
+            title: 'Блюда и комбо'
           }}
           component={ProductsListView}
         />

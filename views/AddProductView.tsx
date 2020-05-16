@@ -17,7 +17,7 @@ export default function AddProductView({ navigation }) {
           }
         },
         {
-          title: 'Новый ланч',
+          title: 'Новое комбо',
           screen: PRODUCTS_SCREENS.ADD_LUNCH,
           params: {
             name: '',

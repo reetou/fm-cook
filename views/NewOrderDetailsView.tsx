@@ -24,9 +24,9 @@ import useChannel from "../hooks/useChannel";
 import UserContext from "../store/UserContext";
 import * as Sentry from "sentry-expo";
 import ListItemText from "./ListItemText";
-import Section from "../components/Section";
 import ActionButton from "../components/ActionButton";
-import { size, uniqBy } from 'lodash-es'
+import { capitalize, size, uniqBy } from 'lodash-es'
+import ScaleButton from "../components/ScaleButton";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -143,6 +143,10 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
           title={getOrderStatusTitle(order.status)}
           text="Статус заказа"
         />
+        <ListItemText
+          title={capitalize(order.slug)}
+          text="Название заказа"
+        />
       </View>
       <Text
         style={{
@@ -196,33 +200,16 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
           />
         )}
       />
-      <Section
-        title={`Чат с клиентом ${newMessages ? `(${newMessages})` : ''}`}
+      <ScaleButton
         style={{
-          marginHorizontal: Platform.OS === 'ios' ? -10 : 0
+          marginTop: 20,
         }}
-        rightSide={(
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(ORDERS_SCREENS.CHAT, {
-                order_id: order.order_id
-              })
-            }}
-            style={{
-              justifyContent: 'center',
-              margin: -30,
-              padding: 20
-            }}
-          >
-            <Image
-              source={require('../assets/chat.png')}
-              style={{
-                width: 48,
-                height: 48
-              }}
-            />
-          </TouchableOpacity>
-        )}
+        onPress={() => {
+          navigation.navigate(ORDERS_SCREENS.CHAT, {
+            order_id: order.order_id
+          })
+        }}
+        buttonText={`Чат с клиентом ${newMessages ? `(${newMessages})` : ''}`}
       />
       {
         !orderInactive
