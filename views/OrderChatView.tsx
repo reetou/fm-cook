@@ -7,7 +7,7 @@ import {
   formatGiftedUser, getErrorDetail
 } from "../utils";
 import * as Sentry from "sentry-expo";
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 
 export default function OrderChatView({ route: { params } }) {
   const [messages, setMessages] = useState<any[]>([])
@@ -43,13 +43,15 @@ export default function OrderChatView({ route: { params } }) {
   const user = cooker ? formatGiftedUser(cooker) : {_id: 1}
   const chatDisabled = order ? CHAT_DISABLED_ORDER_STATUSES.includes(order.status) : true
   return (
-    <GiftedChat
-      messages={messages}
-      placeholder="Ваше сообщение..."
-      maxInputLength={256}
-      onSend={sendMessage}
-      user={user}
-      {...chatDisabled ? { renderInputToolbar: () => null } : {}}
-    />
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
+      <GiftedChat
+        messages={messages}
+        placeholder="Ваше сообщение..."
+        maxInputLength={256}
+        onSend={sendMessage}
+        user={user}
+        {...chatDisabled ? { renderInputToolbar: () => null } : {}}
+      />
+    </View>
   )
 }
