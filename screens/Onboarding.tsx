@@ -136,7 +136,7 @@ export default function Onboarding(props: OnboardingViewProps) {
           },
           {
             key: '3',
-            text: 'Выходите на линию когда удобно',
+            text: 'Выходите на линию, когда удобно',
             image: <LottieItem item_key={3} />
           },
         ]}
