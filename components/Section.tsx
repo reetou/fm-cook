@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { View, Text, Platform } from "react-native";
 import Styleguide from "../Styleguide";
 import SectionStatus from "./SectionStatus";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   title: string | ReactNode;
@@ -18,19 +19,19 @@ export default function Section(props: Props) {
   return (
     <View
       style={{
-        borderRadius: 12,
+        borderRadius: moderateScale(12),
         borderWidth: 1,
         borderColor: Styleguide.sectionBorderColor,
         backgroundColor: Styleguide.primaryBackgroundColor,
-        padding: 20,
-        marginHorizontal: 8,
-        marginVertical: 10,
+        padding: moderateScale(20),
+        marginHorizontal: moderateScale(8),
+        marginVertical: moderateScale(10),
         ...props.style
       }}
     >
-      <View style={{ padding: 12 }}>
+      <View style={{ padding: moderateScale(12) }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ width: '60%', paddingRight: 10 }}>
+          <View style={{ width: '60%', paddingRight: moderateScale(10) }}>
             {
               typeof props.title === 'string'
                 ? (
@@ -38,9 +39,9 @@ export default function Section(props: Props) {
                     adjustsFontSizeToFit
                     numberOfLines={1}
                     style={{
-                      fontSize: Platform.OS === 'ios' ? 24 : 14,
+                      fontSize: Platform.OS === 'ios' ? moderateScale(24) : 14,
                       letterSpacing: 0.2,
-                      marginBottom: 5 }}
+                      marginBottom: moderateScale(5) }}
                   >
                     {props.title}
                   </Text>

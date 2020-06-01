@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { TouchableOpacity } from "react-native";
 import { StatusColorType } from "../utils";
 import Styleguide from "../Styleguide";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   type: StatusColorType;
@@ -19,13 +20,13 @@ export default function CircleButton(props: Props) {
       disabled={props.disabled}
       onPress={props.onPress}
       style={{
-        borderRadius: 30,
-        height: props.size || 36,
-        width: props.size || 36,
+        borderRadius: moderateScale(30),
+        height: moderateScale(props.size || 36),
+        width: moderateScale(props.size || 36),
         backgroundColor: Styleguide.getColorByType(props.type),
         justifyContent: 'center',
         alignItems: 'center',
-        margin: props.margin || 0,
+        margin: moderateScale(props.margin || 0),
         ...props.style,
       }}
     >

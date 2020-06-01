@@ -7,6 +7,7 @@ import { CommonActions } from '@react-navigation/native';
 import UserContext from "../store/UserContext";
 import registerForPushNotificationsAsync from "../registerForPushNotificationsAsync";
 import * as Sentry from "sentry-expo";
+import { moderateScale } from "react-native-size-matters";
 
 export default function CodeView({ navigation }) {
   const [code, setCode] = useState<string>('')
@@ -82,7 +83,7 @@ export default function CodeView({ navigation }) {
           width: '100%',
           textAlign: 'center',
           letterSpacing: 15,
-          fontSize: 26,
+          fontSize: moderateScale(26),
         }}
         maxLength={4}
         value={code}

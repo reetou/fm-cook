@@ -27,6 +27,7 @@ import ListItemText from "./ListItemText";
 import ActionButton from "../components/ActionButton";
 import { capitalize, size, uniqBy } from 'lodash-es'
 import ScaleButton from "../components/ScaleButton";
+import { moderateScale } from "react-native-size-matters";
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -150,18 +151,18 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
       </View>
       <Text
         style={{
-          fontSize: 24,
+          fontSize: moderateScale(24),
           fontWeight: 'bold',
-          marginTop: 12,
-          marginBottom: 4
+          marginTop: moderateScale(12),
+          marginBottom: moderateScale(4)
         }}
       >
         Состав заказа
       </Text>
       <FlatList
         style={{
-          marginVertical: 12,
-          maxHeight: 150
+          marginVertical: moderateScale(12),
+          maxHeight: moderateScale(150)
         }}
         data={uniqBy(order.meals.concat(order.lunches), 'id')}
         keyExtractor={(item: any, index) => `${item.id}${index}`}
@@ -173,16 +174,16 @@ export default function NewOrderDetailsView({ navigation, route: { params } }) {
               <Image
                 source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
                 style={{
-                  width: 140,
-                  height: 90,
-                  borderRadius: 12
+                  width: moderateScale(140),
+                  height: moderateScale(90),
+                  borderRadius: moderateScale(12)
                 }}
               />
-              <View style={{ marginTop: 10 }}>
-                <Text adjustsFontSizeToFit style={{ fontSize: 13 }}>{item.name}</Text>
+              <View style={{ marginTop: moderateScale(10) }}>
+                <Text adjustsFontSizeToFit style={{ fontSize: moderateScale(13) }}>{item.name}</Text>
                 <Text
                   adjustsFontSizeToFit
-                  style={{ fontSize: 13, fontWeight: 'bold', color: Styleguide.secondaryColor }}
+                  style={{ fontSize: moderateScale(13), fontWeight: 'bold', color: Styleguide.secondaryColor }}
                   numberOfLines={1}
                 >
                   {`${portions} ${localizePortions(portions)}`}

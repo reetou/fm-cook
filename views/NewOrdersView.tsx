@@ -11,6 +11,7 @@ import Styleguide from "../Styleguide";
 import Constants from "expo-constants";
 import OrderItem from "../components/OrderItem";
 import SegmentedControl from "../components/SegmentedControl";
+import { moderateScale } from "react-native-size-matters";
 
 export default function OrdersView({ navigation }) {
   const [orders, setOrders] = useState<any[]>([])
@@ -88,13 +89,13 @@ export default function OrdersView({ navigation }) {
     <View
       style={{
         flex: 1,
-        paddingHorizontal: 18,
+        paddingHorizontal: moderateScale(18),
         backgroundColor: Styleguide.primaryBackgroundColor
       }}
     >
       <View
         style={{
-          marginTop: 12,
+          marginTop: moderateScale(12),
         }}
       >
         <SegmentedControl
@@ -123,11 +124,11 @@ export default function OrdersView({ navigation }) {
               alignItems: 'center',
             }}
           >
-            {refreshing ? <Text>Загрузка</Text> : <Text>Заказов пока нет</Text>}
+            {refreshing ? <Text style={{ fontSize: moderateScale(14) }}>Загрузка</Text> : <Text style={{ fontSize: moderateScale(14) }}>Заказов пока нет</Text>}
           </View>
         )}
         ItemSeparatorComponent={() => (
-          <View style={{ marginVertical: 10 }} />
+          <View style={{ marginVertical: moderateScale(10) }} />
         )}
       />
     </View>

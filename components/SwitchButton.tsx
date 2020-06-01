@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Text, View } from "react-native";
+import { moderateScale } from 'react-native-size-matters';
 
 export default function SwitchButton(props: any) {
   return (
@@ -8,7 +9,7 @@ export default function SwitchButton(props: any) {
         {...props}
       />
       <View style={{ justifyContent: 'center' }}>
-        <Text style={{ marginLeft: 8, fontWeight: '500' }}>{props.label}</Text>
+        <Text style={{ marginLeft: moderateScale(8), fontWeight: '500', fontSize: moderateScale(14) }}>{props.label}</Text>
       </View>
     </View>
   )

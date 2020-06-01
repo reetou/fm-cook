@@ -1,12 +1,13 @@
 import React from 'react'
 import { Platform, View, Image } from "react-native";
 import LottieView from "lottie-react-native";
+import { moderateScale } from 'react-native-size-matters';
 
 export default function AnimatedLogo() {
   return (
     <View
       style={{
-        height: 130,
+        height: moderateScale(130),
         alignItems: 'center',
       }}
     >
@@ -24,7 +25,7 @@ export default function AnimatedLogo() {
               <Image
                 source={require('../assets/icon.png')}
                 style={{
-                  height: 200
+                  height: moderateScale(200)
                 }}
               />
             </View>

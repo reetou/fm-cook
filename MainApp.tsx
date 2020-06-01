@@ -15,6 +15,7 @@ import ProductsIcon from './assets/products.svg'
 import ProfileIcon from './assets/profile.svg'
 // @ts-ignore
 import OrdersIcon from './assets/orders.svg'
+import { moderateScale } from 'react-native-size-matters';
 
 
 // @ts-ignore
@@ -61,7 +62,7 @@ export default function MainApp() {
           activeTintColor: Styleguide.listItemButtonTextColor,
           inactiveTintColor: 'black',
           labelStyle: {
-            fontSize: 8,
+            fontSize: moderateScale(8),
             fontWeight: 'bold',
             textTransform: 'uppercase'
           }

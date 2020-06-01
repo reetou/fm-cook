@@ -40,6 +40,7 @@ import SubscriptionFeatureModal from "../components/modal/SubscriptionFeatureMod
 import { CommonActions } from "@react-navigation/native";
 import { hexToRgba } from "../animatedUtils";
 import Constants from 'expo-constants'
+import { moderateScale } from "react-native-size-matters";
 
 export default function NewProfileView({ navigation }) {
   const { user, setUser, setAuthenticated } = useContext(UserContext)
@@ -121,9 +122,9 @@ export default function NewProfileView({ navigation }) {
   useEffect(() => {
     setTimeout(refresh, 200)
   }, [])
-  const subscriptionFeatureSheetHeight = 500
+  const subscriptionFeatureSheetHeight = moderateScale(500)
   const subscriptionButtonText = getSubscribeButtonText(user.subscription_status as any)
-  const certificationModalHeight = 450
+  const certificationModalHeight = moderateScale(450)
   const handleSubscribe = () => {
     if (!user.subscription_status) {
       startTrial()
@@ -145,7 +146,7 @@ export default function NewProfileView({ navigation }) {
       <BottomSheet
         ref={ref}
         snapPoints={[subscriptionFeatureSheetHeight, 0]}
-        borderRadius={12}
+        borderRadius={moderateScale(12)}
         renderContent={() => (
           <SubscriptionFeatureSheet
             height={subscriptionFeatureSheetHeight}
@@ -160,7 +161,7 @@ export default function NewProfileView({ navigation }) {
       />
       <BottomSheet
         ref={certificationModalRef}
-        snapPoints={[certificationModalHeight, -50]}
+        snapPoints={[certificationModalHeight, moderateScale(-50)]}
         borderRadius={12}
         renderContent={() => (
           <CertificationSheet
@@ -230,7 +231,7 @@ export default function NewProfileView({ navigation }) {
                       title="Подписка"
                       status={subscriptionStatusTitle(user)}
                       statusColor={subscriptionStatusColorName(user)}
-                      statusWidth={180}
+                      statusWidth={moderateScale(180)}
                       rightSide={(
                         <View>
                           <CircleButton
@@ -240,7 +241,7 @@ export default function NewProfileView({ navigation }) {
                             type="info"
                             margin={-20}
                           >
-                            <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                            <Text style={{ textAlign: 'center', fontSize: moderateScale(22), fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
                           </CircleButton>
                         </View>
                       )}
@@ -279,8 +280,8 @@ export default function NewProfileView({ navigation }) {
                             <Image
                               source={require('../assets/success.png')}
                               style={{
-                                width: 16,
-                                height: 16
+                                width: moderateScale(16),
+                                height: moderateScale(16)
                               }}
                             />
                           </CircleButton>
@@ -303,7 +304,7 @@ export default function NewProfileView({ navigation }) {
                     <Section
                       title={(
                         <View style={{ flexDirection: 'row' }}>
-                          <Text>Статус активности</Text>
+                          <Text style={{ fontSize: moderateScale(14) }}>Статус активности</Text>
                           <DutyStatus active={user.on_duty} />
                         </View>
                       )}
@@ -316,12 +317,12 @@ export default function NewProfileView({ navigation }) {
                               setDutyStatusModalVisible(true)
                             }}
                           >
-                            <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
+                            <Text style={{ textAlign: 'center', fontSize: moderateScale(22), fontWeight: 'bold', color: Styleguide.buttonTextColor }}>?</Text>
                           </CircleButton>
                         </View>
                       )}
                       footer={(
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginTop: moderateScale(20) }}>
                           <SwitchButton
                             disabled={refreshing}
                             value={refreshing ? !user.on_duty : user.on_duty}
@@ -409,8 +410,8 @@ export default function NewProfileView({ navigation }) {
                 <View
                   style={{
                     flexDirection: 'row',
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
+                    paddingHorizontal: moderateScale(16),
+                    paddingVertical: moderateScale(8),
                     alignItems: 'center',
                     justifyContent: 'space-between'
                   }}
@@ -428,17 +429,17 @@ export default function NewProfileView({ navigation }) {
                             <Image
                               source={item.icon}
                               style={{
-                                width: 24,
-                                height: 24,
+                                width: moderateScale(24),
+                                height: moderateScale(24),
                               }}
-                              width={24}
-                              height={24}
+                              width={moderateScale(24)}
+                              height={moderateScale(24)}
                             />
                           )
                           : null
                       }
                     </View>
-                    <Text style={{ paddingLeft: 16, paddingRight: 8 }}>{item.label}</Text>
+                    <Text style={{ fontSize: moderateScale(14), paddingLeft: moderateScale(16), paddingRight: moderateScale(8) }}>{item.label}</Text>
                     {
                       item.completed
                         ? (
@@ -446,8 +447,8 @@ export default function NewProfileView({ navigation }) {
                             <Image
                               source={require('../assets/success.png')}
                               style={{
-                                width: 12,
-                                height: 12
+                                width: moderateScale(12),
+                                height: moderateScale(12)
                               }}
                             />
                           </CircleButton>
@@ -474,14 +475,14 @@ export default function NewProfileView({ navigation }) {
                         style={{
                           marginTop: Constants.statusBarHeight,
                           backgroundColor: Styleguide.buttonBackgroundColor,
-                          padding: Platform.OS === 'ios' ? 20 : 14,
-                          marginHorizontal: 10,
-                          borderRadius: 20,
+                          padding: Platform.OS === 'ios' ? moderateScale(20) : 14,
+                          marginHorizontal: moderateScale(10),
+                          borderRadius: moderateScale(20),
                         }}
                       >
                         <Text
                           style={{
-                            fontSize: 18,
+                            fontSize: moderateScale(18),
                             color: Styleguide.primaryBackgroundColor,
                             textAlign: 'center',
                             fontWeight: '500',
@@ -494,7 +495,7 @@ export default function NewProfileView({ navigation }) {
                   )
                   : null
               }
-              <View style={{ paddingHorizontal: 20, marginTop: 50, paddingBottom: 20 }}>
+              <View style={{ paddingHorizontal: moderateScale(20), marginTop: moderateScale(50), paddingBottom: moderateScale(20) }}>
 
                 <TouchableOpacity
                   onPress={async () => {
@@ -533,13 +534,13 @@ export default function NewProfileView({ navigation }) {
                 >
                   <View
                     style={{
-                      padding: 12,
+                      padding: moderateScale(12),
                     }}
                   >
                     <Text
                       style={{
                         fontWeight: 'bold',
-                        fontSize: 16,
+                        fontSize: moderateScale(16),
                         textAlign: 'center',
                         color: Styleguide.sectionDangerStatusColor
                       }}

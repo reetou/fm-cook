@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Image, TouchableHighlight } from "react-native";
 import { productItemDescription } from "../utils";
 import Styleguide from "../Styleguide";
+import { moderateScale } from 'react-native-size-matters';
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -20,7 +21,7 @@ export default function ProductItem(props: Props) {
     >
       <View
         style={{
-          padding: 10,
+          padding: moderateScale(10),
           flex: 1,
           flexDirection: 'row',
           backgroundColor: Styleguide.primaryBackgroundColor,
@@ -29,18 +30,18 @@ export default function ProductItem(props: Props) {
       >
         <Image
           style={{
-            width: 48,
-            height: 48,
-            borderRadius: 24,
+            width: moderateScale(48),
+            height: moderateScale(48),
+            borderRadius: moderateScale(24),
           }}
           source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
           defaultSource={DEFAULT_ICON}
         />
-        <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ paddingHorizontal: moderateScale(10) }}>
           <Text
             style={{
               fontWeight: '500',
-              fontSize: 15,
+              fontSize: moderateScale(15),
             }}
             adjustsFontSizeToFit
             numberOfLines={2}
@@ -49,7 +50,7 @@ export default function ProductItem(props: Props) {
           </Text>
           <Text
             style={{
-              fontSize: 13
+              fontSize: moderateScale(13)
             }}
           >
             {productItemDescription(item)}

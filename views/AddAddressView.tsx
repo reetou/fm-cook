@@ -11,6 +11,7 @@ import User from "../api/User";
 import UserContext from "../store/UserContext";
 import * as Sentry from 'sentry-expo'
 import { getErrorDetail } from "../utils";
+import { moderateScale } from 'react-native-size-matters';
 
 
 export default function AddAddressView({ route: { params }, navigation }) {
@@ -178,6 +179,7 @@ export default function AddAddressView({ route: { params }, navigation }) {
           style={{
             textAlign: 'center',
             color: Styleguide.primaryBackgroundColor,
+            fontSize: moderateScale(14)
           }}
         >
           {user.address ? 'Обновить' : 'Добавить'}

@@ -7,6 +7,7 @@ import React from "react";
 import SubscriptionFeatureAdvantages from "./SubscriptionFeatureAdvantages";
 import ScaleButton from "./ScaleButton";
 import AnimatedLogo from "./AnimatedLogo";
+import { moderateScale } from "react-native-size-matters";
 
 interface Props {
   onPress: () => void;
@@ -20,9 +21,9 @@ export default function SubscriptionFeatureSheet(props: Props) {
     <View
       style={{
         backgroundColor: Styleguide.primaryBackgroundColor,
-        padding: 20,
-        borderTopRightRadius: 12,
-        borderTopLeftRadius: 12,
+        padding: moderateScale(20),
+        borderTopRightRadius: moderateScale(12),
+        borderTopLeftRadius: moderateScale(12),
         justifyContent: 'flex-end',
         ...props.height ? {
           height: props.height,

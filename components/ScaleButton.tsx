@@ -2,6 +2,7 @@ import TouchableScale from "react-native-touchable-scale";
 import { Platform, Text, View } from "react-native";
 import Styleguide from "../Styleguide";
 import React from "react";
+import { moderateScale } from "react-native-size-matters";
 
 interface Props {
   onPress: () => void;
@@ -29,16 +30,16 @@ export default function ScaleButton(props: Props) {
     >
       <View
         style={{
-          paddingVertical: 15,
+          paddingVertical: moderateScale(15),
           backgroundColor: props.disabled ? Styleguide.disabledButtonBackgroundColor() : Styleguide.buttonBackgroundColor,
-          borderRadius: 14,
+          borderRadius: moderateScale(14),
           ...props.style,
         }}
       >
         <Text
           style={{
             textAlign: 'center',
-            fontSize: 15,
+            fontSize: moderateScale(15),
             fontWeight: '600',
             color: props.disabled ? Styleguide.tintColor : Styleguide.buttonTextColor
           }}

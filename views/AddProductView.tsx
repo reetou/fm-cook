@@ -1,6 +1,7 @@
 import React from 'react'
 import { List, ListItem } from "@ui-kitten/components";
 import { PRODUCTS_SCREENS } from "../utils";
+import { moderateScale } from 'react-native-size-matters';
 
 export default function AddProductView({ navigation }) {
   return (
@@ -30,8 +31,8 @@ export default function AddProductView({ navigation }) {
         <ListItem
           key={index}
           titleStyle={{
-            fontSize: 18,
-            lineHeight: 32
+            fontSize: moderateScale(18),
+            lineHeight: moderateScale(32)
           }}
           title={item.title}
           onPress={() => {

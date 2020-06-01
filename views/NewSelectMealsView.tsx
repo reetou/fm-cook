@@ -8,6 +8,7 @@ import PlusIcon from '../assets/plus_bg.svg'
 import MinusIcon from '../assets/minus_bg.svg'
 import { localizePortions } from "../utils";
 import AlertMessage from "../components/AlertMessage";
+import { moderateScale } from 'react-native-size-matters';
 
 const DEFAULT_ICON = require('../assets/icon.png')
 
@@ -23,8 +24,8 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
     })
   }, [])
   const addButtonsDisabled = meals.length >= 6
-  const addIconSize = 24
-  const avatarSize = 76
+  const addIconSize = moderateScale(24)
+  const avatarSize = moderateScale(76)
   return (
     <FlatList
       data={user.meals}
@@ -39,13 +40,13 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
       renderItem={({item, index}) => (
         <View
           style={{
-            marginTop: 10,
-            marginHorizontal: 10,
-            borderRadius: 16,
-            padding: 16,
+            marginTop: moderateScale(10),
+            marginHorizontal: moderateScale(10),
+            borderRadius: moderateScale(16),
+            padding: moderateScale(16),
             backgroundColor: Styleguide.primaryBackgroundColor,
             borderColor: Styleguide.orderItemBorderColor,
-            borderWidth: 1,
+            borderWidth: moderateScale(1),
             // shadow https://ethercreative.github.io/react-native-shadow-generator/
             shadowColor: "#BDBDBD",
             shadowOffset: {
@@ -71,12 +72,12 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
                 justifyContent: 'space-between'
               }}
             >
-              <View style={{ marginRight: 12 }}>
+              <View style={{ marginRight: moderateScale(12) }}>
                 <Image
                   source={item.image_url ? { uri: item.image_url } : DEFAULT_ICON}
                   defaultSource={DEFAULT_ICON}
                   style={{
-                    borderRadius: 16,
+                    borderRadius: moderateScale(16),
                     width: avatarSize,
                     height: avatarSize
                   }}
@@ -86,9 +87,9 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
                 <View>
                   <Text
                     style={{
-                      fontSize: 17,
+                      fontSize: moderateScale(17),
                       fontWeight: '500',
-                      maxWidth: 160,
+                      maxWidth: moderateScale(160),
                     }}
                     numberOfLines={2}
                   >
@@ -96,19 +97,19 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
                   </Text>
                   <Text
                     style={{
-                      fontSize: 17,
+                      fontSize: moderateScale(17),
                       fontWeight: '500'
                     }}
                   >
                     {`${item.price} ₽`}
                   </Text>
                 </View>
-                <Text>
+                <Text style={{ fontSize: moderateScale(14) }}>
                   {`${item.portions} ${localizePortions(item.portions)} доступно`}
                 </Text>
               </View>
             </View>
-            <View style={{ marginLeft: 12 }}>
+            <View style={{ marginLeft: moderateScale(12) }}>
               <TouchableOpacity
                 disabled={addButtonsDisabled}
                 onPress={() => {
@@ -122,12 +123,12 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
               </TouchableOpacity>
               <View
                 style={{
-                  paddingVertical: 6
+                  paddingVertical: moderateScale(6)
                 }}
               >
                 <Text
                   style={{
-                    fontSize: 17,
+                    fontSize: moderateScale(17),
                     textAlign: 'center',
                     fontWeight: '500'
                   }}
@@ -163,7 +164,7 @@ export default function NewSelectMealsView({ navigation, route: { params } }) {
         </View>
       )}
       ListFooterComponent={() => (
-        <View style={{ padding: 20 }}>
+        <View style={{ padding: moderateScale(20) }}>
           <ScaleButton
             onPress={() => {
               navigation.goBack()

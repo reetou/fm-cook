@@ -1,30 +1,31 @@
 import React from 'react'
 import Styleguide from "../Styleguide";
 import SegmentedControlTab from "react-native-segmented-control-tab";
+import { moderateScale } from 'react-native-size-matters';
 
 export default function SegmentedControl(props: any) {
   return (
     <SegmentedControlTab
       tabsContainerStyle={{
         backgroundColor: Styleguide.segmentedTabContainerBgColor,
-        borderRadius: 12,
-        padding: 4,
+        borderRadius: moderateScale(12),
+        padding: moderateScale(4),
       }}
       activeTabStyle={{
-        borderRadius: 12,
+        borderRadius: moderateScale(12),
       }}
       activeTabTextStyle={{
         color: Styleguide.segmentedActiveTabTextColor
       }}
       tabStyle={{
         backgroundColor: Styleguide.segmentedTabBgColor,
-        paddingVertical: 10,
+        paddingVertical: moderateScale(10),
         borderColor: 'transparent'
       }}
-      borderRadius={12}
+      borderRadius={moderateScale(12)}
       tabTextStyle={{
         color: Styleguide.segmentedTabTextColor,
-        fontSize: 17,
+        fontSize: moderateScale(17),
         fontWeight: '600',
       }}
       {...props}

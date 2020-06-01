@@ -19,6 +19,7 @@ import SwitchButton from "../components/SwitchButton";
 import EditableAvatar from "../components/EditableAvatar";
 import { LinearGradient } from "expo-linear-gradient";
 import askCameraRollPermission from "../askCameraRollPermission";
+import { moderateScale } from 'react-native-size-matters';
 
 
 export default function AddMealView({ route: { params }, navigation }) {
@@ -109,7 +110,7 @@ export default function AddMealView({ route: { params }, navigation }) {
           >
             <EditableAvatar
               onPress={pickAvatar}
-              size={160}
+              size={moderateScale(160)}
               source={
                 avatar || (
                   params.image_url ? { uri: params.image_url } : null
@@ -221,6 +222,7 @@ export default function AddMealView({ route: { params }, navigation }) {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 color: Styleguide.primaryBackgroundColor,
+                fontSize: moderateScale(14)
               }}
             >
               Сохранить

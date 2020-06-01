@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, View, Text } from "react-native";
 import Styleguide from "../Styleguide";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   text: string;
@@ -8,15 +9,15 @@ interface Props {
 }
 
 export default function AlertMessage(props: Props) {
-  const imageSize = 24
+  const imageSize = moderateScale(24)
   return (
     <View
       style={{
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: props.color || Styleguide.sectionWarningStatusColor,
-        paddingVertical: 15,
-        paddingHorizontal: 10
+        paddingVertical: moderateScale(15),
+        paddingHorizontal: moderateScale(10)
       }}
     >
       <Image
@@ -26,10 +27,10 @@ export default function AlertMessage(props: Props) {
         style={{
           width: imageSize,
           height: imageSize,
-          marginRight: 12
+          marginRight: moderateScale(12)
         }}
       />
-      <Text style={{ color: Styleguide.buttonTextColor }}>{props.text}</Text>
+      <Text style={{ color: Styleguide.buttonTextColor, fontSize: moderateScale(14) }}>{props.text}</Text>
     </View>
   )
 }

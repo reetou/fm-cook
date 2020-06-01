@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text, View } from "react-native";
 import Styleguide from "../Styleguide";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   title: string;
@@ -9,10 +10,10 @@ interface Props {
 
 export default function ListItemText(props: Props) {
   return (
-    <View style={{ marginVertical: 12 }}>
+    <View style={{ marginVertical: moderateScale(12) }}>
       <Text
         style={{
-          fontSize: 24,
+          fontSize: moderateScale(24),
           fontWeight: 'bold'
         }}
       >
@@ -20,7 +21,7 @@ export default function ListItemText(props: Props) {
       </Text>
       <Text
         style={{
-          fontSize: 17,
+          fontSize: moderateScale(17),
           fontWeight: '500',
           color: Styleguide.listItemTextColor
         }}

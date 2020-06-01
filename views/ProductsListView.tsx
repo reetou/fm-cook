@@ -9,6 +9,7 @@ import Styleguide from "../Styleguide";
 import Lunch from "../api/Lunch";
 import Meal from "../api/Meal";
 import ProductItem from "../components/ProductItem";
+import { moderateScale } from 'react-native-size-matters';
 
 export default function ProductsListView({ navigation }) {
   const {
@@ -64,9 +65,9 @@ export default function ProductsListView({ navigation }) {
       )}
       disableRightSwipe={refreshing}
       leftOpenValue={0}
-      rightOpenValue={-80}
+      rightOpenValue={moderateScale(-80)}
       previewRowKey={'0'}
-      previewOpenValue={-40}
+      previewOpenValue={moderateScale(-40)}
       previewOpenDelay={3000}
       renderHiddenItem={({ item }: {item: any}, rowMap) => (
         <View
@@ -75,7 +76,7 @@ export default function ProductsListView({ navigation }) {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingLeft: 10,
+            paddingLeft: moderateScale(10),
           }}
         >
           <TouchableOpacity
@@ -89,7 +90,7 @@ export default function ProductsListView({ navigation }) {
               justifyContent: 'center',
               position: 'absolute',
               top: 0,
-              width: 80,
+              width: moderateScale(80),
               backgroundColor: Styleguide.sectionDangerStatusColor,
               right: 0,
             }}
@@ -98,7 +99,8 @@ export default function ProductsListView({ navigation }) {
               style={{
                 textAlign: 'center',
                 color: Styleguide.buttonTextColor,
-                fontWeight: '500'
+                fontWeight: '500',
+                fontSize: moderateScale(14)
               }}
             >
               Удалить

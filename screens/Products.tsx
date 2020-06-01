@@ -8,6 +8,7 @@ import AddProductView from "../views/AddProductView";
 import AddLunchContext from '../store/AddLunchContext';
 import NewAddLunchView from "../views/NewAddLunchView";
 import NewSelectMealsView from "../views/NewSelectMealsView";
+import { moderateScale } from 'react-native-size-matters';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,7 @@ export default function Products({ navigation }) {
                   marginRight: 16
                 }}
               >
-                <Text>Добавить</Text>
+                <Text style={{ fontSize: moderateScale(14) }}>Добавить</Text>
               </TouchableOpacity>
             ),
             title: 'Блюда и комбо'

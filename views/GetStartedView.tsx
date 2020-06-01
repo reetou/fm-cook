@@ -7,13 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from "lottie-react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import AnimatedLogo from "../components/AnimatedLogo";
+import { moderateScale } from 'react-native-size-matters';
 
 const Title = (props) => (
-  <Text style={{ fontSize: 18, marginTop: 8 }} {...props} />
+  <Text style={{ fontSize: moderateScale(18), marginTop: moderateScale(8) }} {...props} />
 )
 
 const Description = (props) => (
-  <Text style={{ fontSize: 15, marginTop: 8, fontWeight: props.bold ? '500' : 'normal' }} {...props} />
+  <Text style={{ fontSize: moderateScale(15), marginTop: moderateScale(8), fontWeight: props.bold ? '500' : 'normal' }} {...props} />
 )
 
 export default function GetStartedView() {
@@ -46,7 +47,7 @@ export default function GetStartedView() {
               ? (
                 <View
                   style={{
-                    height: 200,
+                    height: moderateScale(200),
                   }}
                 >
                   <LottieView
@@ -64,7 +65,7 @@ export default function GetStartedView() {
           <Text
             style={{
               fontWeight: '500',
-              fontSize: 24,
+              fontSize: moderateScale(24),
             }}
           >
             Буханка
@@ -100,7 +101,7 @@ export default function GetStartedView() {
           </Description>
           <Title>С чего начать прямо сейчас?</Title>
           <Description>
-            {`С сертификации. Заполните личные данные, добавьте блюда и оставьте заявку на сертификацию на главной. Мы очень скоро свяжемся с вами и расскажем о дальнейших шагах`}
+            {`С сертификации. Заполните личные данные, добавьте блюда и оставьте заявку на сертификацию на странице вашего профиля. Мы очень скоро свяжемся с вами и расскажем о дальнейших шагах`}
           </Description>
         </View>
       </ScrollView>

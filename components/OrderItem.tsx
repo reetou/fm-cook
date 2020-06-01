@@ -8,6 +8,7 @@ import { getOrderStatusColorType, getOrderStatusTitle, getOrderTypeTitle } from 
 import { hexToRgb } from "../animatedUtils";
 import TouchableScale from 'react-native-touchable-scale';
 import SectionStatus from "./SectionStatus";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   order: any;
@@ -23,8 +24,8 @@ export default function OrderItem(props: Props) {
       pressOutFriction={10}
       onPress={onPress}
       style={{
-        borderRadius: 16,
-        padding: 20,
+        borderRadius: moderateScale(16),
+        padding: moderateScale(20),
         backgroundColor: Styleguide.primaryBackgroundColor,
         borderColor: Styleguide.orderItemBorderColor,
         borderWidth: 1,
@@ -46,7 +47,7 @@ export default function OrderItem(props: Props) {
         }}
       >
         <Text
-          style={{ color: Styleguide.orderItemSlugColor, fontSize: 15, width: '60%' }}
+          style={{ color: Styleguide.orderItemSlugColor, fontSize: moderateScale(15), width: '60%' }}
           adjustsFontSizeToFit
           numberOfLines={1}
         >
@@ -58,8 +59,8 @@ export default function OrderItem(props: Props) {
         <Text
           style={{
             color: Styleguide.orderItemSlugColor,
-            fontSize: 20,
-            height: 24,
+            fontSize: moderateScale(20),
+            height: moderateScale(24),
             fontWeight: 'bold'
           }}
           adjustsFontSizeToFit
@@ -72,15 +73,15 @@ export default function OrderItem(props: Props) {
             ? (
               <View
                 style={{
-                  borderRadius: 4,
+                  borderRadius: moderateScale(4),
                   backgroundColor: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)`,
                 }}
               >
                 <Text
                   adjustsFontSizeToFit
                   style={{
-                    paddingVertical: 4,
-                    paddingHorizontal: 8,
+                    paddingVertical: moderateScale(4),
+                    paddingHorizontal: moderateScale(8),
                     textAlign: 'center',
                     fontWeight: 'bold',
                     color: Styleguide.getColorByType('warning'),
@@ -97,27 +98,27 @@ export default function OrderItem(props: Props) {
       <View
         style={{
           height: 1,
-          marginHorizontal: -20,
-          marginVertical: 15,
+          marginHorizontal: moderateScale(-20),
+          marginVertical: moderateScale(15),
           backgroundColor: Styleguide.sectionBorderColor
         }}
       />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Image source={require('../assets/clock.png')} style={{ width: 16, height: 16, marginRight: 12 }} />
-          <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: 15, fontWeight: 'bold' }}>
+          <Image source={require('../assets/clock.png')} style={{ width: moderateScale(16), height: moderateScale(16), marginRight: moderateScale(12) }} />
+          <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: moderateScale(15), fontWeight: 'bold' }}>
             {formatToTimeZone(order.created_at, 'DD.MM HH:mm', { timeZone: Localization.timezone || 'Europe/Moscow' })}
           </Text>
         </View>
         <View
           style={{
-            borderRadius: 20,
-            paddingVertical: 10,
-            paddingHorizontal: 16,
+            borderRadius: moderateScale(20),
+            paddingVertical: moderateScale(10),
+            paddingHorizontal: moderateScale(16),
             backgroundColor: Styleguide.orderItemOrderTypeTabBgColor
           }}
         >
-          <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: 15, fontWeight: 'bold' }}>
+          <Text style={{ color: Styleguide.orderItemBottomSectionTextColor, fontSize: moderateScale(15), fontWeight: 'bold' }}>
             {getOrderTypeTitle(order.type)}
           </Text>
         </View>

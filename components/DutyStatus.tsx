@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from "react-native";
 import Styleguide from "../Styleguide";
+import { moderateScale } from 'react-native-size-matters';
 
 interface Props {
   active: boolean;
@@ -22,8 +23,8 @@ const getTintColor = (active: boolean) => {
 }
 
 export default function DutyStatus(props: Props) {
-  const size = props.size || 20
-  const borderRadius = 30
+  const size = moderateScale(props.size || 20)
+  const borderRadius = moderateScale(30)
   return (
     <View
       style={{
@@ -31,7 +32,7 @@ export default function DutyStatus(props: Props) {
         width: size,
         height: size,
         borderRadius,
-        marginHorizontal: 8
+        marginHorizontal: moderateScale(8)
       }}
     >
       <View

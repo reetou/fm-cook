@@ -20,6 +20,7 @@ import RemoveIcon from '../assets/remove.svg'
 import ScaleButton from "../components/ScaleButton";
 import AlertMessage from "../components/AlertMessage";
 import askCameraRollPermission from "../askCameraRollPermission";
+import { moderateScale } from 'react-native-size-matters';
 
 
 export default function NewAddLunchView({ route: { params }, navigation }) {
@@ -128,8 +129,8 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
                 title={lunchAvailable ? 'Можно заказать' : 'Нельзя заказать'}
                 style={{ borderColor: 'transparent' }}
                 footer={(
-                  <View style={{ marginTop: 20 }}>
-                    <Text style={{ marginBottom: 15 }}>
+                  <View style={{ marginTop: moderateScale(20) }}>
+                    <Text style={{ marginBottom: moderateScale(15), fontSize: moderateScale(14) }}>
                       Покупатели могут заказать это комбо, если оно активно
                     </Text>
                     <SwitchButton
@@ -138,7 +139,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
                       onValueChange={setAvailable}
                       label="Сделать активным"
                     />
-                    <Text style={{ marginTop: 15 }}>
+                    <Text style={{ marginTop: moderateScale(15) }}>
                       {'* Активируя комбо, вы делаете все блюда в его составе активными в вашем меню'}
                     </Text>
                   </View>
@@ -149,11 +150,11 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
         }
         <View
           style={{
-            marginTop: 10,
+            marginTop: moderateScale(10),
             backgroundColor: Styleguide.primaryBackgroundColor,
             flexDirection: 'row',
-            paddingVertical: 13,
-            paddingHorizontal: 15,
+            paddingVertical: moderateScale(13),
+            paddingHorizontal: moderateScale(15),
             shadowColor: "#BDBDBD",
             shadowOffset: {
               width: 0,
@@ -184,8 +185,8 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
               value={name}
               onChangeText={setName}
               style={{
-                fontSize: 17,
-                height: 32,
+                fontSize: moderateScale(17),
+                height: moderateScale(32),
               }}
             />
             <View style={{ backgroundColor: 'rgba(60, 60, 67, 0.29)', height: 1, marginRight: -20 }} />
@@ -193,9 +194,9 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
               <TextInput
                 value="₽"
                 style={{
-                  fontSize: 17,
-                  height: 32,
-                  width: 20
+                  fontSize: moderateScale(17),
+                  height: moderateScale(32),
+                  width: moderateScale(20)
                 }}
                 editable={false}
               />
@@ -208,16 +209,16 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
                 onChangeText={setPrice}
                 maxLength={5}
                 style={{
-                  fontSize: 17,
-                  height: 32,
+                  fontSize: moderateScale(17),
+                  height: moderateScale(32),
                   flex: 1,
                 }}
               />
             </View>
           </View>
         </View>
-        <View style={{ marginVertical: 20 }}>
-          <Text style={{ paddingLeft: 20, fontSize: 20, fontWeight: '500' }}>
+        <View style={{ marginVertical: moderateScale(20) }}>
+          <Text style={{ paddingLeft: moderateScale(20), fontSize: moderateScale(20), fontWeight: '500' }}>
             Состав комбо
           </Text>
         </View>
@@ -227,7 +228,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
         horizontal
         keyExtractor={(item, index) => `${item.id}_${index}`}
         ListHeaderComponent={() => (
-          <View style={{ marginHorizontal: 20, justifyContent: 'center', flex: 1 }}>
+          <View style={{ marginHorizontal: moderateScale(20), justifyContent: 'center', flex: 1 }}>
             <TouchableOpacity
               disabled={loading}
               onPress={onAddMeal}
@@ -242,7 +243,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
                 elevation: 1.5,
               }}
             >
-              <PlusIcon style={{ height: 16, width: 16 }} />
+              <PlusIcon style={{ height: moderateScale(16), width: moderateScale(16) }} />
             </TouchableOpacity>
           </View>
         )}
@@ -250,13 +251,13 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
           <TouchableScale
             friction={10}
             style={{
-              borderRadius: 12,
+              borderRadius: moderateScale(12),
               backgroundColor: Styleguide.primaryBackgroundColor,
-              padding: 12,
-              width: 250,
-              height: 120,
-              marginRight: 10,
-              marginVertical: 10,
+              padding: moderateScale(12),
+              width: moderateScale(250),
+              height: moderateScale(120),
+              marginRight: moderateScale(10),
+              marginVertical: moderateScale(10),
               justifyContent: 'space-between',
               shadowColor: "#BDBDBD",
               shadowOffset: {
@@ -274,7 +275,7 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
               <Text
                 style={{
                   width: '70%',
-                  fontSize: 17,
+                  fontSize: moderateScale(17),
                   fontWeight: '500'
                 }}
               >
@@ -283,14 +284,21 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
               <TouchableOpacity
                 disabled={loading}
                 style={{
-                  padding: 8,
-                  margin: -8
+                  padding: moderateScale(8),
+                  margin: moderateScale(-8)
                 }}
                 onPress={() => {
                   onRemoveMeal(index)
                 }}
               >
-                <RemoveIcon />
+                <RemoveIcon
+                  width={moderateScale(24)}
+                  height={moderateScale(24)}
+                  style={{
+                    width: moderateScale(24),
+                    height: moderateScale(24),
+                  }}
+                />
               </TouchableOpacity>
             </View>
             <View
@@ -304,21 +312,22 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
                 adjustsFontSizeToFit
                 style={{
                   color: Styleguide.listItemTextColor,
-                  width: '70%'
+                  width: '70%',
+                  fontSize: moderateScale(14)
                 }}
               >
                 {item.portions} порций доступно для заказа
               </Text>
-              <Text>{`${item.price} ₽`}</Text>
+              <Text style={{ fontSize: moderateScale(14) }}>{`${item.price} ₽`}</Text>
             </View>
           </TouchableScale>
         )}
       />
       <View
         style={{
-          marginTop: 30,
-          marginBottom: 50,
-          paddingHorizontal: 70
+          marginTop: moderateScale(30),
+          marginBottom: moderateScale(50),
+          paddingHorizontal: moderateScale(70)
         }}
       >
         <ScaleButton
@@ -327,8 +336,8 @@ export default function NewAddLunchView({ route: { params }, navigation }) {
           buttonText="Сохранить"
           style={{
             backgroundColor: Styleguide.sectionSuccessStatusColor,
-            paddingVertical: 20,
-            borderRadius: 60,
+            paddingVertical: moderateScale(20),
+            borderRadius: moderateScale(60),
           }}
         />
       </View>

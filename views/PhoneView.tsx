@@ -4,6 +4,7 @@ import Styleguide from "../Styleguide";
 import React, { useState } from "react";
 import Auth from "../api/Auth";
 import { getErrorDetail } from "../utils";
+import { moderateScale } from 'react-native-size-matters';
 
 const TextLink = (props: {text: string, onPress: () => void}) => (
   <TouchableWithoutFeedback onPress={props.onPress}>
@@ -71,7 +72,7 @@ export default function PhoneView({ navigation }) {
             width: 5,
           },
           letterSpacing: 3,
-          fontSize: 26,
+          fontSize: moderateScale(26),
           ...Platform.OS === 'ios' ? {
             textShadowColor: '#000',
             textShadowRadius: 30,
@@ -85,8 +86,8 @@ export default function PhoneView({ navigation }) {
           setPhone(text)
         }}
       />
-      <View style={{ padding: 20 }}>
-        <Text style={{ textAlign: 'center' }}>
+      <View style={{ padding: moderateScale(20) }}>
+        <Text style={{ textAlign: 'center', fontSize: moderateScale(14) }}>
           {`Вводя свой номер телефона вы соглашаетесь с нашими `}
           <TextLink
             text="Условиями пользования"
@@ -111,17 +112,18 @@ export default function PhoneView({ navigation }) {
         onPress={submit}
         disabled={disabled}
         style={{
-          paddingVertical: 12,
+          paddingVertical: moderateScale(12),
           width: '80%',
-          marginHorizontal: 20,
+          marginHorizontal: moderateScale(20),
           backgroundColor: disabled ? Styleguide.tintColor : Styleguide.primaryColor,
-          borderRadius: 20,
+          borderRadius: moderateScale(20),
         }}
       >
         <Text
           style={{
             textAlign: 'center',
             color: Styleguide.primaryBackgroundColor,
+            fontSize: moderateScale(14)
           }}
         >
           Отправить

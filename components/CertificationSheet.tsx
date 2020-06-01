@@ -5,6 +5,7 @@ import ScaleButton from "./ScaleButton";
 import CircleButton from "./CircleButton";
 import UserContext from "../store/UserContext";
 import AnimatedLogo from "./AnimatedLogo";
+import { moderateScale, scale } from 'react-native-size-matters';
 
 interface Props {
   onPress: () => void;
@@ -38,20 +39,20 @@ export default function CertificationSheet(props: Props) {
       style={{
         height: props.height,
         backgroundColor: Styleguide.primaryBackgroundColor,
-        padding: 20,
-        borderTopRightRadius: 24,
-        borderTopLeftRadius: 24,
+        padding: moderateScale(20),
+        borderTopRightRadius: moderateScale(24),
+        borderTopLeftRadius: moderateScale(24),
         justifyContent: 'space-between',
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: Styleguide.tintColor,
         borderBottomWidth: 0,
       }}
     >
       <View>
-        <Text style={{ fontSize: 13, textAlign: 'right' }}>Смахните вниз, чтобы закрыть</Text>
+        <Text style={{ fontSize: moderateScale(13), textAlign: 'right' }}>Смахните вниз, чтобы закрыть</Text>
         <AnimatedLogo />
-        <View style={{ marginTop: 5, marginBottom: 12 }}>
-          <Text style={{ fontSize: 24, fontWeight: '600', marginVertical: 12 }}>Процесс проверки</Text>
+        <View style={{ marginTop: moderateScale(5), marginBottom: moderateScale(12) }}>
+          <Text style={{ fontSize: moderateScale(24), fontWeight: '600', marginVertical: moderateScale(12) }}>Процесс проверки</Text>
           {
             requirements.map((a, index) => (
               <View
@@ -60,11 +61,11 @@ export default function CertificationSheet(props: Props) {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  marginVertical: 6
+                  marginVertical: moderateScale(6)
                 }}
               >
                 <Text
-                  style={{ fontSize: 17, fontWeight: '500' }}
+                  style={{ fontSize: moderateScale(17), fontWeight: '500' }}
                   adjustsFontSizeToFit
                 >
                   {a.text}
@@ -75,16 +76,16 @@ export default function CertificationSheet(props: Props) {
                       <CircleButton
                         type="success"
                         disabled
-                        size={20}
+                        size={moderateScale(20, 0.2)}
                         style={{
-                          marginRight: 6
+                          marginRight: moderateScale(6)
                         }}
                       >
                         <Image
                           source={require('../assets/success.png')}
                           style={{
-                            width: 11,
-                            height: 11
+                            width: scale(11),
+                            height: scale(11)
                           }}
                         />
                       </CircleButton>
