@@ -6,7 +6,7 @@ export default function PrivacyPolicyView() {
     <WebView
       originWhitelist={['*']}
       source={{
-        uri: 'https://borsch.app/confidentiality-agreement'
+        uri: 'https://cook.buhanka.app/privacy'
       }}
     />
   );

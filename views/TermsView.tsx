@@ -6,7 +6,7 @@ export default function TermsView() {
     <WebView
       originWhitelist={['*']}
       source={{
-        uri: 'https://borsch.app/terms-and-conditions'
+        uri: 'https://cook.buhanka.app/terms'
       }}
     />
   );
