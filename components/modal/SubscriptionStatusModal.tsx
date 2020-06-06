@@ -24,8 +24,8 @@ export default function SubscriptionStatusModal(props: Props) {
           <ModalContentStatus
             status="success"
             source={require('../../assets/success.png')}
-            header="Подписка активна"
-            text="Вы можете принимать заказы!"
+            header="Вы можете работать"
+            text="У Вас есть доступ к платформе"
           />
         )
       case 'inactive':
@@ -34,8 +34,8 @@ export default function SubscriptionStatusModal(props: Props) {
             <ModalContentStatus
               status="danger"
               source={require('../../assets/alert.png')}
-              header="Подписка неактивна"
-              text="Чтобы принимать заказы, нужно продлить подписку."
+              header="Вы не можете работать"
+              text="Чтобы принимать заказы, нужно продлить доступ."
             />
             <View
               style={{
@@ -56,8 +56,8 @@ export default function SubscriptionStatusModal(props: Props) {
             <ModalContentStatus
               status="warning"
               source={require('../../assets/alert.png')}
-              header="Подписка неактивна"
-              text="Чтобы принимать заказы, нужно активировать подписку."
+              header="Вы не можете работать"
+              text="Чтобы принимать заказы, нужно продлить доступ."
             />
             <View
               style={{

@@ -146,7 +146,7 @@ export default function ProfileView({ navigation }) {
             }
           />
           <CheckBox
-            text="Оформите подписку"
+            text="Получите доступ"
             checked={AVAILABLE_SUBSCRIPTION_STATUSES.includes(user.subscription_status)}
           />
           <CheckBox
@@ -182,7 +182,7 @@ export default function ProfileView({ navigation }) {
             color: Styleguide.primaryBackgroundColor
           }}
           disabled
-          title={`Статус подписки: ${subscriptionStatusTitle(user)}`}
+          title={`Статус доступа: ${subscriptionStatusTitle(user)}`}
         />
         <ListItem
           disabled={refreshing}

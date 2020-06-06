@@ -279,15 +279,15 @@ export const AVAILABLE_SUBSCRIPTION_STATUSES = ['active', 'trialing']
 
 export function subscribeButtonTitle(status) {
   if (status) {
-    return 'Оформить подписку'
+    return 'Получить доступ'
   }
-  return 'Оформить пробный период'
+  return 'Попробовать бесплатно'
 }
 
 export function subscriptionStatusTitle({subscription_status, active_until, trial_end}: User) {
   switch (subscription_status) {
-    case 'active': return `Активна до ${formatTimestamp(active_until)}`
-    case 'trialing': return `Пробный период до ${formatTimestamp(trial_end)}`
+    case 'active': return `Активно до ${formatTimestamp(active_until)}`
+    case 'trialing': return `Пробный до ${formatTimestamp(trial_end)}`
     default: return 'Надо продлить'
   }
 }
@@ -333,9 +333,9 @@ export function getSubscribeButtonText(subscription_status: null | 'inactive' | 
   switch (subscription_status) {
     case 'active':
     case 'trialing':
-      return 'Подписка активна'
+      return 'Вы можете работать'
     case 'inactive':
-      return 'Продлить'
+      return 'Продлить доступ'
     default:
       return 'Попробовать бесплатно на 14 дней'
   }

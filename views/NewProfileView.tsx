@@ -222,13 +222,13 @@ export default function NewProfileView({ navigation }) {
                 !user.on_duty && user.certified ? <AlertMessage text="Вы не принимаете заказы" /> : null
               }
               {
-                !isSubscribed && user.certified ? <AlertMessage color={Styleguide.sectionDangerStatusColor} text="Нужно продлить подписку" /> : null
+                !isSubscribed && user.certified ? <AlertMessage color={Styleguide.sectionDangerStatusColor} text="Нужно продлить доступ" /> : null
               }
               {
                 user.certified
                   ? (
                     <Section
-                      title="Подписка"
+                      title="Доступ"
                       status={subscriptionStatusTitle(user)}
                       statusColor={subscriptionStatusColorName(user)}
                       statusWidth={moderateScale(180)}

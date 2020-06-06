@@ -26,7 +26,16 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.buhanka.cook",
-      "buildNumber": "1.0.6"
+      "buildNumber": "1.0.9",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Буханке требуется доступ к камере, чтобы вы могли добавить свое фото и фото ваших блюд",
+        "NSPhotoLibraryUsageDescription": "Буханке требуется доступ к галерее, чтобы вы могли загружать свои фото и фото ваших блюд",
+        "NSPhotoLibraryAddUsageDescription": "Буханке требуется доступ к галерее, чтобы вы могли загружать свои фото и фото ваших блюд",
+        "NSLocationWhenInUseUsageDescription": "[app name] requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationAlwaysUsageDescription": "[app name] requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "[app name] requires your location so that we can centre the map on you & show you where [x] is",
+        "NSLocationUsageDescription": "[app name] requires your location so that we can centre the map on you & show you where [x] is"
+      }
     },
     "android": {
       "package": "com.buhanka.cook",
