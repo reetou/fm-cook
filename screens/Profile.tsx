@@ -57,7 +57,7 @@ export default function Profile() {
         name={PROFILE_SCREENS.CP_CHECKOUT}
         component={CloudPaymentsCheckoutView}
         options={{
-          title: 'Оплата'
+          title: 'Продлить доступ'
         }}
       />
       <Stack.Screen
