@@ -337,6 +337,6 @@ export function getSubscribeButtonText(subscription_status: null | 'inactive' | 
     case 'inactive':
       return 'Продлить доступ'
     default:
-      return 'Попробовать бесплатно на 14 дней'
+      return 'Попробовать бесплатно'
   }
 }
