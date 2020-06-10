@@ -287,7 +287,7 @@ export function subscribeButtonTitle(status) {
 export function subscriptionStatusTitle({subscription_status, active_until, trial_end}: User) {
   switch (subscription_status) {
     case 'active': return `Активно до ${formatTimestamp(active_until)}`
-    case 'trialing': return `Пробный до ${formatTimestamp(trial_end)}`
+    case 'trialing': return `Активно до ${formatTimestamp(trial_end)}`
     default: return 'Надо продлить'
   }
 }
